@@ -1,6 +1,6 @@
 # Normality in Mahler's Class of T-Numbers
 
-[![Lean verification](https://github.com/DiegoMarquesMath/TNumbersLean/actions/workflows/lean.yml/badge.svg?branch=prop3-full)](https://github.com/DiegoMarquesMath/TNumbersLean/actions/workflows/lean.yml)
+[![Lean verification](https://github.com/DiegoMarquesMath/TNumbersLean/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/DiegoMarquesMath/TNumbersLean/actions/workflows/lean.yml)
 
 Lean 4 formalization accompanying Diego Marques's manuscript  
 *Normality in Mahler's Class of T-Numbers*.
