@@ -1,194 +1,110 @@
 # Normality in Mahler's Class of T-Numbers
 
-[![Lean verification](https://github.com/DiegoMarquesMath/TNumbersLean/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/DiegoMarquesMath/TNumbersLean/actions/workflows/lean.yml)
+[![Lean verification](https://github.com/DiegoMarquesMath/TNumbersLean/actions/workflows/lean.yml/badge.svg?branch=prop3-full)](https://github.com/DiegoMarquesMath/TNumbersLean/actions/workflows/lean.yml)
 
-Lean 4 verification of the common Diophantine criterion and selected exact calculations in Diego Marques's manuscript
+Lean 4 formalization accompanying Diego Marques's manuscript  
 *Normality in Mahler's Class of T-Numbers*.
 
-The project focuses on the arithmetic budgets that drive the common Diophantine criterion, the Fourier perturbation construction, and the controlled digit-block argument. It is intentionally **not** a complete formalization of the manuscript: external inputs such as Schmidt's theorem, the full measure-theoretic Fourier construction, and Weyl/Borel--Cantelli arguments remain outside the present scope.
+The development formalizes the common Diophantine criterion of the paper and
+machine-checks selected quantitative steps from the Fourier and digit-block
+constructions.
 
-## Verified components
+## Proposition 3.2
 
-### Proposition 3.2 — common Diophantine criterion
+The main declaration is
 
-[`PropositionThreeTwo.lean`](TNumbersLean/PropositionThreeTwo.lean) proves the
-complete logical Proposition 3.2 from the explicit `CriterionSchedule` and
-`CriterionInputs` interfaces. The principal declaration
-`TNumbersLean.proposition_three_two` gives transcendence, the uniform eventual
-height lower bound, both explicit Koksma exponent bounds, normalized divergence,
-and the T-number criterion. All new declarations are audited with standard
-Lean/mathlib axioms only.
+[`TNumbersLean.proposition_three_two`](TNumbersLean/PropositionThreeTwo.lean).
 
-The concrete schedule (3.1)--(3.3), actual real algebraic degree and naive
-height, and the construction of these interface objects from membership in
-E(J;Q_1) remain pending. Schmidt's theorem and Icen's height lemma are external
-inputs. See the [Proposition 3.2 scope and validation record](docs/PROP3_FORMALIZATION.md)
-for the exact completed proof and remaining instantiation work.
+From the explicit `CriterionSchedule` and `CriterionInputs` interfaces, Lean proves
+the complete logical content of Proposition 3.2:
 
-The file [`DiophantineBudget.lean`](TNumbersLean/DiophantineBudget.lean) formalizes the exact exponent calculations used to prove finite fixed-degree Koksma exponents together with divergent normalized lower bounds.
+- transcendence of the constructed point;
+- uniform exclusion of algebraic numbers of bounded degree at all sufficiently large heights;
+- the explicit upper bound $w_n^*(x)\le B_n$;
+- recurrent exact-degree approximants and
+  $$
+  w_d^*(x)\ge \frac{(d+1)^3}{d}-1;
+  $$
+- divergence of the normalized exponents;
+- the T-number conclusion.
 
-It includes:
+The proof includes the full height-range argument
 
-- the cubic reserve
-  [
-  2(K_n+3)le (n+2)^3;
-  ]
-- the lower bound for the usable height exponent (u_{k,n});
-- the overlap budget between consecutive admissible height ranges;
-- the identity (K_n+1=(n+1)^2);
-- the explicit exponent contributing to (B_n);
-- the exact simplification
-  [
-  rac{(d+1)^3}{d^2}-rac1d
-  = d+3+rac2d+rac1{d^2}.
-  ]
+$$
+Q_k^{\delta_n}\le H\le Q_k^{u_{k,n}}
+$$
 
-Main Lean declarations:
-
-- `TNumbersLean.cubic_gap`
-- `TNumbersLean.usable_exponent_lower`
-- `TNumbersLean.overlap_budget`
-- `TNumbersLean.B_exponent_identity`
-- `TNumbersLean.normalized_lower_identity`
-- `TNumbersLean.normalized_lower_ge`
-
-### Bounded-gap schedule
-
-[`ScheduleBudget.lean`](TNumbersLean/ScheduleBudget.lean) formalizes the discrete step feeding equation (3.6): consecutive admissible stages are at distance at most two once one of the next two stages is admissible; a skipped intermediate stage has degree at most the fixed target degree $n$; and therefore its exponent is at most $(n+1)^3$. The module also checks the one- and two-step exponent budgets underlying the scale estimate $Q_{k'}\le Q_k^{a_nA_k}$.
-
-Main declarations:
-
-- `TNumbersLean.consecutive_admissible_gap_le_two`
-- `TNumbersLean.skipped_stage_not_admissible`
-- `TNumbersLean.skipped_degree_le`
-- `TNumbersLean.skipped_stage_exponent_le`
-- `TNumbersLean.two_step_schedule_exponent_le`
-- `TNumbersLean.one_step_schedule_exponent_le`
-
-### Height-range overlap logic
-
-[`HeightOverlap.lean`](TNumbersLean/HeightOverlap.lean) isolates the logical core of the last-admissible-stage argument: once the next left endpoint lies below the current right endpoint, every intermediate target height belongs to the current admissible range.
-
-Lean declaration:
-
-- `TNumbersLean.height_in_current_range`
-
-### Fourier perturbation budget
-
-[`FourierBudget.lean`](TNumbersLean/FourierBudget.lean) verifies the exact numerical identities behind the one-initial-scale perturbation argument in Lemma 5.1:
-
-[
-rac5{100}=rac1{20},
-qquad
-rac1{20}-rac14=-rac15,
-]
-
-together with the derivative budget
-[
-3A+rac1{20}le5A
-qquad(Age27).
-]
-
-Main declarations:
-
-- `TNumbersLean.derivative_scale_identity`
-- `TNumbersLean.perturbation_exponent_identity`
-- `TNumbersLean.derivative_budget`
-
-### Digit-block construction
-
-[`DigitBudget.lean`](TNumbersLean/DigitBudget.lean) checks the numerical constants and exponent losses in Sections 7--8:
-
-[
-2cdot 4^4=512,
-qquad
-16cdot512=8192,
-]
-
-[
-4A+4le6A,
-qquad
-2A-4ge50 quad(Age27),
-]
-
-[
-8192<2^{50},
-qquad
-100A-6A=94A.
-]
-
-Main declarations:
-
-- `TNumbersLean.block_constant_512`
-- `TNumbersLean.block_constant_8192`
-- `TNumbersLean.digit_exponent_budget`
-- `TNumbersLean.digit_power_exponent`
-- `TNumbersLean.two_pow_fifty`
-- `TNumbersLean.next_scale_exponent_identity`
+for every sufficiently large real height $H$, rather than only along selected scales.
 
 ## Correspondence with the manuscript
 
-| Manuscript component | Lean source | Scope |
+| Manuscript | Lean source | Status |
 | --- | --- | --- |
-| Proposition 3.2: cubic reserve and usable exponent | [DiophantineBudget.lean](TNumbersLean/DiophantineBudget.lean) | Verified calculation |
-| Lemma 3.1 / equation (3.6): bounded admissible gap and scale-exponent budget | [ScheduleBudget.lean](TNumbersLean/ScheduleBudget.lean) | Verified discrete core |\n| Proposition 3.2: overlap of admissible height ranges | [DiophantineBudget.lean](TNumbersLean/DiophantineBudget.lean) | Verified exponent budget |
-| Proposition 3.2: explicit (B_n)-exponent arithmetic | [DiophantineBudget.lean](TNumbersLean/DiophantineBudget.lean) | Verified calculation |
-| Proposition 3.2: normalized lower-bound arithmetic | [DiophantineBudget.lean](TNumbersLean/DiophantineBudget.lean) | Verified calculation |
-| Last-admissible-stage implication | [HeightOverlap.lean](TNumbersLean/HeightOverlap.lean) | Verified logical core |
-| Lemma 5.1: Fourier perturbation exponent | [FourierBudget.lean](TNumbersLean/FourierBudget.lean) | Verified calculation |
-| Sections 7--8: constants (512,8192) | [DigitBudget.lean](TNumbersLean/DigitBudget.lean) | Verified calculation |
-| Section 8: exponent (94A_k) | [DigitBudget.lean](TNumbersLean/DigitBudget.lean) | Verified calculation |
+| Lemma 3.1 / (3.6), bounded scale gaps | [ScheduleBudget.lean](TNumbersLean/ScheduleBudget.lean), [HeightRangeCoverage.lean](TNumbersLean/HeightRangeCoverage.lean) | Verified |
+| Proposition 3.2, Koksma framework | [KoksmaExponent.lean](TNumbersLean/KoksmaExponent.lean) | Verified |
+| Proposition 3.2, Section 2 input interface | [CriterionInputs.lean](TNumbersLean/CriterionInputs.lean) | Verified interface |
+| Proposition 3.2, (3.12)--(3.20) and final assembly | [PropositionThreeTwo.lean](TNumbersLean/PropositionThreeTwo.lean) | Verified from interfaces |
+| Lemma 5.1, perturbation budget | [FourierBudget.lean](TNumbersLean/FourierBudget.lean) | Verified calculation |
+| Sections 7--8, digit-block constants | [DigitBudget.lean](TNumbersLean/DigitBudget.lean) | Verified calculation |
 
-## Proof architecture
+The exact scope and the remaining concrete-instantiation work are recorded in
+[docs/PROP3_FORMALIZATION.md](docs/PROP3_FORMALIZATION.md).
 
-| Component | Role in the manuscript |
+## Repository map
+
+| File | Purpose |
 | --- | --- |
-| Bounded-gap schedule | Prevents the delayed admission of new degrees from creating uncontrolled scale jumps. |\n| Diophantine reserve | Ensures the translated Schmidt lower bound dominates the source-approximation error. |
-| Height-range overlap | Upgrades local separation at selected stages to control of all sufficiently large algebraic heights. |
-| Recurrent exact degrees | Supplies the lower bounds forcing (w_d^*(x)/d	oinfty). |
-| Fourier perturbation budget | Makes one initial scale sufficient for summable Fourier perturbations. |
-| Digit-block budget | Keeps prescribed digital oscillation compatible with the fixed Diophantine recurrence. |
+| [KoksmaExponent.lean](TNumbersLean/KoksmaExponent.lean) | Koksma exponents, Northcott bridge, and T-number criterion |
+| [CriterionInputs.lean](TNumbersLean/CriterionInputs.lean) | Abstract interface for the schedule, centers, degree, height, and Section 2 separation |
+| [HeightRangeCoverage.lean](TNumbersLean/HeightRangeCoverage.lean) | Scale gaps, overlap, and coverage of all sufficiently large heights |
+| [PropositionThreeTwo.lean](TNumbersLean/PropositionThreeTwo.lean) | Complete logical proof of Proposition 3.2 from the interfaces |
+| [FourierBudget.lean](TNumbersLean/FourierBudget.lean) | Fourier perturbation estimates |
+| [DigitBudget.lean](TNumbersLean/DigitBudget.lean) | Numerical bounds in the digit-block construction |
 
 ## Verification
 
-The project is pinned to:
-
-- Lean 4.24.0;
-- mathlib v4.24.0.
-
-To reproduce the verification:
+The project is pinned to Lean 4.24.0 and mathlib v4.24.0.
 
 ```bash
 lake exe cache get
 bash scripts/check.sh
 ```
 
-The verification script:
+The audit builds every project module with warnings treated as errors, prints
+the axioms of the principal declarations, and fails if any listed theorem
+depends on `sorryAx`.
 
-1. builds the complete project;
-2. checks every project source with warnings treated as errors;
-3. prints the axioms of all listed declarations;
-4. fails if a listed theorem depends on `sorryAx`.
+For the Proposition 3.2 proof commit
+[`05cb79aa572d156674c562ae0dd0120a5ae15a36`](https://github.com/DiegoMarquesMath/TNumbersLean/tree/05cb79aa572d156674c562ae0dd0120a5ae15a36):
 
-See [`VALIDATION.md`](VALIDATION.md) for the original budget validation record and [the Proposition 3.2 roadmap](docs/PROP3_FORMALIZATION.md) for the current conditional-proof validation and scope.
+- `lake build` passed with 7361 jobs;
+- `scripts/check.sh` passed;
+- the placeholder/custom-axiom search returned no matches;
+- the 29 new audited declarations use only `propext`, `Classical.choice`, and `Quot.sound`.
+
+See [VALIDATION.md](VALIDATION.md) for the compact validation record.
 
 ## Scope
 
-This is a **selective formalization**. It verifies exact algebraic, order-theoretic, and numerical calculations at the manuscript's most sensitive points.
+At present, Proposition 3.2 is formally proved **from explicit interfaces**
+encoding the schedule and the algebraic-approximation data used in the manuscript.
 
-It does **not** claim a machine-checked proof of:
+Still to be instantiated concretely are the schedule (3.1)--(3.3), real
+algebraic degree and naive height, Northcott finiteness, and the centers arising
+from membership in $E(J;Q_1)$. Schmidt's theorem and Icen's height lemma remain
+external mathematical inputs, as in the paper.
 
-- Schmidt's algebraic approximation theorem;
-- the full concrete recursion defining $D_j$ and $d_k$ beyond the bounded-gap schedule core;
-- the prime-number-theorem input;
-- the construction and weak convergence of the Fourier measures;
-- Borel--Cantelli, Weyl's criterion, or absolute normality;
-- the full binary Cantor construction.
+The full Fourier-measure argument, Weyl/Borel--Cantelli step, and complete
+digit-block Cantor construction are outside the current formalization.
 
-The verified scope includes the complete conditional Proposition 3.2 proof and the exact exponent budgets for the other constructions. Instantiating its interfaces with the manuscript's concrete schedule and algebraic data remains necessary before claiming verification of the literal concrete proposition.
+## Citation
 
-## Suggested manuscript wording
+Current manuscript wording:
 
-> A selective Lean 4 verification of the bounded-gap schedule and principal exponent calculations in the common Diophantine criterion, the Fourier perturbation budget, and the digit-block construction is available in the [TNumbersLean repository](https://github.com/DiegoMarquesMath/TNumbersLean).
+> A Lean 4 formal verification of the common Diophantine criterion,
+> including the complete proof of Proposition 3.2 from its stated
+> algebraic-approximation and schedule interfaces, together with selected
+> quantitative checks in the Fourier and digit-block constructions, is
+> available in the TNumbersLean repository.
 
 Maintained by [Diego Marques](https://github.com/DiegoMarquesMath).
