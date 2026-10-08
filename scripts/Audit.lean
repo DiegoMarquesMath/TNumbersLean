@@ -22,3 +22,12 @@ import TNumbersLean
 #print axioms TNumbersLean.next_scale_exponent_identity
 
 #print axioms TNumbersLean.height_in_current_range
+
+
+#print axioms TNumbersLean.consecutive_admissible_gap_le_two
+#print axioms TNumbersLean.skipped_stage_not_admissible
+#print axioms TNumbersLean.skipped_degree_le
+#print axioms TNumbersLean.stageExponent_le_of_degree_le
+#print axioms TNumbersLean.skipped_stage_exponent_le
+#print axioms TNumbersLean.two_step_schedule_exponent_le
+#print axioms TNumbersLean.one_step_schedule_exponent_le
