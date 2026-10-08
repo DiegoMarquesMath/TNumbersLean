@@ -3,3 +3,5 @@ import TNumbersLean.FourierBudget
 import TNumbersLean.DigitBudget
 import TNumbersLean.HeightOverlap
 import TNumbersLean.ScheduleBudget
+import TNumbersLean.KoksmaExponent
+import TNumbersLean.CriterionInputs

@@ -31,3 +31,12 @@ import TNumbersLean
 #print axioms TNumbersLean.skipped_stage_exponent_le
 #print axioms TNumbersLean.two_step_schedule_exponent_le
 #print axioms TNumbersLean.one_step_schedule_exponent_le
+
+#print axioms TNumbersLean.AlgebraicApproximationSystem.admissible_le_wStar
+#print axioms TNumbersLean.AlgebraicApproximationSystem.upper_bound_bridge
+#print axioms TNumbersLean.AlgebraicApproximationSystem.lower_bound_bridge
+#print axioms TNumbersLean.AlgebraicApproximationSystem.t_number_bridge
+#print axioms TNumbersLean.CriterionInputs.source_approximation_Q
+#print axioms TNumbersLean.CriterionInputs.admissible_exponent_lower
+#print axioms TNumbersLean.CriterionInputs.usable_exponent_lower
+#print axioms TNumbersLean.AlgebraicApproximationSystem.isTNumber_iff_tail_unbounded
