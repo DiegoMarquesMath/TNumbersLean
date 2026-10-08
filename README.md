@@ -48,7 +48,7 @@ for every sufficiently large real height $H$, rather than only along selected sc
 | Sections 7--8, digit-block constants | [DigitBudget.lean](TNumbersLean/DigitBudget.lean) | Verified calculation |
 
 The exact scope and the remaining concrete-instantiation work are recorded in
-[docs/PROP3_FORMALIZATION.md](docs/PROP3_FORMALIZATION.md).
+[docs/PROPOSITION_3_2.md](docs/PROPOSITION_3_2.md).
 
 ## Repository map
 
@@ -107,4 +107,5 @@ Current manuscript wording:
 > quantitative checks in the Fourier and digit-block constructions, is
 > available in the TNumbersLean repository.
 
+Português: [guia rápido](docs/GUIA_PT.md).  
 Maintained by [Diego Marques](https://github.com/DiegoMarquesMath).
