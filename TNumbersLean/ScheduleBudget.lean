@@ -93,8 +93,10 @@ theorem two_step_schedule_exponent_le
 theorem one_step_schedule_exponent_le
     (n A : ℕ) :
     100 * A ≤ scheduleCoeff n * A := by
-  have hpow : 1 ≤ (n + 1)^3 := by
+  have hpowpos : 0 < (n + 1)^3 := by
     positivity
+  have hpow : 1 ≤ (n + 1)^3 := by
+    omega
   have hcoeff : 100 ≤ scheduleCoeff n := by
     unfold scheduleCoeff
     nlinarith
