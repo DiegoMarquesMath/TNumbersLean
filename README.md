@@ -2,7 +2,7 @@
 
 [![Lean verification](https://github.com/DiegoMarquesMath/TNumbersLean/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/DiegoMarquesMath/TNumbersLean/actions/workflows/lean.yml)
 
-Selective Lean 4 verification of the most sensitive exact calculations in Diego Marques's manuscript  
+Lean 4 verification of the common Diophantine criterion and selected exact calculations in Diego Marques's manuscript
 *Normality in Mahler's Class of T-Numbers*.
 
 The project focuses on the arithmetic budgets that drive the common Diophantine criterion, the Fourier perturbation construction, and the controlled digit-block argument. It is intentionally **not** a complete formalization of the manuscript: external inputs such as Schmidt's theorem, the full measure-theoretic Fourier construction, and Weyl/Borel--Cantelli arguments remain outside the present scope.
@@ -10,6 +10,20 @@ The project focuses on the arithmetic budgets that drive the common Diophantine 
 ## Verified components
 
 ### Proposition 3.2 — common Diophantine criterion
+
+[`PropositionThreeTwo.lean`](TNumbersLean/PropositionThreeTwo.lean) proves the
+complete logical Proposition 3.2 from the explicit `CriterionSchedule` and
+`CriterionInputs` interfaces. The principal declaration
+`TNumbersLean.proposition_three_two` gives transcendence, the uniform eventual
+height lower bound, both explicit Koksma exponent bounds, normalized divergence,
+and the T-number criterion. All new declarations are audited with standard
+Lean/mathlib axioms only.
+
+The concrete schedule (3.1)--(3.3), actual real algebraic degree and naive
+height, and the construction of these interface objects from membership in
+E(J;Q_1) remain pending. Schmidt's theorem and Icen's height lemma are external
+inputs. See the [Proposition 3.2 scope and validation record](docs/PROP3_FORMALIZATION.md)
+for the exact completed proof and remaining instantiation work.
 
 The file [`DiophantineBudget.lean`](TNumbersLean/DiophantineBudget.lean) formalizes the exact exponent calculations used to prove finite fixed-degree Koksma exponents together with divergent normalized lower bounds.
 
@@ -156,7 +170,7 @@ The verification script:
 3. prints the axioms of all listed declarations;
 4. fails if a listed theorem depends on `sorryAx`.
 
-See [`VALIDATION.md`](VALIDATION.md) for the validation record.
+See [`VALIDATION.md`](VALIDATION.md) for the original budget validation record and [the Proposition 3.2 roadmap](docs/PROP3_FORMALIZATION.md) for the current conditional-proof validation and scope.
 
 ## Scope
 
@@ -171,7 +185,7 @@ It does **not** claim a machine-checked proof of:
 - Borel--Cantelli, Weyl's criterion, or absolute normality;
 - the full binary Cantor construction.
 
-The purpose is narrower: to kernel-check the exact exponent budgets and logical overlap steps most vulnerable to sign, denominator, or arithmetic mistakes.
+The verified scope includes the complete conditional Proposition 3.2 proof and the exact exponent budgets for the other constructions. Instantiating its interfaces with the manuscript's concrete schedule and algebraic data remains necessary before claiming verification of the literal concrete proposition.
 
 ## Suggested manuscript wording
 

@@ -4,9 +4,9 @@ This branch aims to formalize the complete logical proof of Proposition 3.2 of
 *Normality in Mahler's Class of T-Numbers*, starting from the manuscript's
 stated algebraic-approximation inputs.
 
-**Completed on `prop3-full`: Phases 1 and 2, and the complete height-range
-overlap/coverage argument.** The full proposition remains pending;
-`PropositionThreeTwo.lean` has not been created.
+**Completed on `prop3-full`: the complete logical proof of Proposition 3.2
+from `CriterionSchedule` and `CriterionInputs`.** The concrete manuscript
+schedule and the actual algebraic/naive-height data are not yet instantiated.
 
 ## Scope boundary
 
@@ -32,9 +32,12 @@ For a point satisfying the criterion defining E(J;Q_1), prove in Lean:
 - divergence of the normalized fixed-degree lower bounds;
 - the T-number conclusion.
 
-The formal statement should mirror the manuscript as closely as practical.
+`TNumbersLean.proposition_three_two` now supplies all of these conclusions
+from the declared interfaces, including the stronger normalized limit.
+The literal connection from membership in the concrete E(J;Q_1) to those
+interfaces remains pending.
 
-## Planned modules
+## Modules
 
 ### 1. KoksmaExponent.lean — completed
 
@@ -161,18 +164,89 @@ and are listed in `scripts/Audit.lean`:
 - `exists_last_admissible_pair`;
 - `exists_height_cover`.
 
-### 4. PropositionThreeTwo.lean
+### 4. PropositionThreeTwo.lean — completed from the interfaces
 
-Formalize:
+`propositionB` defines exactly the real constant (3.9). `propositionB_eq`
+reuses `B_exponent_identity` to identify it with `n+2+(K_n+1)/delta_n`.
+`recurrentW` defines the real lower exponent `(d+1)^3/d-1`.
 
-- (3.12)--(3.15);
-- transcendence;
-- (3.16)--(3.19);
-- the bound w_n^*(x) <= B_n;
-- strong approximation at each recurrent degree;
-- w_d^*(x) >= (d+1)^3/d - 1;
-- w_d^*(x)/d -> infinity;
-- the final T-number criterion.
+| Manuscript step | Certified declarations |
+| --- | --- |
+| (3.12), triangle estimate | `local_separation` |
+| Error ratio and (3.14) | `source_error_factorization`, `source_error_ratio_bound`, `absorbed_local_bound` |
+| Uniform positive reserve from (3.15) | `usableExponent_uniform_lower`, `eventually_admissible_heightRight_ge` |
+| Transcendence | `transcendence` |
+| (3.16)--(3.18) | The completed `HeightRangeCoverage` module is reused |
+| (3.19), (3.10) | `covered_scale_factor`, `height_half_absorption`, `global_separation_uniform`, `global_separation` |
+| Upper bound of (3.11) | `upper_wStar_bound`, `wStar_lt_top` |
+| Distinct recurrent centers | `center_height_tends_to_infinity`, `recurrent_center_heights_unbounded`, `recurrent_centers_infinite` |
+| Strict approximation of exact degree d | `eventually_recurrent_strong_approximation`, `recurrent_exact_approximants_infinite` |
+| Lower bound of (3.11) | `recurrent_approximants_infinite`, `lower_wStar_bound` |
+| (3.20) | `normalized_lower_bound`, `normalized_ge_degree`, `normalized_tail_unbounded`, `normalized_tends_to_top` |
+| (1.2) and final proposition | `isTNumber`, `proposition_three_two` |
+
+The ratio calculation proves both manuscript inequalities before absorbing
+the source error. Transcendence uses a fixed positive lower bound for all
+admissible usable exponents and scale divergence, then applies the local bound
+to beta=x. No transcendence premise is introduced.
+
+`global_separation_uniform` chooses H_n before quantifying over **every**
+point-specific `CriterionInputs S s y` and every target beta. Thus the height
+threshold is uniform in both y and beta for the fixed schedule. Its proof
+uses the coverage theorem for all sufficiently large real heights, the
+negative-power conversion of the left-endpoint bound, and H>=2 to absorb 1/2.
+Northcott enters the upper exponent proof only through the existing bridge.
+
+Center heights diverge by q>=Q, the height lower bound, and positive exact
+stage degrees. A finite set of center values would have a finite, bounded set
+of heights; recurrence supplies arbitrarily late centers violating that bound.
+This proves infinitude of distinct values on every recurrent tail.
+
+For every real w<W_d, strict approximation is proved eventually on that tail.
+When w+1>=0, the positive exponent gap and the fixed degree-d height constant
+provide the strict inequality. When w+1<0, height>=1 and the source bound
+already make it strict. Positive approximation error uses the previously
+proved transcendence. An explicit infinite set retains **exact degree d**
+before the degree-at-most-d Koksma bridge is applied.
+
+The normalized lower bound is divided in EReal with a positive finite degree.
+`normalized_ge_degree` reuses `normalized_lower_ge`, whose existing proof
+uses `normalized_lower_identity`; neither numerical budget is re-proved.
+The proof chooses degrees beyond both a requested index and a real bound.
+It also proves actual convergence to the top neighborhood filter, stronger
+than the tail-unbounded/limsup assertion.
+
+All 29 new certification declarations are listed in `scripts/Audit.lean`:
+
+- `TNumbersLean.propositionB_eq`;
+- `TNumbersLean.CriterionInputs.local_separation`;
+- `TNumbersLean.CriterionInputs.source_error_factorization`;
+- `TNumbersLean.CriterionInputs.source_error_ratio_bound`;
+- `TNumbersLean.CriterionInputs.absorbed_local_bound`;
+- `TNumbersLean.CriterionInputs.usableExponent_uniform_lower`;
+- `TNumbersLean.CriterionInputs.eventually_admissible_heightRight_ge`;
+- `TNumbersLean.CriterionInputs.transcendence`;
+- `TNumbersLean.CriterionInputs.covered_scale_factor`;
+- `TNumbersLean.CriterionInputs.height_half_absorption`;
+- `TNumbersLean.CriterionInputs.global_separation_uniform`;
+- `TNumbersLean.CriterionInputs.global_separation`;
+- `TNumbersLean.CriterionInputs.upper_wStar_bound`;
+- `TNumbersLean.CriterionInputs.wStar_lt_top`;
+- `TNumbersLean.CriterionInputs.denominator_tends_to_infinity`;
+- `TNumbersLean.CriterionInputs.center_height_tends_to_infinity`;
+- `TNumbersLean.CriterionInputs.recurrent_center_heights_unbounded`;
+- `TNumbersLean.CriterionInputs.recurrent_centers_infinite`;
+- `TNumbersLean.CriterionInputs.recurrent_source_bound`;
+- `TNumbersLean.CriterionInputs.eventually_recurrent_strong_approximation`;
+- `TNumbersLean.CriterionInputs.recurrent_exact_approximants_infinite`;
+- `TNumbersLean.CriterionInputs.recurrent_approximants_infinite`;
+- `TNumbersLean.CriterionInputs.lower_wStar_bound`;
+- `TNumbersLean.CriterionInputs.normalized_lower_bound`;
+- `TNumbersLean.CriterionInputs.normalized_ge_degree`;
+- `TNumbersLean.CriterionInputs.normalized_tail_unbounded`;
+- `TNumbersLean.CriterionInputs.normalized_tends_to_top`;
+- `TNumbersLean.CriterionInputs.isTNumber`;
+- `TNumbersLean.proposition_three_two`.
 
 ## Quality requirements
 
@@ -215,9 +289,10 @@ formal interface.
   for each of the 22 new theorems, including `exists_eventual_scale_gap`,
   `exists_eventual_height_overlap`, `exists_last_admissible_pair`, and
   `exists_height_cover`.
-- No manuscript file was modified; no `PropositionThreeTwo.lean` was created.
+- In the height-coverage run, no manuscript file was modified and
+  `PropositionThreeTwo.lean` had not yet been created.
 
-## Adversarial statement audit
+## Adversarial statement audit of height coverage
 
 - (3.6): the eventual theorem quantifies over every consecutive admissible
   pair after a derived threshold and returns both the one/two-step index
@@ -241,18 +316,72 @@ formal interface.
   manuscript's increasing-endpoint assertion. The coverage construction
   itself uses divergence and maximality, so does not silently assume it.
 
-## Remaining work for the complete proposition
+## Validation of the complete conditional proposition
 
-No new mathematical input assumptions were introduced. The existing
-`CriterionSchedule` construction hypotheses and the explicit Section 2 /
-Northcott fields remain the boundary of the conditional formalization.
-A concrete manuscript schedule satisfying all those schedule fields is still
-needed to connect to the fully specified construction.
+- `lake build`: passed (7361 jobs).
+- `bash scripts/check.sh`: passed, including every project source and the
+  full axiom audit with `warningAsError=true`.
+- `grep -RInE '\b(sorry|admit)\b|^[[:space:]]*axiom\b' TNumbersLean scripts`:
+  no output (exit status 1, meaning no matches).
+- `#print axioms` reports exactly `[propext, Classical.choice, Quot.sound]`
+  for all 29 new theorems, including all principal local, global, exponent,
+  infinitude, divergence, and final proposition declarations.
+- `CriterionSchedule`, `CriterionInputs`, and `AlgebraicApproximationSystem`
+  were not changed. No conclusion of the proposition became an input field.
+- The manuscript `.tex` and `.pdf` were not modified.
 
-The Proposition 3.2 proof still needs local separation and the error comparison
-(3.12)--(3.15), transcendence, the conversion of covered height ranges to the
-global algebraic lower bound (3.19), and the recurrent-center argument giving
-infinitely many distinct strong approximants. Then derive the explicit
-upper/lower Koksma bounds, normalized growth, and T-number conclusion with the
-existing bridges. The height-range coverage step is now complete. This run
-deliberately stops before `PropositionThreeTwo.lean`.
+## Adversarial audit of Proposition 3.2
+
+- Transcendence is proved from (3.14); no hypothesis states it.
+- The reserve for usable exponents is uniform and strictly positive at
+  admissible stages, so scale divergence genuinely controls every fixed height.
+- The global separation proof covers every sufficiently large height, with
+  H_n chosen before both the point-specific input object and beta.
+- The sign of the negative scale exponent and positivity of its bases are
+  proved explicitly; the power conversion and extra inverse-height loss
+  give precisely H^(-B_n-1).
+- Bounded-height exceptions appear only in the Northcott upper bridge.
+- Recurrent index infinitude is converted to distinct center-value infinitude
+  using diverging heights, without assuming injectivity of the center sequence.
+- The exact-degree infinitude theorem preserves S.degree(alpha)=d.
+- Both signs of w+1 are handled, and definition (1.1)'s strict inequalities
+  are proved for every w<W_d.
+- Upper Koksma finiteness and lower bounds are conclusions of proved bridges,
+  never additional assumptions. The normalized limit is proved explicitly.
+- Input fields were compared with Section 2 and Lemma 3.1; none contains a
+  circular Proposition 3.2 conclusion, and none was added or strengthened.
+
+## What remains for the concrete manuscript proposition
+
+### A. Complete conditional proposition — verified
+
+`proposition_three_two` takes only `I : CriterionInputs S s x` for the declared
+algebraic system and schedule. It proves transcendence, the uniform global
+height bound, both explicit Koksma exponent bounds, normalized tail
+unboundedness, convergence to infinity, limsup top, and the T-number criterion.
+All logical arguments of (3.12)--(3.20) are now kernel-checked from those inputs.
+
+### B. Concrete instantiation — pending
+
+Before identifying this theorem with the manuscript's literal Proposition 3.2:
+
+1. Implement the concrete delayed schedule (3.1)--(3.3), with D_j, the
+   valuation-based recurrent degrees, and natural scales, and prove all
+   `CriterionSchedule` fields, including recurrence, divergence, and eventual
+   admissibility. Prove the threshold condition Q_k>=T_{d_k} needed by Lemma 2.1.
+2. Instantiate `AlgebraicApproximationSystem` with actual real algebraicity,
+   actual degree, and primitive-minimal-polynomial naive height; supply the
+   positivity and Northcott fields for those actual functions. Then the
+   abstract `wStar` and `IsTNumber` literally use the manuscript's data.
+3. From x belonging to the concrete E(J;Q_1), select the reduced p_k/q_k
+   witnesses and construct centers theta_{d_k}+p_k/q_k. Prove the source and
+   denominator fields, establish the bounded-translation/center conditions,
+   and instantiate the exact-degree/height comparison (2.2) and separation
+   Lemma 2.1 at the scheduled thresholds.
+
+Schmidt's theorem and Icen's height lemma remain explicit external mathematical
+inputs under the agreed scope. This run does not claim formal proofs of those
+external results or a completed concrete interface instance. Once the concrete
+constructors are supplied, the existing proposition theorem applies directly.
+Nonemptiness of E, Fourier measures, and digital properties belong to other
+manuscript results and are not prerequisites for this conditional criterion.
