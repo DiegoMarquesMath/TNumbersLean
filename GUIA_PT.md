@@ -1,140 +1,54 @@
-# TNumbersLean — guia rápido em português
+# TNumbersLean — guia rápido
 
-Este projeto contém uma formalização **seletiva** em Lean 4 de cálculos sensíveis do artigo
+`TNumbersLean` acompanha o artigo *Normality in Mahler's Class of T-Numbers*.
 
-> *Normality in Mahler's Class of T-Numbers*
+O projeto formaliza em Lean 4 o núcleo diofantino da construção e verifica
+passos quantitativos selecionados das partes de Fourier e de blocos digitais.
 
-de Diego Marques.
+## O resultado principal
 
-O objetivo não é formalizar todo o artigo, mas verificar no kernel do Lean os budgets de expoentes, identidades numéricas e passos lógicos mais sujeitos a erros de sinal ou de escala.
+A declaração
 
-## 1. Estrutura do projeto
+`TNumbersLean.proposition_three_two`
 
-| Arquivo | Conteúdo |
-| --- | --- |
-| `TNumbersLean/DiophantineBudget.lean` | Expoentes da Proposição 3.2 e overlap dos height ranges |
-| `TNumbersLean/FourierBudget.lean` | Budget da perturbação de Fourier |
-| `TNumbersLean/DigitBudget.lean` | Constantes e expoentes das construções digitais |
-| `TNumbersLean/HeightOverlap.lean` | Núcleo lógico do argumento do último estágio admissível |
-| `scripts/Audit.lean` | Lista dos teoremas auditados por axiomas |
-| `scripts/check.sh` | Build completo, warnings-as-errors e checagem de `sorryAx` |
+prova todo o conteúdo lógico da Proposição 3.2 a partir das interfaces
+`CriterionSchedule` e `CriterionInputs`: transcendência, separação uniforme
+para grandes alturas, limites superiores e inferiores para os expoentes de
+Koksma, divergência normalizada e a conclusão de T-número.
 
-## 2. Ambiente
+A cobertura global dos intervalos de alturas também é formalizada: para todo
+`H` suficientemente grande existe estágio admissível `k` com
 
-O projeto fixa:
+$$
+Q_k^{\delta_n}\le H\le Q_k^{u_{k,n}}.
+$$
 
-- Lean 4.24.0;
-- mathlib v4.24.0.
+## O que ainda falta
 
-No macOS, abra o Terminal e entre na pasta do projeto:
+Para identificar esse teorema abstrato literalmente com a Proposição 3.2 do
+artigo, ainda precisamos instanciar as interfaces com:
+
+- o schedule concreto (3.1)--(3.3);
+- grau algébrico e altura ingênua reais;
+- Northcott;
+- os centros provenientes de `E(J;Q_1)` e os bounds da Seção 2.
+
+Schmidt e Icen continuarão como inputs matemáticos externos.
+
+## Verificação
 
 ```bash
 cd "$HOME/Projects/TNumbersLean"
-```
-
-Depois rode:
-
-```bash
 lake exe cache get
-lake build
 bash scripts/check.sh
 ```
 
-## 3. O que significa um build verde
+O script compila o projeto, trata warnings como erros, imprime os axiomas das
+declarações auditadas e falha se alguma delas depender de `sorryAx`.
 
-Se
+Commit da prova completa da proposição abstrata:
 
-```bash
-lake build
-```
+`05cb79aa572d156674c562ae0dd0120a5ae15a36`
 
-termina com
-
-```text
-Build completed successfully
-```
-
-os módulos do projeto compilaram no kernel do Lean.
-
-O comando
-
-```bash
-bash scripts/check.sh
-```
-
-faz uma checagem adicional:
-
-1. recompila o projeto;
-2. trata warnings como erros nos arquivos do projeto;
-3. imprime os axiomas dos teoremas principais listados;
-4. falha caso apareça `sorryAx`.
-
-## 4. O que está formalizado
-
-Entre os cálculos formalizados estão:
-
-[
-2(K_n+3)le(n+2)^3,
-]
-
-a comparação que garante o overlap dos intervalos de alturas, a identidade
-
-[
-K_n+1=(n+1)^2,
-]
-
-o cálculo explícito do expoente de (B_n), e
-
-[
-rac{(d+1)^3}{d^2}-rac1d
-=d+3+rac2d+rac1{d^2}.
-]
-
-No lado de Fourier:
-
-[
-rac5{100}=rac1{20},
-qquad
-rac1{20}-rac14=-rac15.
-]
-
-Na construção digital:
-
-[
-2cdot4^4=512,qquad
-16cdot512=8192,qquad
-100A-6A=94A.
-]
-
-## 5. O que não está formalizado
-
-O projeto não pretende formalizar neste momento:
-
-- o teorema de Schmidt;
-- toda a recursão de graus e escalas;
-- o teorema dos números primos;
-- a construção completa das medidas;
-- Borel--Cantelli e o critério de Weyl;
-- os conjuntos perfeitos completos das duas construções.
-
-Essas partes continuam provadas no manuscrito, mas não são objeto desta formalização seletiva.
-
-## 6. GitHub Actions
-
-Cada push para o GitHub executa automaticamente o workflow
-
-```text
-.github/workflows/lean.yml
-```
-
-O badge no README mostra o estado da branch `main`.
-
-## 7. Regra importante
-
-Não escreva no artigo que existe uma “full Lean formalization” dos teoremas principais.
-
-A formulação correta é:
-
-> A selective Lean 4 verification of the principal exponent calculations in the common Diophantine criterion, the Fourier perturbation budget, and the digit-block construction is available in the TNumbersLean repository.
-
-Isso descreve exatamente o escopo certificado pelo repositório.
+Para os detalhes técnicos, veja `VALIDATION.md` e
+`docs/PROP3_FORMALIZATION.md`.
