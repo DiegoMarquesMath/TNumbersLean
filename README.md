@@ -38,6 +38,19 @@ Main Lean declarations:
 - `TNumbersLean.normalized_lower_identity`
 - `TNumbersLean.normalized_lower_ge`
 
+### Bounded-gap schedule
+
+[`ScheduleBudget.lean`](TNumbersLean/ScheduleBudget.lean) formalizes the discrete step feeding equation (3.6): consecutive admissible stages are at distance at most two once one of the next two stages is admissible; a skipped intermediate stage has degree at most the fixed target degree $n$; and therefore its exponent is at most $(n+1)^3$. The module also checks the one- and two-step exponent budgets underlying the scale estimate $Q_{k'}\le Q_k^{a_nA_k}$.
+
+Main declarations:
+
+- `TNumbersLean.consecutive_admissible_gap_le_two`
+- `TNumbersLean.skipped_stage_not_admissible`
+- `TNumbersLean.skipped_degree_le`
+- `TNumbersLean.skipped_stage_exponent_le`
+- `TNumbersLean.two_step_schedule_exponent_le`
+- `TNumbersLean.one_step_schedule_exponent_le`
+
 ### Height-range overlap logic
 
 [`HeightOverlap.lean`](TNumbersLean/HeightOverlap.lean) isolates the logical core of the last-admissible-stage argument: once the next left endpoint lies below the current right endpoint, every intermediate target height belongs to the current admissible range.
@@ -104,7 +117,7 @@ Main declarations:
 | Manuscript component | Lean source | Scope |
 | --- | --- | --- |
 | Proposition 3.2: cubic reserve and usable exponent | [DiophantineBudget.lean](TNumbersLean/DiophantineBudget.lean) | Verified calculation |
-| Proposition 3.2: overlap of admissible height ranges | [DiophantineBudget.lean](TNumbersLean/DiophantineBudget.lean) | Verified exponent budget |
+| Lemma 3.1 / equation (3.6): bounded admissible gap and scale-exponent budget | [ScheduleBudget.lean](TNumbersLean/ScheduleBudget.lean) | Verified discrete core |\n| Proposition 3.2: overlap of admissible height ranges | [DiophantineBudget.lean](TNumbersLean/DiophantineBudget.lean) | Verified exponent budget |
 | Proposition 3.2: explicit (B_n)-exponent arithmetic | [DiophantineBudget.lean](TNumbersLean/DiophantineBudget.lean) | Verified calculation |
 | Proposition 3.2: normalized lower-bound arithmetic | [DiophantineBudget.lean](TNumbersLean/DiophantineBudget.lean) | Verified calculation |
 | Last-admissible-stage implication | [HeightOverlap.lean](TNumbersLean/HeightOverlap.lean) | Verified logical core |
@@ -116,7 +129,7 @@ Main declarations:
 
 | Component | Role in the manuscript |
 | --- | --- |
-| Diophantine reserve | Ensures the translated Schmidt lower bound dominates the source-approximation error. |
+| Bounded-gap schedule | Prevents the delayed admission of new degrees from creating uncontrolled scale jumps. |\n| Diophantine reserve | Ensures the translated Schmidt lower bound dominates the source-approximation error. |
 | Height-range overlap | Upgrades local separation at selected stages to control of all sufficiently large algebraic heights. |
 | Recurrent exact degrees | Supplies the lower bounds forcing (w_d^*(x)/d	oinfty). |
 | Fourier perturbation budget | Makes one initial scale sufficient for summable Fourier perturbations. |
@@ -152,7 +165,7 @@ This is a **selective formalization**. It verifies exact algebraic, order-theore
 It does **not** claim a machine-checked proof of:
 
 - Schmidt's algebraic approximation theorem;
-- the complete degree-schedule recursion as a theorem about sequences;
+- the full concrete recursion defining $D_j$ and $d_k$ beyond the bounded-gap schedule core;
 - the prime-number-theorem input;
 - the construction and weak convergence of the Fourier measures;
 - Borel--Cantelli, Weyl's criterion, or absolute normality;
@@ -162,6 +175,6 @@ The purpose is narrower: to kernel-check the exact exponent budgets and logical 
 
 ## Suggested manuscript wording
 
-> A selective Lean 4 verification of the principal exponent calculations in the common Diophantine criterion, the Fourier perturbation budget, and the digit-block construction is available in the [TNumbersLean repository](https://github.com/DiegoMarquesMath/TNumbersLean).
+> A selective Lean 4 verification of the bounded-gap schedule and principal exponent calculations in the common Diophantine criterion, the Fourier perturbation budget, and the digit-block construction is available in the [TNumbersLean repository](https://github.com/DiegoMarquesMath/TNumbersLean).
 
 Maintained by [Diego Marques](https://github.com/DiegoMarquesMath).
