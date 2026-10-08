@@ -62,4 +62,4 @@ The remaining task is to instantiate these interfaces with the manuscript's conc
 Schmidt's theorem and Icen's height lemma remain external mathematical inputs rather than being reproved in Lean.
 
 For the detailed theorem-by-theorem correspondence, see
-[docs/PROP3_FORMALIZATION.md](docs/PROP3_FORMALIZATION.md).
+[docs/PROPOSITION_3_2.md](docs/PROPOSITION_3_2.md).
