@@ -41,6 +41,16 @@ The audit script lists the axioms of the following declarations.
 - `TNumbersLean.normalized_lower_identity`
 - `TNumbersLean.normalized_lower_ge`
 
+#### Schedule budget
+
+- `TNumbersLean.consecutive_admissible_gap_le_two`
+- `TNumbersLean.skipped_stage_not_admissible`
+- `TNumbersLean.skipped_degree_le`
+- `TNumbersLean.stageExponent_le_of_degree_le`
+- `TNumbersLean.skipped_stage_exponent_le`
+- `TNumbersLean.two_step_schedule_exponent_le`
+- `TNumbersLean.one_step_schedule_exponent_le`
+
 #### Fourier budget
 
 - `TNumbersLean.derivative_scale_identity`
@@ -91,7 +101,7 @@ The status badge in the README reflects the current state of the main branch.
 
 The formalized statements correspond to calculations used in:
 
-- Proposition 3.2: cubic reserve, usable height exponent, overlap budget, and explicit (B_n)-exponent;
+- Lemma 3.1 / equation (3.6): bounded gaps between admissible stages and the one- and two-step exponent budgets;\n- Proposition 3.2: cubic reserve, usable height exponent, overlap budget, and explicit (B_n)-exponent;
 - Lemma 5.1: the one-initial-scale perturbation exponent;
 - Sections 7--8: the constants (512), (8192), the weakening (4A+4le6A), the bound (2A-4ge50), and the exponent (94A);
 - the last-admissible-stage logical implication covering intermediate heights.
@@ -100,6 +110,6 @@ The formalized statements correspond to calculations used in:
 
 Kernel verification applies only to the Lean statements listed above.
 
-The repository does not currently formalize the external Schmidt theorem, the full recursive schedule, prime-counting estimates, weak convergence of measures, Weyl's criterion, or the complete Cantor constructions.
+The repository does not currently formalize the external Schmidt theorem, the full concrete recursion defining $D_j$ and $d_k$ beyond the bounded-gap core, prime-counting estimates, weak convergence of measures, Weyl's criterion, or the complete Cantor constructions.
 
 Accordingly, the repository should be cited as a **selective Lean verification**, not as a full formalization of Theorems 1.1--1.3.
