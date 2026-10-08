@@ -5,3 +5,4 @@ import TNumbersLean.HeightOverlap
 import TNumbersLean.ScheduleBudget
 import TNumbersLean.KoksmaExponent
 import TNumbersLean.CriterionInputs
+import TNumbersLean.HeightRangeCoverage

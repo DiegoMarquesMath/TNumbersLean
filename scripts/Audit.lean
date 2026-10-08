@@ -40,3 +40,26 @@ import TNumbersLean
 #print axioms TNumbersLean.CriterionInputs.admissible_exponent_lower
 #print axioms TNumbersLean.CriterionInputs.usable_exponent_lower
 #print axioms TNumbersLean.AlgebraicApproximationSystem.isTNumber_iff_tail_unbounded
+
+#print axioms TNumbersLean.CriterionSchedule.scheduleCoeff_cast
+#print axioms TNumbersLean.CriterionSchedule.height_delta_eq
+#print axioms TNumbersLean.CriterionSchedule.height_delta_pos
+#print axioms TNumbersLean.CriterionSchedule.scale_pos
+#print axioms TNumbersLean.CriterionSchedule.scale_ge_one
+#print axioms TNumbersLean.CriterionSchedule.scale_strictMono
+#print axioms TNumbersLean.CriterionSchedule.heightLeft_strictMono
+#print axioms TNumbersLean.CriterionSchedule.usableExponent_pos
+#print axioms TNumbersLean.CriterionSchedule.scale_two_step
+#print axioms TNumbersLean.CriterionSchedule.consecutive_stage_cases
+#print axioms TNumbersLean.CriterionSchedule.consecutive_scale_gap_nat
+#print axioms TNumbersLean.CriterionSchedule.scale_gap_power_eq
+#print axioms TNumbersLean.CriterionSchedule.exists_eventual_scale_gap
+#print axioms TNumbersLean.CriterionSchedule.height_overlap_of_scale_gap
+#print axioms TNumbersLean.CriterionSchedule.exists_eventual_height_overlap
+#print axioms TNumbersLean.CriterionSchedule.admissible_infinite
+#print axioms TNumbersLean.CriterionSchedule.exists_admissible_ge
+#print axioms TNumbersLean.CriterionSchedule.heightLeft_tends_to_infinity
+#print axioms TNumbersLean.CriterionSchedule.eventually_heightLeft_gt
+#print axioms TNumbersLean.CriterionSchedule.exists_admissible_heightLeft_gt
+#print axioms TNumbersLean.CriterionSchedule.exists_last_admissible_pair
+#print axioms TNumbersLean.CriterionSchedule.exists_height_cover
