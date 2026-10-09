@@ -46,7 +46,7 @@ theorem norm_averagedPacketCoeffFormula_le
           ‖primePacketCoeffFormula q A θ₀ ell‖ := by
   rw [averagedPacketCoeffFormula, norm_mul]
   gcongr
-  exact Finset.norm_sum_le _ _
+  exact norm_sum_le _ _
 
 /-- The common translation phase in every prime coefficient has norm one. -/
 theorem norm_primePacketCoeffFormula
