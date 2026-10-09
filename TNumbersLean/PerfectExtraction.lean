@@ -14,7 +14,7 @@ theorem exists_compact_perfect_subset_of_pos_measure
     {μ : Measure ℝ} [IsFiniteMeasure μ] [NullSingletonClass μ]
     {F : Set ℝ} (hF : MeasurableSet F) (hpos : 0 < μ F) :
     ∃ P : Set ℝ, P.Nonempty ∧ IsCompact P ∧ Perfect P ∧ P ⊆ F := by
-  have hfin : μ F ≠ ∞ := measure_ne_top μ F
+  have hfin : μ F ≠ ⊤ := measure_ne_top μ F
   obtain ⟨C, hCF, hCcompact, hCpos⟩ :
       ∃ C ⊆ F, IsCompact C ∧ 0 < μ C :=
     hF.exists_lt_isCompact_of_ne_top hfin hpos
