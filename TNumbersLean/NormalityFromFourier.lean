@@ -47,7 +47,7 @@ theorem norm_weylSum_sub_le (b : ℕ) (h : ℤ) (x : ℝ) {M N : ℕ} (hMN : M �
     ‖∑ r ∈ Finset.Ico M N, weylTerm b (r + 1) h x‖
         ≤ ∑ r ∈ Finset.Ico M N, ‖weylTerm b (r + 1) h x‖ := norm_sum_le _ _
     _ = N - M := by
-      rw [Nat.cast_sub hMN]
+      simp [Nat.cast_sub hMN]
 
 /-- The elementary square-subsequence gap used in the manuscript:
 if j^2 <= N < (j+1)^2, then at most 2j+1 terms are missing. -/
