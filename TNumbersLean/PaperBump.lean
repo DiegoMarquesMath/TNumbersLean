@@ -21,7 +21,7 @@ theorem paperBump_nonneg (x : ℝ) :
 
 theorem paperBump_contDiff :
     ContDiff ℝ ⊤ paperBump := by
-  exact paperContDiffBump.contDiff_normed (μ := volume)
+  exact paperContDiffBump.contDiff_normed (μ := volume) (n := ⊤)
 
 theorem paperBump_integrable :
     Integrable paperBump := by
