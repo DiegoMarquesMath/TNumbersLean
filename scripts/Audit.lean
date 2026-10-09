@@ -437,3 +437,8 @@ import TNumbersLean
 #print axioms TNumbersLean.packetCoefficientArithmeticConstant
 #print axioms TNumbersLean.packetCoefficientArithmeticConstant_pos
 #print axioms TNumbersLean.normalized_packet_arithmetic_envelope_le
+
+-- Final logarithmic averaged-packet coefficient bound.
+#print axioms TNumbersLean.averagedPacketFourierConstant
+#print axioms TNumbersLean.averagedPacketFourierConstant_nonneg
+#print axioms TNumbersLean.norm_averagedPacketCoeffFormula_le_logarithmic
