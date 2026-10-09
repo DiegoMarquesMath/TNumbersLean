@@ -55,16 +55,13 @@ theorem norm_averagedPacketCoeffFormula_le_envelope
     _ ≤ ‖(1 / ((packetPrimes Q).card : ℂ))‖ *
           ∑ q ∈ packetPrimes Q,
             B * ‖packetResidueFormula q ell‖ := by
-      gcongr
-      apply Finset.sum_le_sum
-      intro q hq
+      gcongr with q hq
       exact norm_primePacketCoeffFormula_le_uniform hq θ₀ ell
     _ = ‖(1 / ((packetPrimes Q).card : ℂ))‖ *
           B *
           (∑ q ∈ packetPrimes Q,
             ‖packetResidueFormula q ell‖) := by
-      rw [Finset.mul_sum]
-      ring
+      rw [← Finset.mul_sum]
     _ ≤ ‖(1 / ((packetPrimes Q).card : ℂ))‖ *
           B *
           (((packetPrimeDivisors Q ell.natAbs).card : ℝ) +
