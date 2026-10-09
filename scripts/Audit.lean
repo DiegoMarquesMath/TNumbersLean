@@ -253,3 +253,13 @@ import TNumbersLean
 #print axioms TNumbersLean.squareGapRatio
 #print axioms TNumbersLean.squareGapRatio_tendsto_zero
 #print axioms TNumbersLean.squareGapRatio_sqrt_tendsto_zero
+#print axioms TNumbersLean.paperFourier
+#print axioms TNumbersLean.paperFourier_apply
+#print axioms TNumbersLean.conj_circleExp
+#print axioms TNumbersLean.circleExp_add
+#print axioms TNumbersLean.weylFrequency
+#print axioms TNumbersLean.conj_weylTerm_mul_weylTerm
+#print axioms TNumbersLean.integrable_weylCorrelation
+#print axioms TNumbersLean.integral_weylCorrelation
+#print axioms TNumbersLean.ofReal_normSq_weylSum_eq_doubleSum
+#print axioms TNumbersLean.integral_normSq_weylSum_eq_doubleFourier
