@@ -174,7 +174,7 @@ theorem tsum_measure_ne_top_of_summable_measureReal
     {A : ℕ → Set α}
     (hsum : Summable (fun n : ℕ => μ.real (A n))) :
     (∑' n : ℕ, μ (A n)) ≠ ⊤ := by
-  let f : ℕ → ℝ≥0 := fun n => (μ (A n)).toNNReal
+  let f : ℕ → NNReal := fun n => (μ (A n)).toNNReal
   have hreal :
       Summable (fun n : ℕ => (f n : ℝ)) := by
     simpa only [f, measureReal_def, ENNReal.coe_toNNReal_eq_toReal] using hsum
