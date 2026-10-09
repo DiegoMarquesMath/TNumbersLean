@@ -23,6 +23,7 @@ import TNumbersLean.PacketFourierTransform
 import TNumbersLean.PacketBumpFourier
 import TNumbersLean.SchwartzPeriodization
 import TNumbersLean.PacketBumpSchwartz
+import TNumbersLean.PeriodizedPacketBumpFourier
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
