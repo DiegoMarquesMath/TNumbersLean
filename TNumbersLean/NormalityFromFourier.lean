@@ -57,6 +57,50 @@ theorem square_gap_le (j N : ℕ) (hlo : j ^ 2 ≤ N) (hhi : N < (j + 1) ^ 2) :
   rw [hs] at hhi
   omega
 
+/-- The manuscript's interpolation estimate between consecutive square indices. -/
+theorem norm_weylSum_between_squares
+    (b : ℕ) (h : ℤ) (x : ℝ) {j N : ℕ}
+    (hlo : j ^ 2 ≤ N) (hhi : N < (j + 1) ^ 2)
+    {ε : ℝ} (hsq : ‖weylSum b h x (j ^ 2)‖ ≤ ε * (j : ℝ) ^ 2) :
+    ‖weylSum b h x N‖ ≤
+      ((2 * j + 1 : ℕ) : ℝ) + ε * (j : ℝ) ^ 2 := by
+  have htail :
+      ‖weylSum b h x N - weylSum b h x (j ^ 2)‖ ≤
+        ((N - j ^ 2 : ℕ) : ℝ) :=
+    norm_weylSum_sub_le b h x hlo
+  have hgap :
+      ((N - j ^ 2 : ℕ) : ℝ) ≤ ((2 * j + 1 : ℕ) : ℝ) := by
+    exact_mod_cast square_gap_le j N hlo hhi
+  calc
+    ‖weylSum b h x N‖ =
+        ‖(weylSum b h x N - weylSum b h x (j ^ 2)) +
+          weylSum b h x (j ^ 2)‖ := by
+            rw [sub_add_cancel]
+    _ ≤ ‖weylSum b h x N - weylSum b h x (j ^ 2)‖ +
+          ‖weylSum b h x (j ^ 2)‖ := norm_add_le _ _
+    _ ≤ ((N - j ^ 2 : ℕ) : ℝ) + ε * (j : ℝ) ^ 2 :=
+      add_le_add htail hsq
+    _ ≤ ((2 * j + 1 : ℕ) : ℝ) + ε * (j : ℝ) ^ 2 :=
+      add_le_add_right hgap _
+
+/-- Every index lies between the square of its natural square root and
+the next square. -/
+theorem nat_sqrt_square_bounds (N : ℕ) :
+    (Nat.sqrt N) ^ 2 ≤ N ∧ N < (Nat.sqrt N + 1) ^ 2 :=
+  ⟨Nat.sqrt_le' N, Nat.lt_succ_sqrt' N⟩
+
+/-- The square-interpolation estimate with the canonical choice j = floor(sqrt N). -/
+theorem norm_weylSum_sqrt_interpolation
+    (b : ℕ) (h : ℤ) (x : ℝ) (N : ℕ) {ε : ℝ}
+    (hsq :
+      ‖weylSum b h x ((Nat.sqrt N) ^ 2)‖ ≤
+        ε * (Nat.sqrt N : ℝ) ^ 2) :
+    ‖weylSum b h x N‖ ≤
+      ((2 * Nat.sqrt N + 1 : ℕ) : ℝ) +
+        ε * (Nat.sqrt N : ℝ) ^ 2 := by
+  exact norm_weylSum_between_squares b h x
+    (nat_sqrt_square_bounds N).1 (nat_sqrt_square_bounds N).2 hsq
+
 /-- Bad sets on the square subsequence in the Borel--Cantelli step. -/
 def squareBadSet (S : ℕ → ℝ → ℂ) (ε : ℝ) (j : ℕ) : Set ℝ :=
   {x | ε * (j : ℝ) ^ 2 < ‖S (j ^ 2) x‖}
