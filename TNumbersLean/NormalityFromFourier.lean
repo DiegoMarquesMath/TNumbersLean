@@ -66,11 +66,15 @@ theorem norm_weylSum_between_squares
       ((2 * j + 1 : ℕ) : ℝ) + ε * (j : ℝ) ^ 2 := by
   have htail :
       ‖weylSum b h x N - weylSum b h x (j ^ 2)‖ ≤
-        ((N - j ^ 2 : ℕ) : ℝ) :=
+        (N : ℝ) - ((j ^ 2 : ℕ) : ℝ) :=
     norm_weylSum_sub_le b h x hlo
-  have hgap :
+  have hgap' :
       ((N - j ^ 2 : ℕ) : ℝ) ≤ ((2 * j + 1 : ℕ) : ℝ) := by
     exact_mod_cast square_gap_le j N hlo hhi
+  rw [Nat.cast_sub hlo] at hgap'
+  have hgap :
+      (N : ℝ) - ((j ^ 2 : ℕ) : ℝ) ≤ ((2 * j + 1 : ℕ) : ℝ) :=
+    hgap'
   calc
     ‖weylSum b h x N‖ =
         ‖(weylSum b h x N - weylSum b h x (j ^ 2)) +
@@ -78,7 +82,7 @@ theorem norm_weylSum_between_squares
             rw [sub_add_cancel]
     _ ≤ ‖weylSum b h x N - weylSum b h x (j ^ 2)‖ +
           ‖weylSum b h x (j ^ 2)‖ := norm_add_le _ _
-    _ ≤ ((N - j ^ 2 : ℕ) : ℝ) + ε * (j : ℝ) ^ 2 :=
+    _ ≤ ((N : ℝ) - ((j ^ 2 : ℕ) : ℝ)) + ε * (j : ℝ) ^ 2 :=
       add_le_add htail hsq
     _ ≤ ((2 * j + 1 : ℕ) : ℝ) + ε * (j : ℝ) ^ 2 :=
       add_le_add_right hgap _
