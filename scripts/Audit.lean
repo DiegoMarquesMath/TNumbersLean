@@ -311,3 +311,13 @@ import TNumbersLean
 #print axioms TNumbersLean.memE_of_packetStageWitness
 #print axioms TNumbersLean.tendsto_paperDecayProfile_atTop
 #print axioms TNumbersLean.tendsto_norm_paperFourier_atTop_of_decay
+
+#print axioms TNumbersLean.tendsto_norm_charFun_atTop_of_paperDecay
+#print axioms TNumbersLean.measureMassIncrementBudget
+#print axioms TNumbersLean.hasSum_measureMassIncrementBudget
+#print axioms TNumbersLean.abs_mass_sub_one_le_one_sixteenth
+#print axioms TNumbersLean.mass_mem_Icc_fifteen_sixteen_seventeen_sixteen
+#print axioms TNumbersLean.primePacketSupport
+#print axioms TNumbersLean.mem_primePacketSupport_iff_packetStageWitness
+#print axioms TNumbersLean.memE_of_mem_manuscriptPacketSet
+#print axioms TNumbersLean.exists_compact_perfect_weylAbsolutelyNormal_TNumbers_of_packetSupport
