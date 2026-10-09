@@ -389,3 +389,8 @@ import TNumbersLean
 #print axioms TNumbersLean.card_packetPrimeDivisors_le_log_div
 #print axioms TNumbersLean.card_packetPrimeDivisors_le_padded_log_div
 #print axioms TNumbersLean.card_packetPrimeDivisors_natAbs_le_padded_log_div
+
+-- Dyadic prime-count input interface.
+#print axioms TNumbersLean.PrimePacketCountInputs
+#print axioms TNumbersLean.PrimePacketCountInputs.packetPrimes_nonempty
+#print axioms TNumbersLean.PrimePacketCountInputs.packetPrimes_card_ne_zero
