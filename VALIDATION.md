@@ -10,9 +10,8 @@ and `lake-manifest.json`.
 Final theorem: `TNumbersLean.concrete_proposition_three_two` in
 [ConcretePropositionThreeTwo.lean](TNumbersLean/ConcretePropositionThreeTwo.lean).
 
-Final verified commit: `FINAL_VERIFIED_COMMIT` (placeholder for the commit
-named `Complete concrete verification of Proposition 3.2` on `concrete-prop3`;
-its hash is reported after committing).
+Formal proof commit: [`45485edceb96ea46879e8f4ab174f3f1d953bbcc`](https://github.com/DiegoMarquesMath/TNumbersLean/tree/45485edceb96ea46879e8f4ab174f3f1d953bbcc)
+(`Complete concrete verification of Proposition 3.2`).
 
 The theorem assembles the certified concrete schedule (3.1)--(3.3), actual
 rational algebraicity and degree, primitive integer minimal polynomial naive
@@ -52,7 +51,7 @@ Fourier/digit constructions are separate manuscript results.
   Quot.sound]`.
 - The README correspondence table has exactly three columns in every row;
   `git diff --check` passed.
-- The manuscript was not modified; no merge to main was performed.
+- The manuscript was not modified in the formalization runs.
 
 The audit is [scripts/Audit.lean](scripts/Audit.lean); the detailed record is
 [docs/PROPOSITION_3_2.md](docs/PROPOSITION_3_2.md).
