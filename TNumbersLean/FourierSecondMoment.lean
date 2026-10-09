@@ -165,4 +165,46 @@ theorem integral_normSq_weylSum_eq_doubleFourier
     exact integrable_finset_sum _ fun s hs =>
       integrable_weylCorrelation b (r + 1) (s + 1) h
 
+/-- The real second moment appearing in (6.1). -/
+noncomputable def weylSecondMoment
+    (μ : Measure ℝ) (b : ℕ) (h : ℤ) (N : ℕ) : ℝ :=
+  ∫ x : ℝ, ‖weylSum b h x N‖ ^ 2 ∂μ
+
+/-- Real form of the exact finite correlation identity. -/
+theorem weylSecondMoment_eq_re_doubleFourier
+    {μ : Measure ℝ} [IsFiniteMeasure μ]
+    (b N : ℕ) (h : ℤ) :
+    weylSecondMoment μ b h N =
+      (∑ r ∈ Finset.range N, ∑ s ∈ Finset.range N,
+        paperFourier μ (weylFrequency b h (r + 1) (s + 1))).re := by
+  have hcorr := congrArg Complex.re
+    (integral_normSq_weylSum_eq_doubleFourier (μ := μ) b N h)
+  simpa [weylSecondMoment] using hcorr
+
+/-- Before using Fourier decay, the second moment is bounded by the sum
+of the absolute values of all Fourier correlation terms. -/
+theorem weylSecondMoment_le_doubleNormSum
+    {μ : Measure ℝ} [IsFiniteMeasure μ]
+    (b N : ℕ) (h : ℤ) :
+    weylSecondMoment μ b h N ≤
+      ∑ r ∈ Finset.range N, ∑ s ∈ Finset.range N,
+        ‖paperFourier μ (weylFrequency b h (r + 1) (s + 1))‖ := by
+  rw [weylSecondMoment_eq_re_doubleFourier]
+  calc
+    (∑ r ∈ Finset.range N, ∑ s ∈ Finset.range N,
+        paperFourier μ (weylFrequency b h (r + 1) (s + 1))).re
+        ≤ ‖∑ r ∈ Finset.range N, ∑ s ∈ Finset.range N,
+          paperFourier μ (weylFrequency b h (r + 1) (s + 1))‖ :=
+      re_le_norm _
+    _ ≤ ∑ r ∈ Finset.range N,
+          ‖∑ s ∈ Finset.range N,
+            paperFourier μ (weylFrequency b h (r + 1) (s + 1))‖ :=
+      norm_sum_le _ _
+    _ ≤ ∑ r ∈ Finset.range N, ∑ s ∈ Finset.range N,
+          ‖paperFourier μ (weylFrequency b h (r + 1) (s + 1))‖ := by
+      apply Finset.sum_le_sum
+      intro r hr
+      exact norm_sum_le _ _
+
+
 end TNumbersLean
