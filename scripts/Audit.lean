@@ -394,3 +394,10 @@ import TNumbersLean
 #print axioms TNumbersLean.PrimePacketCountInputs
 #print axioms TNumbersLean.PrimePacketCountInputs.packetPrimes_nonempty
 #print axioms TNumbersLean.PrimePacketCountInputs.packetPrimes_card_ne_zero
+
+-- Quadratic Fourier decay of the normalized paper bump.
+#print axioms TNumbersLean.paperBumpFourierSchwartz
+#print axioms TNumbersLean.paperBumpFourierSchwartz_apply
+#print axioms TNumbersLean.paperBumpFourierDecayConstant
+#print axioms TNumbersLean.paperBumpFourier_weighted_decay
+#print axioms TNumbersLean.norm_packetFourier_paperBump_le
