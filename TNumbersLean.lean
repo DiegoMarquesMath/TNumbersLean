@@ -26,6 +26,7 @@ import TNumbersLean.PacketBumpSchwartz
 import TNumbersLean.PeriodizedPacketBumpFourier
 import TNumbersLean.PeriodizedPrimePacketFourier
 import TNumbersLean.PacketPrimeDivisorCount
+import TNumbersLean.PacketPrimeDivisorLog
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
