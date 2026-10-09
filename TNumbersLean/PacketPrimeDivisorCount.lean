@@ -34,7 +34,7 @@ theorem prod_packetPrimeDivisors_dvd
   have hprod :
       (∏ q ∈ packetPrimeDivisors Q n, q) ∣
         ∏ q ∈ n.primeFactors, q := by
-    exact Finset.prod_dvd_prod_of_subset _ _ (fun _ _ => dvd_rfl) hsub
+    exact Finset.prod_dvd_prod_of_subset _ _ id hsub
   exact hprod.trans (Nat.prod_primeFactors_dvd n)
 
 /-- Since every packet denominator is at least `Q`, the number of packet
