@@ -364,3 +364,5 @@ import TNumbersLean
 #print axioms TNumbersLean.periodizedAffinePacketBump
 #print axioms TNumbersLean.fourierCoeff_periodizedAffinePacketBump
 #print axioms TNumbersLean.fourierCoeff_periodizedAffinePacketBump_eq
+
+#print axioms TNumbersLean.fourierChar_rational_phase_eq_stdAddChar
