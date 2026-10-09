@@ -50,6 +50,12 @@ for every sufficiently large real height $H$, rather than only along selected sc
 | Proposition 3.2, concrete final theorem | [ConcretePropositionThreeTwo.lean](TNumbersLean/ConcretePropositionThreeTwo.lean) | Verified from Section 2 inputs |
 | Lemma 5.1, perturbation budget | [FourierBudget.lean](TNumbersLean/FourierBudget.lean) | Verified calculation |
 | Sections 7--8, digit-block constants | [DigitBudget.lean](TNumbersLean/DigitBudget.lean) | Verified calculation |
+| Theorem 1.1, Fourier second moment | [FourierSecondMoment.lean](TNumbersLean/FourierSecondMoment.lean) | Verified |
+| Theorem 1.1, summable off-diagonal tail | [FourierTailSummability.lean](TNumbersLean/FourierTailSummability.lean) | Verified |
+| Theorem 1.1, Chebyshev and Borel--Cantelli | [FourierBorelCantelli.lean](TNumbersLean/FourierBorelCantelli.lean) | Verified |
+| Theorem 1.1, interpolation from squares to all indices | [WeylInterpolation.lean](TNumbersLean/WeylInterpolation.lean) | Verified |
+| Theorem 1.1, all bases and frequencies | [WeylAlmostEverywhere.lean](TNumbersLean/WeylAlmostEverywhere.lean) | Verified from the Fourier-decay hypothesis |
+| Theorem 1.1, perfect-set assembly | [TheoremOneOneAssembly.lean](TNumbersLean/TheoremOneOneAssembly.lean) | Verified from positive arithmetic mass and Fourier decay |
 
 The concrete schedule is `ScheduleThresholds.concreteCriterionSchedule`;
 `ScheduleThresholds.lemma_three_one` collects its manuscript properties. It
@@ -75,6 +81,12 @@ The exact theorem correspondence and external scope are recorded in
 | [PropositionThreeTwo.lean](TNumbersLean/PropositionThreeTwo.lean) | Complete logical proof of Proposition 3.2 from the interfaces |
 | [FourierBudget.lean](TNumbersLean/FourierBudget.lean) | Fourier perturbation estimates |
 | [DigitBudget.lean](TNumbersLean/DigitBudget.lean) | Numerical bounds in the digit-block construction |
+| [FourierSecondMoment.lean](TNumbersLean/FourierSecondMoment.lean) | Exact Weyl second-moment identity and finite Fourier-decay bound |
+| [FourierTailSummability.lean](TNumbersLean/FourierTailSummability.lean) | Summable lacunary off-diagonal majorant and uniform linear second moment |
+| [FourierBorelCantelli.lean](TNumbersLean/FourierBorelCantelli.lean) | Chebyshev bound, summable bad sets, and square-subsequence Borel--Cantelli |
+| [WeylInterpolation.lean](TNumbersLean/WeylInterpolation.lean) | Square-to-all-index interpolation for normalized Weyl sums |
+| [WeylAlmostEverywhere.lean](TNumbersLean/WeylAlmostEverywhere.lean) | Countable intersection over all bases and nonzero integer frequencies |
+| [TheoremOneOneAssembly.lean](TNumbersLean/TheoremOneOneAssembly.lean) | Positive-mass arithmetic set plus Fourier normality gives a compact perfect subset |
 
 ## Verification
 
@@ -101,8 +113,22 @@ approximation centers are formalized. Only the Section 2 height comparison
 inputs in `SectionTwoInputs`. Schmidt's theorem and Icen's lemma themselves
 are not reproved in Lean.
 
-The full Fourier-measure argument, Weyl/Borel--Cantelli step, and complete
-digit-block Cantor construction are outside the current formalization.
+The analytic implication from the manuscript's Fourier-decay hypothesis to
+simultaneous Weyl normality is now formalized: the development proves the
+second-moment identity and linear bound, summability of the off-diagonal tail,
+Chebyshev estimates, first Borel--Cantelli on square indices, interpolation to
+all indices, and the countable intersection over all bases and nonzero integer
+frequencies.  It also formalizes the final perfect-set extraction from any
+positive-measure measurable arithmetic set for an atomless probability measure.
+
+For a completely self-contained Lean proof of Theorem 1.1, the remaining
+external part is the construction of the manuscript's specific probability
+measure together with the proof that it is atomless, has the stated Fourier
+decay, and gives positive mass to the required arithmetic T-number set.
+The project currently records absolute normality through the simultaneous
+Weyl criterion `WeylAbsolutelyNormal`; translating this analytic criterion
+to a digit-frequency definition of normality is also not separately
+formalized.
 
 ## Citation
 
