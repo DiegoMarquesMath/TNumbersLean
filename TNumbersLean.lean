@@ -12,6 +12,7 @@ import TNumbersLean.ConcreteSchedule
 import TNumbersLean.ConcreteAlgebraicData
 import TNumbersLean.ConcreteCriterionInputs
 import TNumbersLean.PacketSupport
+import TNumbersLean.PacketSupportSet
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
