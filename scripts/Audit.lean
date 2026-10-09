@@ -249,3 +249,7 @@ import TNumbersLean
 #print axioms TNumbersLean.squareNormRatio_eventually_le
 #print axioms TNumbersLean.squareNormRatio_tendsto_zero_of_reciprocal_control
 #print axioms TNumbersLean.ae_squareNormRatio_tendsto_zero_of_summable_bad
+#print axioms TNumbersLean.natSqrt_tendsto_atTop
+#print axioms TNumbersLean.squareGapRatio
+#print axioms TNumbersLean.squareGapRatio_tendsto_zero
+#print axioms TNumbersLean.squareGapRatio_sqrt_tendsto_zero
