@@ -197,47 +197,6 @@ theorem abs_weylFrequency_swap
     ring
   rw [hneg, abs_neg]
 
-/-- Finite second-moment bound obtained directly from the Fourier-decay
-hypothesis and lacunarity.  This is the finite-sum form of (6.1), before
-replacing the off-diagonal sum by an absolute constant. -/
-theorem weylSecondMoment_le_decay_triangle
-    {μ : Measure ℝ} [IsProbabilityMeasure μ]
-    {C c : ℝ} (hdecay : HasPaperFourierDecay μ C c)
-    {b : ℕ} (hb : 2 ≤ b) {h : ℤ} (hh : h ≠ 0) (N : ℕ) :
-    weylSecondMoment μ b h N ≤
-      (N : ℝ) +
-        2 * ∑ r ∈ Finset.range N,
-          (r : ℝ) *
-            (C * Real.exp
-              (-c * (Real.log (2 + (2 : ℝ) ^ r)) ^ ((1 : ℝ) / 4))) := by
-  refine (weylSecondMoment_le_doubleNormSum (μ := μ) b N h).trans ?_
-  apply double_sum_le_diag_add_two_triangle
-  · intro r
-    simp
-  · intro s r hsr
-    have hfreq :
-        (2 : ℝ) ^ r ≤
-          |weylFrequency b h (r + 1) (s + 1)| := by
-      simpa using
-        (abs_weylFrequency_lower_bound
-          (b := b) (h := h) (m := s + 1) (r := r + 1)
-          hb hh (by omega) (by omega))
-    exact paperFourier_decay_of_abs_ge hdecay (by positivity) hfreq
-  · intro r s hrs
-    have hrev :
-        (2 : ℝ) ^ s ≤
-          |weylFrequency b h (s + 1) (r + 1)| := by
-      simpa using
-        (abs_weylFrequency_lower_bound
-          (b := b) (h := h) (m := r + 1) (r := s + 1)
-          hb hh (by omega) (by omega))
-    have hfreq :
-        (2 : ℝ) ^ s ≤
-          |weylFrequency b h (r + 1) (s + 1)| := by
-      rw [abs_weylFrequency_swap]
-      exact hrev
-    exact paperFourier_decay_of_abs_ge hdecay (by positivity) hfreq
-
 /-- Pointwise expansion of |S_N|^2 into the double correlation sum. -/
 theorem ofReal_normSq_weylSum_eq_doubleSum
     (b N : ℕ) (h : ℤ) (x : ℝ) :
@@ -319,6 +278,48 @@ theorem weylSecondMoment_le_doubleNormSum
       apply Finset.sum_le_sum
       intro r hr
       exact norm_sum_le _ _
+
+
+/-- Finite second-moment bound obtained directly from the Fourier-decay
+hypothesis and lacunarity.  This is the finite-sum form of (6.1), before
+replacing the off-diagonal sum by an absolute constant. -/
+theorem weylSecondMoment_le_decay_triangle
+    {μ : Measure ℝ} [IsProbabilityMeasure μ]
+    {C c : ℝ} (hdecay : HasPaperFourierDecay μ C c)
+    {b : ℕ} (hb : 2 ≤ b) {h : ℤ} (hh : h ≠ 0) (N : ℕ) :
+    weylSecondMoment μ b h N ≤
+      (N : ℝ) +
+        2 * ∑ r ∈ Finset.range N,
+          (r : ℝ) *
+            (C * Real.exp
+              (-c * (Real.log (2 + (2 : ℝ) ^ r)) ^ ((1 : ℝ) / 4))) := by
+  refine (weylSecondMoment_le_doubleNormSum (μ := μ) b N h).trans ?_
+  apply double_sum_le_diag_add_two_triangle
+  · intro r
+    simp
+  · intro s r hsr
+    have hfreq :
+        (2 : ℝ) ^ r ≤
+          |weylFrequency b h (r + 1) (s + 1)| := by
+      simpa using
+        (abs_weylFrequency_lower_bound
+          (b := b) (h := h) (m := s + 1) (r := r + 1)
+          hb hh (by omega) (by omega))
+    exact paperFourier_decay_of_abs_ge hdecay (by positivity) hfreq
+  · intro r s hrs
+    have hrev :
+        (2 : ℝ) ^ s ≤
+          |weylFrequency b h (s + 1) (r + 1)| := by
+      simpa using
+        (abs_weylFrequency_lower_bound
+          (b := b) (h := h) (m := r + 1) (r := s + 1)
+          hb hh (by omega) (by omega))
+    have hfreq :
+        (2 : ℝ) ^ s ≤
+          |weylFrequency b h (r + 1) (s + 1)| := by
+      rw [abs_weylFrequency_swap]
+      exact hrev
+    exact paperFourier_decay_of_abs_ge hdecay (by positivity) hfreq
 
 
 end TNumbersLean
