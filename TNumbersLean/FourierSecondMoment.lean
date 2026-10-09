@@ -28,7 +28,6 @@ theorem conj_circleExp (t : ℝ) :
   rw [circleExp, circleExp, ← Complex.exp_conj]
   congr 1
   simp
-  ring
 
 theorem circleExp_add (u v : ℝ) :
     circleExp u * circleExp v = circleExp (u + v) := by
@@ -55,9 +54,10 @@ theorem integrable_weylCorrelation
     {μ : Measure ℝ} [IsFiniteMeasure μ]
     (b r s : ℕ) (h : ℤ) :
     Integrable (fun x : ℝ => conj (weylTerm b r h x) * weylTerm b s h x) μ := by
-  apply Integrable.of_bound
-  · fun_prop
-  · exact 1
+  refine Integrable.of_bound ?_ 1 ?_
+  · apply Continuous.aestronglyMeasurable
+    unfold weylTerm circleExp
+    fun_prop
   · filter_upwards with x
     simp
 
@@ -85,9 +85,6 @@ theorem ofReal_normSq_weylSum_eq_doubleSum
   apply Finset.sum_congr rfl
   intro r hr
   rw [Finset.mul_sum]
-  apply Finset.sum_congr rfl
-  intro s hs
-  ring
 
 /-- Exact finite second-moment identity before separating diagonal and
 off-diagonal terms. -/
@@ -99,10 +96,10 @@ theorem integral_normSq_weylSum_eq_doubleFourier
         paperFourier μ (weylFrequency b h (r + 1) (s + 1)) := by
   rw [integral_congr_ae (ae_of_all μ fun x =>
     ofReal_normSq_weylSum_eq_doubleSum b N h x)]
-  rw [MeasureTheory.integral_finsetSum]
+  rw [integral_finsetSum]
   · apply Finset.sum_congr rfl
     intro r hr
-    rw [MeasureTheory.integral_finsetSum]
+    rw [integral_finsetSum]
     · apply Finset.sum_congr rfl
       intro s hs
       exact integral_weylCorrelation b (r + 1) (s + 1) h
