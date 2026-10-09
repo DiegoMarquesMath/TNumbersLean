@@ -207,16 +207,18 @@ noncomputable def squareGapRatio (j : ℕ) : ℝ :=
 theorem squareGapRatio_tendsto_zero :
     Tendsto squareGapRatio atTop (𝓝 0) := by
   have hinv : Tendsto (fun j : ℕ => ((j : ℝ))⁻¹) atTop (𝓝 0) :=
-    tendsto_inv_atTop_nhds_zero_nat
+    tendsto_inverse_atTop_nhds_zero_nat
   have hlim :
       Tendsto
         (fun j : ℕ => 2 * ((j : ℝ))⁻¹ + ((j : ℝ))⁻¹ * ((j : ℝ))⁻¹)
         atTop (𝓝 0) := by
     simpa using (hinv.const_mul 2).add (hinv.mul hinv)
-  convert hlim using 1
-  funext j
-  simp [squareGapRatio, div_eq_mul_inv, pow_two]
-  ring
+  refine hlim.congr' ?_
+  filter_upwards [eventually_ne_atTop 0] with j hj
+  have hjr : (j : ℝ) ≠ 0 := by exact_mod_cast hj
+  simp only [squareGapRatio]
+  field_simp [hjr]
+  <;> ring
 
 /-- The square-gap ratio evaluated at floor(sqrt N) also tends to zero. -/
 theorem squareGapRatio_sqrt_tendsto_zero :
