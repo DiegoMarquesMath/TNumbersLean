@@ -344,3 +344,8 @@ import TNumbersLean
 #print axioms TNumbersLean.complexPacketBumpTerm
 #print axioms TNumbersLean.packetFourier_complexPacketBumpTerm
 #print axioms TNumbersLean.packetFourier_scaled_complexPacketBumpTerm
+
+-- Schwartz periodization bridge.
+#print axioms TNumbersLean.schwartzContinuousMap
+#print axioms TNumbersLean.schwartz_periodization_local_summable
+#print axioms TNumbersLean.fourierCoeff_periodization_schwartz
