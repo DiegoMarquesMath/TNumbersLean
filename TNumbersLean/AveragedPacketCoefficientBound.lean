@@ -57,7 +57,6 @@ theorem norm_averagedPacketCoeffFormula_le_logarithmic
               ((packetPrimes Q).card : ℝ) +
             1 / ((Q : ℝ) - 1)) := by
     field_simp [hcardR, hQsub]
-    ring
   calc
     ‖averagedPacketCoeffFormula Q A θ₀ ell‖
         ≤ (1 / ((packetPrimes Q).card : ℝ)) * B *
