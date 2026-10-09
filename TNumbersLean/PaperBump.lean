@@ -28,7 +28,7 @@ theorem paperBump_integrable :
   exact paperContDiffBump.integrable_normed (μ := volume)
 
 theorem integral_paperBump :
-    ∫ x : ℝ, paperBump x = 1 := by
+    (∫ x : ℝ, paperBump x) = 1 := by
   exact paperContDiffBump.integral_normed (μ := volume)
 
 theorem support_paperBump_eq :
