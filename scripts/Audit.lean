@@ -321,3 +321,12 @@ import TNumbersLean
 #print axioms TNumbersLean.mem_primePacketSupport_iff_packetStageWitness
 #print axioms TNumbersLean.memE_of_mem_manuscriptPacketSet
 #print axioms TNumbersLean.exists_compact_perfect_weylAbsolutelyNormal_TNumbers_of_packetSupport
+
+-- Packet Fourier arithmetic.
+#print axioms TNumbersLean.fullPacketResidueSum
+#print axioms TNumbersLean.fullPacketResidueSum_eq
+#print axioms TNumbersLean.packetResidueSum
+#print axioms TNumbersLean.packetResidueSum_eq
+#print axioms TNumbersLean.packetResidueFactor
+#print axioms TNumbersLean.packetResidueFactor_eq
+#print axioms TNumbersLean.packetResidueFactor_eq_manuscript
