@@ -303,3 +303,5 @@ import TNumbersLean
 #print axioms TNumbersLean.ae_weylAbsolutelyNormal_of_fourierDecay
 
 #print axioms TNumbersLean.exists_compact_perfect_weylAbsolutelyNormal_subset_of_pos_measure
+#print axioms TNumbersLean.exists_compact_perfect_weylAbsolutelyNormal_TNumbers
+#print axioms TNumbersLean.exists_compact_perfect_weylAbsolutelyNormal_TNumbers_of_compact
