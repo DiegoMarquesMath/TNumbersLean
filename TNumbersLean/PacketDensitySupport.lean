@@ -86,4 +86,41 @@ theorem support_packetDensity_subset_finitePacketSet
   exact packetDensity_ne_zero_implies_mem_finitePacketSet hφ hf₀
     (by simpa [Function.support] using hx)
 
+
+/-- The finite packet sets decrease with the number of imposed stages. -/
+theorem antitone_finitePacketSet
+    (t : ScheduleThresholds) (J : Set ℝ) :
+    Antitone (finitePacketSet t J) := by
+  intro m n hmn x hx
+  refine ⟨hx.1, ?_⟩
+  intro k hk
+  exact hx.2 k (lt_of_lt_of_le hk hmn)
+
+/-- A point lies in the full manuscript packet set exactly when it belongs to
+every finite-stage packet set. -/
+theorem mem_manuscriptPacketSet_iff_forall_mem_finitePacketSet
+    {t : ScheduleThresholds} {J : Set ℝ} {x : ℝ} :
+    x ∈ manuscriptPacketSet t J ↔
+      ∀ n : ℕ, x ∈ finitePacketSet t J n := by
+  constructor
+  · intro hx n
+    refine ⟨hx.1, ?_⟩
+    intro k hk
+    exact mem_iInter.mp hx.2 k
+  · intro hx
+    have hx0 := hx 0
+    refine ⟨hx0.1, ?_⟩
+    apply mem_iInter.mpr
+    intro k
+    exact (hx (k + 1)).2 k (by omega)
+
+/-- The full packet set is the intersection of its finite-stage
+approximations. -/
+theorem iInter_finitePacketSet
+    (t : ScheduleThresholds) (J : Set ℝ) :
+    (⋂ n : ℕ, finitePacketSet t J n) = manuscriptPacketSet t J := by
+  ext x
+  rw [mem_iInter]
+  exact mem_manuscriptPacketSet_iff_forall_mem_finitePacketSet.symm
+
 end TNumbersLean
