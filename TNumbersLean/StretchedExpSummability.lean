@@ -56,6 +56,10 @@ theorem summable_stretchedExpMomentTerm {c : ℝ} (hc : 0 < c) :
     intro n
     exact (htarget n).symm
   apply summable_of_isBigO_nat hsumTarget
-  simpa [stretchedExpMomentTerm, p, neg_mul] using hmul.isBigO
+  change
+    (fun n : ℕ =>
+      (n : ℝ) * Real.exp (-c * (n : ℝ) ^ ((1 : ℝ) / 4))) =O[atTop]
+      (fun n : ℕ => (n : ℝ) * (((n : ℝ) ^ p) ^ (-12 : ℝ)))
+  simpa [p, neg_mul] using hmul.isBigO
 
 end TNumbersLean
