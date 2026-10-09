@@ -126,7 +126,6 @@ theorem measureReal_squareBadSet_weyl_le_inv_sq
           ((1 + K) / ε ^ 2) *
             (1 / (j : ℝ) ^ 2) := by
         field_simp [ne_of_gt hε, ne_of_gt hjr]
-        <;> ring
   calc
     μ.real
         (squareBadSet
@@ -175,19 +174,18 @@ theorem tsum_measure_ne_top_of_summable_measureReal
     {A : ℕ → Set α}
     (hsum : Summable (fun n : ℕ => μ.real (A n))) :
     (∑' n : ℕ, μ (A n)) ≠ ⊤ := by
+  let f : ℕ → ℝ≥0 := fun n => (μ (A n)).toNNReal
   have hreal :
-      Summable (fun n : ℕ => ((μ (A n)).toNNReal : ℝ)) := by
-    simpa only [measureReal_def, ENNReal.coe_toNNReal_eq_toReal] using hsum
-  have hnn :
-      Summable (fun n : ℕ => (μ (A n)).toNNReal) :=
-    NNReal.summable_coe.mp hreal
+      Summable (fun n : ℕ => (f n : ℝ)) := by
+    simpa only [f, measureReal_def, ENNReal.coe_toNNReal_eq_toReal] using hsum
   have htop :
-      (∑' n : ℕ, ((μ (A n)).toNNReal : ℝ≥0∞)) ≠ ⊤ :=
-    ENNReal.tsum_coe_ne_top_iff_summable.2 hnn
+      (∑' n : ℕ, (f n : ENNReal)) ≠ ⊤ :=
+    ENNReal.tsum_coe_ne_top_iff_summable_coe.2 hreal
   have hfun :
-      (fun n : ℕ => ((μ (A n)).toNNReal : ℝ≥0∞)) =
+      (fun n : ℕ => (f n : ENNReal)) =
         (fun n : ℕ => μ (A n)) := by
     funext n
+    dsimp [f]
     exact ENNReal.coe_toNNReal (measure_ne_top μ (A n))
   rw [hfun] at htop
   exact htop
