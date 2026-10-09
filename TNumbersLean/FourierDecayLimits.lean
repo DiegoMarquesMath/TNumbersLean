@@ -59,7 +59,7 @@ theorem tendsto_norm_charFun_atTop_of_paperDecay
     (tendsto_norm_paperFourier_atTop_of_decay hdecay).comp hscale
   refine hcomp.congr' ?_
   filter_upwards with t
-  have harg : -2 * Real.pi * (t / (2 * Real.pi)) = -t := by
+  have harg : 2 * Real.pi * (t / (2 * Real.pi)) = t := by
     field_simp [Real.pi_ne_zero]
   simp [paperFourier, harg]
 
