@@ -270,3 +270,7 @@ import TNumbersLean
 #print axioms TNumbersLean.weylSecondMoment
 #print axioms TNumbersLean.weylSecondMoment_eq_re_doubleFourier
 #print axioms TNumbersLean.weylSecondMoment_le_doubleNormSum
+#print axioms TNumbersLean.paperDecayProfile
+#print axioms TNumbersLean.HasPaperFourierDecay
+#print axioms TNumbersLean.paperDecayProfile_le_of_abs_ge
+#print axioms TNumbersLean.paperFourier_offdiag_decay
