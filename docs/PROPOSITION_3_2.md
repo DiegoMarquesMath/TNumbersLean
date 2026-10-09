@@ -599,9 +599,8 @@ external estimates is claimed.
 
 Final theorem: `TNumbersLean.concrete_proposition_three_two` in
 `ConcretePropositionThreeTwo.lean`.
-Final verified commit: `FINAL_VERIFIED_COMMIT` (placeholder for the commit
-named `Complete concrete verification of Proposition 3.2`; hash reported
-when the commit is made).
+Formal proof commit: [`45485edceb96ea46879e8f4ab174f3f1d953bbcc`](https://github.com/DiegoMarquesMath/TNumbersLean/tree/45485edceb96ea46879e8f4ab174f3f1d953bbcc)
+(`Complete concrete verification of Proposition 3.2`).
 
 The statement uses actual `IsAlgebraic ℚ`, `RealAlgebraicData.degree`, and
 `RealAlgebraicData.naiveHeight`. Its Koksma exponents and IsTNumber predicate
