@@ -384,3 +384,8 @@ import TNumbersLean
 #print axioms TNumbersLean.prod_packetPrimeDivisors_dvd
 #print axioms TNumbersLean.pow_card_packetPrimeDivisors_le
 #print axioms TNumbersLean.card_packetPrimeDivisors_le_natLog
+
+-- Real-logarithmic packet divisor count.
+#print axioms TNumbersLean.card_packetPrimeDivisors_le_log_div
+#print axioms TNumbersLean.card_packetPrimeDivisors_le_padded_log_div
+#print axioms TNumbersLean.card_packetPrimeDivisors_natAbs_le_padded_log_div
