@@ -349,3 +349,13 @@ import TNumbersLean
 #print axioms TNumbersLean.schwartzContinuousMap
 #print axioms TNumbersLean.schwartz_periodization_local_summable
 #print axioms TNumbersLean.fourierCoeff_periodization_schwartz
+
+-- Packet bumps as Schwartz functions.
+#print axioms TNumbersLean.paperBumpComplex_hasCompactSupport
+#print axioms TNumbersLean.paperBumpComplex_contDiff
+#print axioms TNumbersLean.paperBumpSchwartz
+#print axioms TNumbersLean.affinePacketBumpComplex
+#print axioms TNumbersLean.affinePacketBumpComplex_eq
+#print axioms TNumbersLean.affinePacketBumpComplex_contDiff
+#print axioms TNumbersLean.affinePacketBumpComplex_hasCompactSupport
+#print axioms TNumbersLean.affinePacketBumpSchwartz
