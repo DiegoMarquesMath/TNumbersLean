@@ -338,3 +338,9 @@ import TNumbersLean
 #print axioms TNumbersLean.packetFourier_scale
 #print axioms TNumbersLean.packetFourier_scale_pos
 #print axioms TNumbersLean.packetFourier_affine_pos
+
+-- Exact Fourier transform of an individual packet bump.
+#print axioms TNumbersLean.paperBumpComplex
+#print axioms TNumbersLean.complexPacketBumpTerm
+#print axioms TNumbersLean.packetFourier_complexPacketBumpTerm
+#print axioms TNumbersLean.packetFourier_scaled_complexPacketBumpTerm
