@@ -53,11 +53,11 @@ theorem packetFourier_scaled_complexPacketBumpTerm
       Real.fourierChar (-(θ₀ + (p : ℝ) / (q : ℝ)) * t) •
         packetFourier paperBumpComplex (t / ((q : ℝ) ^ A)) := by
   rw [packetFourier_complexPacketBumpTerm hq θ₀ p t]
-  have hqR : (0 : ℝ) < (q : ℝ) := by
-    exact_mod_cast hq
-  have hscale : ((q : ℝ) ^ A) ≠ 0 := (pow_pos hqR A).ne'
+  have hqC : (q : ℂ) ≠ 0 := by
+    exact_mod_cast (Nat.ne_of_gt hq)
+  have hscaleC : (q : ℂ) ^ A ≠ 0 := pow_ne_zero A hqC
   simp only [Circle.smul_def, Complex.real_smul, smul_eq_mul]
   push_cast
-  field_simp [hscale]
+  field_simp [hscaleC]
 
 end TNumbersLean
