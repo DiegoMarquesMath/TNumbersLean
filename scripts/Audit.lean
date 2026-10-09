@@ -182,3 +182,35 @@ import TNumbersLean
 #print axioms TNumbersLean.realAlgebraicApproximationSystem_isAlg
 #print axioms TNumbersLean.realAlgebraicApproximationSystem_degree
 #print axioms TNumbersLean.realAlgebraicApproximationSystem_height
+
+-- Concrete E witnesses and Section 2 inputs; no literal proposition wrapper.
+#print axioms TNumbersLean.theta
+#print axioms TNumbersLean.theta_pos
+#print axioms TNumbersLean.theta_pow
+#print axioms TNumbersLean.theta_le_two
+#print axioms TNumbersLean.theta_polynomial_irreducible
+#print axioms TNumbersLean.theta_minpoly
+#print axioms TNumbersLean.theta_algebraic
+#print axioms TNumbersLean.theta_degree
+#print axioms TNumbersLean.theta_translate_degree
+#print axioms TNumbersLean.StageWitness
+#print axioms TNumbersLean.MemE
+#print axioms TNumbersLean.memE_stage_witness
+#print axioms TNumbersLean.MemE.numerator
+#print axioms TNumbersLean.MemE.denominator
+#print axioms TNumbersLean.MemE.witness_spec
+#print axioms TNumbersLean.MemE.denominator_pos
+#print axioms TNumbersLean.MemE.reduced
+#print axioms TNumbersLean.MemE.denominator_block
+#print axioms TNumbersLean.MemE.rational
+#print axioms TNumbersLean.MemE.center
+#print axioms TNumbersLean.MemE.rational_cast
+#print axioms TNumbersLean.MemE.source_approximation
+#print axioms TNumbersLean.MemE.center_algebraic
+#print axioms TNumbersLean.MemE.center_exact_degree
+#print axioms TNumbersLean.MemE.source_error_le_one
+#print axioms TNumbersLean.MemE.center_mem_bounds
+#print axioms TNumbersLean.MemE.rational_bound
+#print axioms TNumbersLean.concreteCriterionInputs
+
+#print axioms TNumbersLean.SectionTwoInputs

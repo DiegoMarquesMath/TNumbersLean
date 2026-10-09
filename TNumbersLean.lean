@@ -9,3 +9,4 @@ import TNumbersLean.HeightRangeCoverage
 import TNumbersLean.PropositionThreeTwo
 import TNumbersLean.ConcreteSchedule
 import TNumbersLean.ConcreteAlgebraicData
+import TNumbersLean.ConcreteCriterionInputs

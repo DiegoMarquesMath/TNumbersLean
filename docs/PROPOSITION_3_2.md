@@ -7,8 +7,9 @@ stated algebraic-approximation inputs.
 **Completed:** the complete logical proof of Proposition 3.2 from the
 interfaces, and, on `concrete-prop3`, the concrete integer schedule (3.1)--(3.3),
 actual rational algebraicity and degree, primitive integer minimal polynomial
-naive height, and elementary Northcott. Construction of `CriterionInputs`
-from membership in the concrete E(J;Q_1) remains pending.
+naive height, and elementary Northcott. `concreteCriterionInputs` now constructs the actual center inputs from
+membership in E(J;Q_1), conditional only on the explicit Section 2 height and
+separation consequences. The literal final proposition wrapper remains pending.
 
 ## Scope boundary
 
@@ -36,8 +37,9 @@ For a point satisfying the criterion defining E(J;Q_1), prove in Lean:
 
 `TNumbersLean.proposition_three_two` now supplies all of these conclusions
 from the declared interfaces, including the stronger normalized limit.
-The literal connection from membership in the concrete E(J;Q_1) to those
-interfaces remains pending.
+The connection from membership in the concrete E(J;Q_1) to those interfaces
+is now `concreteCriterionInputs`, with only Section 2 estimates external.
+The final literal proposition wrapper is not yet included.
 
 ## Modules
 
@@ -458,23 +460,22 @@ height bound, both explicit Koksma exponent bounds, normalized tail
 unboundedness, convergence to infinity, limsup top, and the T-number criterion.
 All logical arguments of (3.12)--(3.20) are now kernel-checked from those inputs.
 
-### B. Concrete schedule and algebraic system — verified; centers pending
+### B. Concrete interfaces — verified; literal wrapper pending
 
 The schedule obligation is complete: `ScheduleThresholds.concreteCriterionSchedule`
 is constructed from the threshold data, and `concrete_threshold` proves the
 threshold condition at every stage.
 
-The actual system is now `realAlgebraicApproximationSystem`, with all fields
-proved. From x belonging to the concrete E(J;Q_1), it remains to select the
-reduced p_k/q_k witnesses and construct centers theta_{d_k}+p_k/q_k. Prove the
-source and denominator fields, establish the bounded-translation/center
-conditions, and instantiate the exact-degree/height comparison (2.2) and
-separation Lemma 2.1 at the scheduled thresholds.
+The actual system is `realAlgebraicApproximationSystem`, with all fields
+proved. `concreteCriterionInputs` selects the reduced p_k/q_k witnesses from
+membership in E(J;Q_1), constructs theta_{d_k}+p_k/q_k, and proves all input
+fields. The literal final proposition wrapper remains to be stated.
 
-Schmidt's theorem and Icen's height lemma remain explicit external mathematical
-inputs under the agreed scope. This run does not claim formal proofs of those
-external results or a completed concrete algebraic input instance. Once the
-remaining concrete constructors are supplied, the existing proposition theorem applies directly.
+Schmidt's theorem and Icen's height lemma remain external mathematical inputs
+under the agreed scope. Their concrete Section 2 consequences are explicitly
+packaged in `SectionTwoInputs`; no unconditional proof of these external
+estimates is claimed. The existing proposition theorem can now be applied
+directly to the concrete constructor.
 Nonemptiness of E, Fourier measures, and digital properties belong to other
 manuscript results and are not prerequisites for this conditional criterion.
 
@@ -527,3 +528,67 @@ constructor or selection of E witnesses/centers is included in this module.
   constructor declarations each report exactly these three axioms.
 - The abstract interfaces, existing proposition and concrete schedule were
   unchanged. The manuscript was not modified.
+
+
+## Concrete E witnesses and CriterionInputs
+
+`ConcreteCriterionInputs.lean` defines `theta d = (2 : ℝ) ^ (d : ℝ)⁻¹`.
+`theta_polynomial_irreducible` proves integer irreducibility of `X^d - 2`
+by Eisenstein at 2. Gauss's lemma and the root identity identify the rational
+minimal polynomial; `theta_degree` proves actual degree d for d≥2.
+Rational translation preserves both actual algebraicity and exact degree.
+
+`MemE t J x` is literally `x ∈ J` and, for each Lean stage k, existence of
+an integer p and natural q with q>0, `Nat.Coprime p.natAbs q`,
+`concreteQ k ≤ q < 2*concreteQ k`, and
+`|x - theta (concreteDegree k) - p/q| ≤ (1/4)*q^(-concreteExponent k)`.
+Nat.Coprime states gcd(|p|,q)=1. Lean k is manuscript stage k+1.
+For the manuscript J is its fixed bounded open interval. The predicate also
+makes sense for any set J; the constructor needs only `J ⊆ (-R,R)` and R≥2.
+This generality does not alter the membership conditions.
+
+The `MemE.numerator` and `MemE.denominator` functions use Classical.choose
+only on `memE_stage_witness`. `witness_spec`, `reduced`, `denominator_block`,
+and `source_approximation` certify the selected reduced fractions.
+`MemE.center k` is `theta (concreteDegree k) + (MemE.rational k : ℝ)`.
+Its algebraicity and exact degree are proved. The source bound implies error
+at most one, hence center membership in [-R-1,R+1] and |p/q|≤R+3.
+
+`SectionTwoInputs t R` contains exactly:
+
+- constants C_{d,R}≥1 and (2.2) for reduced p/q with |p/q|≤R+3;
+- Lemma 2.1 for all 2≤d≤D, 1≤n<d, Q≥T_D, Q≤q<2Q, and centers in
+  [-R-1,R+1], using the actual naive height. Separation requires no reducedness.
+
+No degree, source approximation, interval membership, transcendence, global
+lower bound, Koksma conclusion, or coverage conclusion is supplied by this
+external structure. Schmidt's theorem and Icen's lemma are not formalized.
+
+`concreteCriterionInputs` proves all `CriterionInputs` fields for
+`realAlgebraicApproximationSystem` and `t.concreteCriterionSchedule`.
+Only center-height comparison and local separation use `SectionTwoInputs`.
+The separation proof explicitly uses `concrete_threshold` with D=d_k.
+The schedule and actual algebraic system are not redefined or strengthened.
+
+The next run can state the literal proposition wrapper by applying
+`proposition_three_two` to this constructor. It must retain the explicit
+Section 2 input premise; no proof of those external estimates is claimed.
+
+
+### Concrete CriterionInputs validation
+
+- `lake build` passed (7364 jobs).
+- `bash scripts/check.sh` passed, run with shell tracing. All twelve source
+  modules and the audit passed with warnings treated as errors.
+- The required project placeholder/custom-axiom search returned no matches.
+- All 29 new audit entries are present. Every new declaration uses only
+  `propext`, `Classical.choice`, and `Quot.sound` (or a subset). Theta
+  algebraicity, theta exact degree, witness extraction, center algebraicity,
+  center exact degree, and `concreteCriterionInputs` each report exactly
+  these three axioms.
+- The README correspondence table has three columns in every row, with
+  separate concrete schedule and actual algebraic-data rows; no README
+  expansion was made.
+- The existing schedule, actual algebraic system, interfaces, and abstract
+  proposition proof were unchanged. The manuscript was not modified.
+- No literal final Proposition 3.2 wrapper was created.

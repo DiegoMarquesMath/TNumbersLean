@@ -40,8 +40,7 @@ for every sufficiently large real height $H$, rather than only along selected sc
 
 | Manuscript | Lean source | Status |
 | --- | --- | --- |
-| Lemma 3.1 / (3.1)--(3.5), concrete degree schedule | [ConcreteAlgebraicData.lean](TNumbersLean/ConcreteAlgebraicData.lean) | Actual real algebraicity, degree, primitive minimal polynomial naive height, and elementary Northcott |
-| [ConcreteSchedule.lean](TNumbersLean/ConcreteSchedule.lean) | Verified from threshold data |
+| Lemma 3.1 / (3.1)--(3.5), concrete degree schedule | [ConcreteSchedule.lean](TNumbersLean/ConcreteSchedule.lean) | Verified from threshold data |
 | Lemma 3.1 / (3.6), bounded scale gaps | [ScheduleBudget.lean](TNumbersLean/ScheduleBudget.lean), [HeightRangeCoverage.lean](TNumbersLean/HeightRangeCoverage.lean) | Verified |
 | Actual algebraic degree, naive height, and Northcott | [ConcreteAlgebraicData.lean](TNumbersLean/ConcreteAlgebraicData.lean) | Verified |
 | Proposition 3.2, Koksma framework | [KoksmaExponent.lean](TNumbersLean/KoksmaExponent.lean) | Verified |
