@@ -222,3 +222,6 @@ import TNumbersLean
 #print axioms TNumbersLean.concrete_upper_wStar
 #print axioms TNumbersLean.concrete_lower_wStar
 #print axioms TNumbersLean.concrete_isTNumber
+
+-- Theorem 1.1: perfect-set extraction.
+#print axioms TNumbersLean.exists_compact_perfect_subset_of_pos_measure
