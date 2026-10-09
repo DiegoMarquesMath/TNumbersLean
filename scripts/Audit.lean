@@ -277,3 +277,29 @@ import TNumbersLean
 #print axioms TNumbersLean.stretchedExpMomentTerm
 #print axioms TNumbersLean.summable_stretchedExpMomentTerm
 #print axioms TNumbersLean.double_sum_le_diag_add_two_triangle
+
+-- Theorem 1.1: completed Fourier/Borel--Cantelli chain.
+#print axioms TNumbersLean.lacunaryFourierMomentTerm
+#print axioms TNumbersLean.lacunaryFourierMomentTerm_nonneg
+#print axioms TNumbersLean.lacunaryFourierMomentTerm_le_stretched
+#print axioms TNumbersLean.summable_lacunaryFourierMomentTerm
+#print axioms TNumbersLean.sum_lacunaryFourierMomentTerm_le_tsum
+#print axioms TNumbersLean.fourierOffDiagonalConstant
+#print axioms TNumbersLean.fourierOffDiagonalConstant_nonneg
+#print axioms TNumbersLean.weylSecondMoment_le_linear
+
+#print axioms TNumbersLean.integrable_normSq_weylSum
+#print axioms TNumbersLean.measureReal_squareBadSet_weyl_le_inv_sq
+#print axioms TNumbersLean.summable_measureReal_squareBadSet_weyl
+#print axioms TNumbersLean.tsum_measure_ne_top_of_summable_measureReal
+#print axioms TNumbersLean.tsum_squareBadSet_weyl_ne_top
+#print axioms TNumbersLean.ae_squareNormRatio_weyl_tendsto_zero
+
+#print axioms TNumbersLean.norm_normalizedWeylSum_eq_div
+#print axioms TNumbersLean.norm_normalizedWeylSum_le_square_terms
+#print axioms TNumbersLean.normalizedWeylSum_tendsto_zero_of_squareNormRatio
+#print axioms TNumbersLean.ae_normalizedWeylSum_tendsto_zero_of_fourierDecay
+#print axioms TNumbersLean.ae_weylNormalToBase_of_fourierDecay
+#print axioms TNumbersLean.ae_weylAbsolutelyNormal_of_fourierDecay
+
+#print axioms TNumbersLean.exists_compact_perfect_weylAbsolutelyNormal_subset_of_pos_measure
