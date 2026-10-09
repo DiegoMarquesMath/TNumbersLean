@@ -11,7 +11,7 @@ def packetPrimes (Q : ℕ) : Finset ℕ :=
 
 theorem mem_packetPrimes_iff {Q q : ℕ} :
     q ∈ packetPrimes Q ↔ Q ≤ q ∧ q < 2 * Q ∧ Nat.Prime q := by
-  simp [packetPrimes, and_assoc, and_left_comm, and_comm]
+  simp [packetPrimes, and_left_comm, and_comm]
 
 /-- The packet `G_{Q,A,θ}`, defined as the normalized finite average of the
 single-prime packets. -/
