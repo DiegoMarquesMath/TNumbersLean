@@ -35,7 +35,7 @@ theorem abs_mass_sub_one_le_one_sixteenth
     (h0 : m 0 = 1)
     (hstep : ∀ n, |m (n + 1) - m n| ≤ measureMassIncrementBudget n) :
     ∀ n, |m n - 1| ≤ (1 / 16 : ℝ) := by
-  have hpartial : ∀ n, |m n - 1| ≤ ∑ i ∈ range n, measureMassIncrementBudget i := by
+  have hpartial : ∀ n, |m n - 1| ≤ ∑ i in range n, measureMassIncrementBudget i := by
     intro n
     induction n with
     | zero =>
@@ -46,17 +46,18 @@ theorem abs_mass_sub_one_le_one_sixteenth
               = |(m (n + 1) - m n) + (m n - 1)| := by ring_nf
           _ ≤ |m (n + 1) - m n| + |m n - 1| := abs_add _ _
           _ ≤ measureMassIncrementBudget n +
-                ∑ i ∈ range n, measureMassIncrementBudget i :=
+                ∑ i in range n, measureMassIncrementBudget i :=
               add_le_add (hstep n) ih
-          _ = ∑ i ∈ range (n + 1), measureMassIncrementBudget i := by
-              rw [sum_insert]
-              · simp [Nat.not_mem_range_self, add_comm]
-              · exact Nat.not_mem_range_self n
+          _ = ∑ i in range (n + 1), measureMassIncrementBudget i := by
+              rw [sum_range_succ]
+              exact add_comm _ _
   intro n
-  exact (hpartial n).trans <|
-    (summable_measureMassIncrementBudget.sum_le_tsum (range n)
-      (fun i _ => measureMassIncrementBudget_nonneg i)).trans_eq
-        tsum_measureMassIncrementBudget
+  calc
+    |m n - 1| ≤ ∑ i in range n, measureMassIncrementBudget i := hpartial n
+    _ ≤ ∑' i : ℕ, measureMassIncrementBudget i :=
+      summable_measureMassIncrementBudget.sum_le_tsum
+        (range n) (fun i _ => measureMassIncrementBudget_nonneg i)
+    _ = (1 / 16 : ℝ) := tsum_measureMassIncrementBudget
 
 /-- Consequently every finite-stage mass lies in the interval appearing in the
 manuscript, `[15/16, 17/16]`. -/
