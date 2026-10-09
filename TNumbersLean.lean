@@ -21,3 +21,4 @@ import TNumbersLean.FourierBorelCantelli
 import TNumbersLean.WeylInterpolation
 import TNumbersLean.WeylAlmostEverywhere
 import TNumbersLean.TheoremOneOneAssembly
+import TNumbersLean.TheoremOneOnePartOne
