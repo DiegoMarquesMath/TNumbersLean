@@ -3,7 +3,7 @@ import TNumbersLean.StretchedExpSummability
 
 namespace TNumbersLean
 
-open Finset
+open Finset MeasureTheory
 open scoped BigOperators
 
 /-- The off-diagonal majorant produced by the lacunary Fourier estimate. -/
@@ -77,7 +77,20 @@ theorem lacunaryFourierMomentTerm_le_stretched
             (-(c * (Real.log 2) ^ ((1 : ℝ) / 4)) *
               (n : ℝ) ^ ((1 : ℝ) / 4))) :=
     mul_le_mul_of_nonneg_left hCexp (Nat.cast_nonneg n)
-  simpa [lacunaryFourierMomentTerm, stretchedExpMomentTerm] using hnCexp
+  rw [lacunaryFourierMomentTerm]
+  calc
+    (n : ℝ) *
+        (C * Real.exp
+          (-c * (Real.log (2 + (2 : ℝ) ^ n)) ^ ((1 : ℝ) / 4))) ≤
+      (n : ℝ) *
+        (C * Real.exp
+          (-(c * (Real.log 2) ^ ((1 : ℝ) / 4)) *
+            (n : ℝ) ^ ((1 : ℝ) / 4))) := hnCexp
+    _ =
+        C * stretchedExpMomentTerm
+          (c * (Real.log 2) ^ ((1 : ℝ) / 4)) n := by
+      rw [stretchedExpMomentTerm]
+      ring
 
 /-- The complete off-diagonal series in the second-moment estimate converges. -/
 theorem summable_lacunaryFourierMomentTerm
@@ -115,7 +128,8 @@ theorem fourierOffDiagonalConstant_nonneg
     {C c : ℝ} (hC : 0 ≤ C) :
     0 ≤ fourierOffDiagonalConstant C c := by
   unfold fourierOffDiagonalConstant
-  positivity
+  exact mul_nonneg (by norm_num)
+    (tsum_nonneg fun n => lacunaryFourierMomentTerm_nonneg hC n)
 
 /-- Uniform linear second-moment estimate:
 the Fourier-decay hypothesis gives ∫|S_N|² dμ ≤ N + K. -/
