@@ -55,7 +55,11 @@ for every sufficiently large real height $H$, rather than only along selected sc
 | Theorem 1.1, Chebyshev and Borel--Cantelli | [FourierBorelCantelli.lean](TNumbersLean/FourierBorelCantelli.lean) | Verified |
 | Theorem 1.1, interpolation from squares to all indices | [WeylInterpolation.lean](TNumbersLean/WeylInterpolation.lean) | Verified |
 | Theorem 1.1, all bases and frequencies | [WeylAlmostEverywhere.lean](TNumbersLean/WeylAlmostEverywhere.lean) | Verified from the Fourier-decay hypothesis |
+| Theorem 1.1, packet support to arithmetic witnesses | [PacketSupport.lean](TNumbersLean/PacketSupport.lean), [PacketSupportSet.lean](TNumbersLean/PacketSupportSet.lean) | Verified |
+| Theorem 1.1, stretched Fourier profile tends to zero | [FourierDecayLimits.lean](TNumbersLean/FourierDecayLimits.lean) | Verified |
+| Theorem 1.1, total mass perturbation and $15/16$--$17/16$ bounds | [MeasureMassBudget.lean](TNumbersLean/MeasureMassBudget.lean) | Verified |
 | Theorem 1.1, perfect-set assembly | [TheoremOneOneAssembly.lean](TNumbersLean/TheoremOneOneAssembly.lean) | Verified from positive arithmetic mass and Fourier decay |
+| Theorem 1.1(i), paper-facing arithmetic/normality assembly | [TheoremOneOnePartOne.lean](TNumbersLean/TheoremOneOnePartOne.lean) | Verified from the measure-construction outputs |
 
 The concrete schedule is `ScheduleThresholds.concreteCriterionSchedule`;
 `ScheduleThresholds.lemma_three_one` collects its manuscript properties. It
@@ -86,7 +90,12 @@ The exact theorem correspondence and external scope are recorded in
 | [FourierBorelCantelli.lean](TNumbersLean/FourierBorelCantelli.lean) | Chebyshev bound, summable bad sets, and square-subsequence Borel--Cantelli |
 | [WeylInterpolation.lean](TNumbersLean/WeylInterpolation.lean) | Square-to-all-index interpolation for normalized Weyl sums |
 | [WeylAlmostEverywhere.lean](TNumbersLean/WeylAlmostEverywhere.lean) | Countable intersection over all bases and nonzero integer frequencies |
+| [PacketSupport.lean](TNumbersLean/PacketSupport.lean) | Prime-packet stage data imply the reduced witnesses used by `MemE` |
+| [PacketSupportSet.lean](TNumbersLean/PacketSupportSet.lean) | Geometric manuscript packet set and its inclusion in the arithmetic construction set |
+| [FourierDecayLimits.lean](TNumbersLean/FourierDecayLimits.lean) | Stretched-log Fourier decay implies Fourier/characteristic-function vanishing at infinity |
+| [MeasureMassBudget.lean](TNumbersLean/MeasureMassBudget.lean) | Summable $2^{-k-4}$ mass-error budget and the $15/16$--$17/16$ bounds |
 | [TheoremOneOneAssembly.lean](TNumbersLean/TheoremOneOneAssembly.lean) | Positive-mass arithmetic set plus Fourier normality gives a compact perfect subset |
+| [TheoremOneOnePartOne.lean](TNumbersLean/TheoremOneOnePartOne.lean) | Paper-facing Theorem 1.1(i) assembly from compact packet support and measure inputs |
 
 ## Verification
 
@@ -121,10 +130,23 @@ all indices, and the countable intersection over all bases and nonzero integer
 frequencies.  It also formalizes the final perfect-set extraction from any
 positive-measure measurable arithmetic set for an atomless probability measure.
 
-For a completely self-contained Lean proof of Theorem 1.1, the remaining
-external part is the construction of the manuscript's specific probability
-measure together with the proof that it is atomless, has the stated Fourier
-decay, and gives positive mass to the required arithmetic T-number set.
+For a completely self-contained Lean proof of Theorem 1.1(i), the remaining
+major analytic block is now sharply isolated.  The geometric support set of
+the prime-denominator packets is formalized and is proved to imply the
+concrete arithmetic condition `MemE`; the summable mass-error budget is also
+formalized, including the manuscript bounds $15/16\le M\le17/16$.  Moreover,
+the stated stretched-log Fourier decay is proved to force both
+`paperFourier` and the mathlib characteristic function to vanish at positive
+infinity.
+
+What remains is the construction of the smooth packets and densities
+$f_k=f_{k-1}G_k$, the packet Fourier/derivative estimate, passage to the
+limiting probability measure with support in `manuscriptPacketSet`, and the
+final deduction that the limiting measure is atomless.  Once these outputs
+are supplied, `TheoremOneOnePartOne.lean` already assembles a nonempty compact
+perfect subset of $J$ consisting of T-numbers satisfying the simultaneous Weyl
+criterion in every base.
+
 The project currently records absolute normality through the simultaneous
 Weyl criterion `WeylAbsolutelyNormal`; translating this analytic criterion
 to a digit-frequency definition of normality is also not separately
