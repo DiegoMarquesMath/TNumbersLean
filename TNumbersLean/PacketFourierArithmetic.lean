@@ -87,4 +87,24 @@ theorem packetResidueFactor_eq_manuscript {q : ℕ} [NeZero q]
     field_simp
   · simp [hd]
 
+
+/-- Identification of the real Fourier phase at a rational point with the
+standard additive character modulo `q`.  This is the bridge between the
+analytic phase in a periodized bump and the finite residue sum. -/
+theorem fourierChar_rational_phase_eq_stdAddChar
+    (q : ℕ) [NeZero q] (a ell : ℤ) :
+    (Real.fourierChar
+        (-((a : ℝ) / (q : ℝ) * (ell : ℝ))) : ℂ) =
+      ZMod.stdAddChar
+        (-((a : ZMod q) * (ell : ZMod q))) := by
+  have harg :
+      -((a : ZMod q) * (ell : ZMod q)) =
+        ((-(a * ell) : ℤ) : ZMod q) := by
+    push_cast
+    ring
+  rw [harg, ZMod.stdAddChar_coe, Real.fourierChar_apply]
+  congr 1
+  push_cast
+  ring
+
 end TNumbersLean
