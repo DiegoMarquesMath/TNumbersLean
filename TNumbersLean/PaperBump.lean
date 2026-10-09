@@ -28,6 +28,10 @@ theorem paperBump_integrable :
     Integrable paperBump := by
   exact paperContDiffBump.integrable_normed (μ := volume)
 
+theorem paperBump_hasCompactSupport :
+    HasCompactSupport paperBump := by
+  exact paperContDiffBump.hasCompactSupport_normed (μ := volume)
+
 theorem integral_paperBump :
     (∫ x : ℝ, paperBump x) = 1 := by
   exact paperContDiffBump.integral_normed (μ := volume)
