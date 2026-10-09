@@ -24,7 +24,7 @@ theorem packetPrimeDivisors_subset_primeFactors
     packetPrimeDivisors Q n ⊆ n.primeFactors := by
   intro q hq
   rcases mem_packetPrimeDivisors_iff.mp hq with ⟨_, _, hprime, hdvd⟩
-  exact Nat.Prime.mem_primeFactors hprime hdvd hn
+  exact Nat.mem_primeFactors.mpr ⟨hprime, hdvd, hn⟩
 
 /-- The squarefree product of all packet primes dividing `n` divides `n`. -/
 theorem prod_packetPrimeDivisors_dvd
