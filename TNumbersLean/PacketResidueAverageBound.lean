@@ -42,7 +42,6 @@ theorem norm_packetResidueFormula_of_not_dvd
     ring
   rw [hcast, Complex.norm_real, Real.norm_eq_abs,
     abs_of_nonneg (sub_nonneg.mpr hqone)]
-  norm_num
 
 /-- Off the divisibility set, every residual factor in the dyadic window is
 bounded by `1/(Q-1)`. -/
