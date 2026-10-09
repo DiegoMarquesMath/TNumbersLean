@@ -1,6 +1,6 @@
 # Proposition 3.2 — formalization record
 
-This branch aims to formalize the complete logical proof of Proposition 3.2 of
+This branch formalizes the complete logical proof of Proposition 3.2 of
 *Normality in Mahler's Class of T-Numbers*, starting from the manuscript's
 stated algebraic-approximation inputs.
 
@@ -9,7 +9,7 @@ interfaces, and, on `concrete-prop3`, the concrete integer schedule (3.1)--(3.3)
 actual rational algebraicity and degree, primitive integer minimal polynomial
 naive height, and elementary Northcott. `concreteCriterionInputs` now constructs the actual center inputs from
 membership in E(J;Q_1), conditional only on the explicit Section 2 height and
-separation consequences. The literal final proposition wrapper remains pending.
+separation consequences. The literal final theorem is `TNumbersLean.concrete_proposition_three_two`.
 
 ## Scope boundary
 
@@ -39,7 +39,7 @@ For a point satisfying the criterion defining E(J;Q_1), prove in Lean:
 from the declared interfaces, including the stronger normalized limit.
 The connection from membership in the concrete E(J;Q_1) to those interfaces
 is now `concreteCriterionInputs`, with only Section 2 estimates external.
-The final literal proposition wrapper is not yet included.
+The final literal proposition wrapper is `concrete_proposition_three_two`.
 
 ## Modules
 
@@ -460,7 +460,7 @@ height bound, both explicit Koksma exponent bounds, normalized tail
 unboundedness, convergence to infinity, limsup top, and the T-number criterion.
 All logical arguments of (3.12)--(3.20) are now kernel-checked from those inputs.
 
-### B. Concrete interfaces — verified; literal wrapper pending
+### B. Concrete proposition — verified from Section 2 inputs
 
 The schedule obligation is complete: `ScheduleThresholds.concreteCriterionSchedule`
 is constructed from the threshold data, and `concrete_threshold` proves the
@@ -469,7 +469,7 @@ threshold condition at every stage.
 The actual system is `realAlgebraicApproximationSystem`, with all fields
 proved. `concreteCriterionInputs` selects the reduced p_k/q_k witnesses from
 membership in E(J;Q_1), constructs theta_{d_k}+p_k/q_k, and proves all input
-fields. The literal final proposition wrapper remains to be stated.
+fields. `concrete_proposition_three_two` now assembles the literal proposition.
 
 Schmidt's theorem and Icen's height lemma remain external mathematical inputs
 under the agreed scope. Their concrete Section 2 consequences are explicitly
@@ -570,9 +570,9 @@ Only center-height comparison and local separation use `SectionTwoInputs`.
 The separation proof explicitly uses `concrete_threshold` with D=d_k.
 The schedule and actual algebraic system are not redefined or strengthened.
 
-The next run can state the literal proposition wrapper by applying
-`proposition_three_two` to this constructor. It must retain the explicit
-Section 2 input premise; no proof of those external estimates is claimed.
+`concrete_proposition_three_two` applies `proposition_three_two` to this
+constructor, retaining the explicit Section 2 premise. No proof of those
+external estimates is claimed.
 
 
 ### Concrete CriterionInputs validation
@@ -591,4 +591,57 @@ Section 2 input premise; no proof of those external estimates is claimed.
   expansion was made.
 - The existing schedule, actual algebraic system, interfaces, and abstract
   proposition proof were unchanged. The manuscript was not modified.
-- No literal final Proposition 3.2 wrapper was created.
+- At the concrete-input commit `defb510`, no literal final Proposition 3.2
+  wrapper had yet been created.
+
+
+## Final concrete Proposition 3.2
+
+Final theorem: `TNumbersLean.concrete_proposition_three_two` in
+`ConcretePropositionThreeTwo.lean`.
+Final verified commit: `FINAL_VERIFIED_COMMIT` (placeholder for the commit
+named `Complete concrete verification of Proposition 3.2`; hash reported
+when the commit is made).
+
+The statement uses actual `IsAlgebraic ℚ`, `RealAlgebraicData.degree`, and
+`RealAlgebraicData.naiveHeight`. Its Koksma exponents and IsTNumber predicate
+use `realAlgebraicApproximationSystem`, so the exponent definition (1.1)
+and criterion (1.2) now literally use the manuscript degree and naive height.
+`propositionB` is precisely (3.9); `recurrentW` is precisely the lower bound
+in (3.11). The concrete schedule and MemE are unchanged.
+
+The eight conclusions are transcendence, the uniform global exclusion,
+upper and lower Koksma bounds, normalized tail unboundedness, convergence
+to top, limsup top, and the concrete T-number conclusion. For (3.10), the
+height threshold is chosen before **both** y∈E and β. This stronger uniform
+conclusion is assembled from the existing `global_separation_uniform` theorem;
+all other conclusions come directly from `proposition_three_two` applied
+to `concreteCriterionInputs`. No Diophantine proof is repeated.
+
+`concrete_transcendence`, `concrete_global_separation`, `concrete_upper_wStar`,
+`concrete_lower_wStar`, and `concrete_isTNumber` are projections of the final
+theorem, not independent mathematical proofs.
+
+The exact external premises are R≥2, the interval bound, threshold data and
+initial scale in `ScheduleThresholds`, E-membership, and `SectionTwoInputs`.
+The only unformalized mathematical results are (2.2) and Lemma 2.1 as packaged
+in `SectionTwoInputs`. Neither E-membership nor either structure contains
+transcendence, global exclusion, exponent bounds, or a T-number conclusion.
+Schmidt's theorem and Icen's lemma themselves are not reproved in Lean.
+There is no remaining concrete instantiation or wrapper obligation within
+this agreed scope. The manuscript was not modified.
+
+
+### Final validation
+
+- `lake build` passed (7365 jobs).
+- `bash scripts/check.sh` passed, run with shell tracing. All thirteen source
+  modules and `scripts/Audit.lean` passed with warnings treated as errors.
+- The required project placeholder/custom-axiom search returned no matches
+  (empty output; grep exit status 1).
+- All 205 audit entries use only standard allowed axioms. The final theorem
+  and all five corollaries each report exactly `[propext, Classical.choice,
+  Quot.sound]`.
+- The README correspondence table has exactly three columns in every row;
+  `git diff --check` passed.
+- The manuscript was not modified; no merge to main was performed.

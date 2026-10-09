@@ -10,3 +10,4 @@ import TNumbersLean.PropositionThreeTwo
 import TNumbersLean.ConcreteSchedule
 import TNumbersLean.ConcreteAlgebraicData
 import TNumbersLean.ConcreteCriterionInputs
+import TNumbersLean.ConcretePropositionThreeTwo

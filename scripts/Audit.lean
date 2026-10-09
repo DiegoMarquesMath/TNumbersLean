@@ -214,3 +214,11 @@ import TNumbersLean
 #print axioms TNumbersLean.concreteCriterionInputs
 
 #print axioms TNumbersLean.SectionTwoInputs
+
+-- Final concrete Proposition 3.2 and paper-facing corollaries.
+#print axioms TNumbersLean.concrete_proposition_three_two
+#print axioms TNumbersLean.concrete_transcendence
+#print axioms TNumbersLean.concrete_global_separation
+#print axioms TNumbersLean.concrete_upper_wStar
+#print axioms TNumbersLean.concrete_lower_wStar
+#print axioms TNumbersLean.concrete_isTNumber

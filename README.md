@@ -13,10 +13,11 @@ constructions.
 
 The main declaration is
 
-[`TNumbersLean.proposition_three_two`](TNumbersLean/PropositionThreeTwo.lean).
+[`TNumbersLean.concrete_proposition_three_two`](TNumbersLean/ConcretePropositionThreeTwo.lean).
 
-From the explicit `CriterionSchedule` and `CriterionInputs` interfaces, Lean proves
-the complete logical content of Proposition 3.2:
+The proof of Proposition 3.2 is formally verified in Lean 4 from the stated
+Section 2 algebraic-approximation inputs. For points in the manuscript's
+$E(J;Q_1)$, it proves:
 
 - transcendence of the constructed point;
 - uniform exclusion of algebraic numbers of bounded degree at all sufficiently large heights;
@@ -45,7 +46,8 @@ for every sufficiently large real height $H$, rather than only along selected sc
 | Actual algebraic degree, naive height, and Northcott | [ConcreteAlgebraicData.lean](TNumbersLean/ConcreteAlgebraicData.lean) | Verified |
 | Proposition 3.2, Koksma framework | [KoksmaExponent.lean](TNumbersLean/KoksmaExponent.lean) | Verified |
 | Proposition 3.2, Section 2 input interface | [CriterionInputs.lean](TNumbersLean/CriterionInputs.lean) | Verified interface |
-| Proposition 3.2, (3.12)--(3.20) and final assembly | [PropositionThreeTwo.lean](TNumbersLean/PropositionThreeTwo.lean) | Verified from interfaces |
+| E witnesses and concrete centers | [ConcreteCriterionInputs.lean](TNumbersLean/ConcreteCriterionInputs.lean) | Verified from Section 2 inputs |
+| Proposition 3.2, concrete final theorem | [ConcretePropositionThreeTwo.lean](TNumbersLean/ConcretePropositionThreeTwo.lean) | Verified from Section 2 inputs |
 | Lemma 5.1, perturbation budget | [FourierBudget.lean](TNumbersLean/FourierBudget.lean) | Verified calculation |
 | Sections 7--8, digit-block constants | [DigitBudget.lean](TNumbersLean/DigitBudget.lean) | Verified calculation |
 
@@ -53,10 +55,10 @@ The concrete schedule is `ScheduleThresholds.concreteCriterionSchedule`;
 `ScheduleThresholds.lemma_three_one` collects its manuscript properties. It
 assumes only the external integer thresholds and the initial scale. Lean stage
 `k` is manuscript stage `k+1`. The actual algebraic system is
-`realAlgebraicApproximationSystem`; construction of `CriterionInputs` remains
-pending.
+`realAlgebraicApproximationSystem`; `concreteCriterionInputs` constructs the
+centers from reduced witnesses in $E(J;Q_1)$.
 
-The exact scope and the remaining concrete-instantiation work are recorded in
+The exact theorem correspondence and external scope are recorded in
 [docs/PROPOSITION_3_2.md](docs/PROPOSITION_3_2.md).
 
 ## Repository map
@@ -66,6 +68,8 @@ The exact scope and the remaining concrete-instantiation work are recorded in
 | [KoksmaExponent.lean](TNumbersLean/KoksmaExponent.lean) | Koksma exponents, Northcott bridge, and T-number criterion |
 | [ConcreteAlgebraicData.lean](TNumbersLean/ConcreteAlgebraicData.lean) | Actual real algebraicity, degree, primitive minimal polynomial naive height, and elementary Northcott |
 | [ConcreteSchedule.lean](TNumbersLean/ConcreteSchedule.lean) | Concrete recursive integer schedule and proved CriterionSchedule instance |
+| [ConcreteCriterionInputs.lean](TNumbersLean/ConcreteCriterionInputs.lean) | Reduced E witnesses, actual centers, and explicit Section 2 inputs |
+| [ConcretePropositionThreeTwo.lean](TNumbersLean/ConcretePropositionThreeTwo.lean) | Concrete Proposition 3.2 and paper-facing corollaries |
 | [CriterionInputs.lean](TNumbersLean/CriterionInputs.lean) | Abstract interface for the schedule, centers, degree, height, and Section 2 separation |
 | [HeightRangeCoverage.lean](TNumbersLean/HeightRangeCoverage.lean) | Scale gaps, overlap, and coverage of all sufficiently large heights |
 | [PropositionThreeTwo.lean](TNumbersLean/PropositionThreeTwo.lean) | Complete logical proof of Proposition 3.2 from the interfaces |
@@ -85,39 +89,30 @@ The audit builds every project module with warnings treated as errors, prints
 the axioms of the principal declarations, and fails if any listed theorem
 depends on `sorryAx`.
 
-For the Proposition 3.2 proof commit
-[`05cb79aa572d156674c562ae0dd0120a5ae15a36`](https://github.com/DiegoMarquesMath/TNumbersLean/tree/05cb79aa572d156674c562ae0dd0120a5ae15a36):
-
-- `lake build` passed with 7361 jobs;
-- `scripts/check.sh` passed;
-- the placeholder/custom-axiom search returned no matches;
-- the 29 new audited declarations use only `propext`, `Classical.choice`, and `Quot.sound`.
-
-See [VALIDATION.md](VALIDATION.md) for the compact validation record.
+See [VALIDATION.md](VALIDATION.md) for the final verification record.
 
 ## Scope
 
-At present, Proposition 3.2 is formally proved **from explicit interfaces**
-encoding the schedule and the algebraic-approximation data used in the manuscript.
-
-The concrete schedule (3.1)--(3.3), real algebraic degree, primitive integer
-minimal polynomial naive height, and elementary Northcott finiteness are
-implemented. Still to be constructed are the centers arising from membership
-in $E(J;Q_1)$ and their `CriterionInputs` instance. Schmidt's theorem and Icen's height lemma remain
-external mathematical inputs, as in the paper.
+The concrete schedule, actual rational algebraicity and degree, primitive
+integer minimal polynomial naive height, elementary Northcott finiteness, and
+approximation centers are formalized. Only the Section 2 height comparison
+(2.2) and translated-center separation (Lemma 2.1) remain explicit mathematical
+inputs in `SectionTwoInputs`. Schmidt's theorem and Icen's lemma themselves
+are not reproved in Lean.
 
 The full Fourier-measure argument, Weyl/Borel--Cantelli step, and complete
 digit-block Cantor construction are outside the current formalization.
 
 ## Citation
 
-Current manuscript wording:
+Suggested manuscript wording:
 
-> A Lean 4 formal verification of the common Diophantine criterion,
-> including the complete proof of Proposition 3.2 from its stated
-> algebraic-approximation and schedule interfaces, together with selected
-> quantitative checks in the Fourier and digit-block constructions, is
-> available in the TNumbersLean repository.
+> A Lean 4 formal verification of Proposition 3.2, including the concrete
+> degree schedule, the actual algebraic degree and naive height, and the
+> construction of the approximation centers, is available at
+> https://github.com/DiegoMarquesMath/TNumbersLean.
+> The Section 2 separation and height-comparison results are used as
+> external mathematical inputs.
 
 Português: [guia rápido](docs/GUIA_PT.md).  
 Maintained by [Diego Marques](https://github.com/DiegoMarquesMath).
