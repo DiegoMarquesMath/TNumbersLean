@@ -44,7 +44,6 @@ theorem packetFourier_scale (f : ℝ → ℂ) {a : ℝ} (ha : a ≠ 0) (t : ℝ)
           filter_upwards with x
           congr 2
           field_simp [ha]
-          <;> ring
     _ =
       |a⁻¹| •
         ∫ y : ℝ, Real.fourierChar (-(y * (t / a))) • f y := by
