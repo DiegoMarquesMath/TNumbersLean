@@ -408,3 +408,12 @@ import TNumbersLean
 #print axioms TNumbersLean.averagedPacketCoeffFormula
 #print axioms TNumbersLean.norm_averagedPacketCoeffFormula_le
 #print axioms TNumbersLean.norm_primePacketCoeffFormula
+
+-- Residue-factor bounds in the averaged packet.
+#print axioms TNumbersLean.packetResidueFormula
+#print axioms TNumbersLean.packetResidueFormula_eq_factor
+#print axioms TNumbersLean.norm_packetResidueFormula_of_dvd
+#print axioms TNumbersLean.norm_packetResidueFormula_of_not_dvd
+#print axioms TNumbersLean.norm_packetResidueFormula_le_window
+#print axioms TNumbersLean.norm_packetResidueFormula_le_indicator_add
+#print axioms TNumbersLean.sum_norm_packetResidueFormula_le
