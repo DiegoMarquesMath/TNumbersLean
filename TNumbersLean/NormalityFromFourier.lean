@@ -2,7 +2,7 @@ import Mathlib
 
 namespace TNumbersLean
 
-open Filter Finset
+open Filter Finset MeasureTheory
 open scoped BigOperators Topology
 
 /-- The basic additive character used in the Weyl sums of Section 6. -/
@@ -56,6 +56,22 @@ theorem square_gap_le (j N : ℕ) (hlo : j ^ 2 ≤ N) (hhi : N < (j + 1) ^ 2) :
   have hs : (j + 1) ^ 2 = j ^ 2 + (2 * j + 1) := by ring
   rw [hs] at hhi
   omega
+
+/-- Bad sets on the square subsequence in the Borel--Cantelli step. -/
+def squareBadSet (S : ℕ → ℝ → ℂ) (ε : ℝ) (j : ℕ) : Set ℝ :=
+  {x | ε * (j : ℝ) ^ 2 < ‖S (j ^ 2) x‖}
+
+/-- The exact first Borel--Cantelli deduction used in the manuscript:
+summability of the square-subsequence bad sets gives eventual pointwise control. -/
+theorem ae_eventually_square_control
+    {μ : Measure ℝ} {S : ℕ → ℝ → ℂ} {ε : ℝ}
+    (hsum : (∑' j : ℕ, μ (squareBadSet S ε j)) ≠ ⊤) :
+    ∀ᵐ x ∂μ, ∀ᶠ j : ℕ in atTop,
+      ‖S (j ^ 2) x‖ ≤ ε * (j : ℝ) ^ 2 := by
+  have hbc := MeasureTheory.ae_eventually_notMem hsum
+  filter_upwards [hbc] with x hx
+  filter_upwards [hx] with j hj
+  exact not_lt.mp (by simpa [squareBadSet] using hj)
 
 /-- Weyl's exponential-sum criterion, recorded as the analytic intermediate
 property used before identifying it with digit normality. -/
