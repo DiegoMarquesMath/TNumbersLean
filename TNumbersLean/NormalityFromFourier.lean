@@ -46,7 +46,9 @@ theorem norm_weylSum_sub_le (b : ℕ) (h : ℤ) (x : ℝ) {M N : ℕ} (hMN : M �
   calc
     ‖∑ r ∈ Finset.Ico M N, weylTerm b (r + 1) h x‖
         ≤ ∑ r ∈ Finset.Ico M N, ‖weylTerm b (r + 1) h x‖ := norm_sum_le _ _
-    _ = N - M := by simp
+    _ = N - M := by
+      norm_cast
+      exact Nat.sub_eq_iff_eq_add hMN |>.2 (Nat.sub_add_cancel hMN)
 
 /-- Weyl's exponential-sum criterion, recorded as the analytic intermediate
 property used before identifying it with digit normality. -/
