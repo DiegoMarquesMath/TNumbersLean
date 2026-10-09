@@ -57,6 +57,19 @@ theorem fourierChar_affine_zmod_phase_factor
   rw [harg, Real.fourierChar.map_add_eq_mul, Circle.coe_mul]
   rw [fourierChar_zmod_phase_eq_stdAddChar]
 
+/-- Variant of the affine phase factorization matching the nested
+integer-to-real coercion produced by the periodized bump formula. -/
+theorem fourierChar_affine_zmod_phase_factor_intVal
+    (q : ℕ) [NeZero q] (θ₀ : ℝ) (a : ZMod q) (ell : ℤ) :
+    (Real.fourierChar
+        (-(θ₀ + (((a.val : ℤ) : ℝ)) / (q : ℝ)) * (ell : ℝ)) : ℂ) =
+      (Real.fourierChar (-θ₀ * (ell : ℝ)) : ℂ) *
+        ZMod.stdAddChar (-(a * (ell : ZMod q))) := by
+  have hval : (((a.val : ℤ) : ℝ)) = (a.val : ℝ) := by
+    norm_cast
+  rw [hval]
+  exact fourierChar_affine_zmod_phase_factor q θ₀ a ell
+
 /-- The Fourier coefficient obtained by summing the periodized affine bumps
 over the nonzero residue classes and inserting the manuscript normalization
 of the single-prime packet. -/
@@ -82,7 +95,7 @@ theorem periodizedPrimePacketCoeff_eq_residueFactor
   simp_rw [fourierCoeff_periodizedAffinePacketBump_eq
     (A := A) hq.pos θ₀]
   simp only [Circle.smul_def, Complex.real_smul, smul_eq_mul]
-  simp_rw [fourierChar_affine_zmod_phase_factor q θ₀]
+  simp_rw [fourierChar_affine_zmod_phase_factor_intVal q θ₀]
   have hsum :
       (∑ a ∈ (Finset.univ.erase (0 : ZMod q)),
         (Real.fourierChar (-θ₀ * (ell : ℝ)) : ℂ) *
