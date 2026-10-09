@@ -359,3 +359,8 @@ import TNumbersLean
 #print axioms TNumbersLean.affinePacketBumpComplex_contDiff
 #print axioms TNumbersLean.affinePacketBumpComplex_hasCompactSupport
 #print axioms TNumbersLean.affinePacketBumpSchwartz
+
+-- Fourier coefficients of periodized packet bumps.
+#print axioms TNumbersLean.periodizedAffinePacketBump
+#print axioms TNumbersLean.fourierCoeff_periodizedAffinePacketBump
+#print axioms TNumbersLean.fourierCoeff_periodizedAffinePacketBump_eq
