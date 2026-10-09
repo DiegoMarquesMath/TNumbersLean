@@ -218,6 +218,7 @@ theorem squareGapRatio_tendsto_zero :
   have hjr : (j : ℝ) ≠ 0 := by exact_mod_cast hj
   simp only [squareGapRatio]
   field_simp [hjr]
+  <;> push_cast
   <;> ring
 
 /-- The square-gap ratio evaluated at floor(sqrt N) also tends to zero. -/
