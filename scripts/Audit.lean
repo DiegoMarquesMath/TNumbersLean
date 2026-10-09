@@ -417,3 +417,6 @@ import TNumbersLean
 #print axioms TNumbersLean.norm_packetResidueFormula_le_window
 #print axioms TNumbersLean.norm_packetResidueFormula_le_indicator_add
 #print axioms TNumbersLean.sum_norm_packetResidueFormula_le
+
+-- Uniform bump Fourier decay across a dyadic packet.
+#print axioms TNumbersLean.norm_packetFourier_paperBump_scaled_le
