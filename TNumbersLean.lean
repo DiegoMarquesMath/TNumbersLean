@@ -35,6 +35,7 @@ import TNumbersLean.PacketBumpUniformDecay
 import TNumbersLean.AveragedPacketCoefficientEnvelope
 import TNumbersLean.PacketPrimeCountRatio
 import TNumbersLean.PacketArithmeticEnvelope
+import TNumbersLean.AveragedPacketCoefficientBound
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
