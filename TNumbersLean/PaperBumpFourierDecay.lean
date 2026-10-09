@@ -46,6 +46,17 @@ theorem paperBumpFourier_weighted_decay (u : ℝ) :
   rw [paperBumpFourierSchwartz_apply] at h
   simpa [paperBumpFourierDecayConstant, Real.norm_eq_abs] using h
 
+theorem paperBumpFourierDecayConstant_nonneg :
+    0 ≤ paperBumpFourierDecayConstant := by
+  have h := paperBumpFourier_weighted_decay 0
+  have hnorm :
+      0 ≤ ‖packetFourier paperBumpComplex 0‖ := norm_nonneg _
+  have hle :
+      ‖packetFourier paperBumpComplex 0‖ ≤
+        paperBumpFourierDecayConstant := by
+    simpa using h
+  exact hnorm.trans hle
+
 /-- The familiar manuscript form
 `|hat phi(u)| <= C_phi (1+|u|)^(-2)`. -/
 theorem norm_packetFourier_paperBump_le (u : ℝ) :
