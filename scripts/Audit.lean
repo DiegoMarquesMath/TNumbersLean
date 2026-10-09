@@ -426,3 +426,7 @@ import TNumbersLean
 #print axioms TNumbersLean.norm_primePacketCoeffFormula_eq_bump_mul_residue
 #print axioms TNumbersLean.norm_primePacketCoeffFormula_le_uniform
 #print axioms TNumbersLean.norm_averagedPacketCoeffFormula_le_envelope
+
+-- Normalized prime-divisor ratio in a packet.
+#print axioms TNumbersLean.packetPrimeDivisor_ratio_le
+#print axioms TNumbersLean.norm_inv_packetPrimes_card
