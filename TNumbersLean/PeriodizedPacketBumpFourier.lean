@@ -35,7 +35,14 @@ theorem fourierCoeff_periodizedAffinePacketBump
           affinePacketBumpComplex q A θ₀ p x by rfl]
     exact congrFun (affinePacketBumpComplex_eq q A θ₀ p) x
   rw [hfun] at h
-  simpa [periodizedAffinePacketBump, packetFourier] using h
+  calc
+    fourierCoeff
+        (periodizedAffinePacketBump (A := A) hq θ₀ p) ell =
+      Real.fourierIntegral (complexPacketBumpTerm q A θ₀ p) (ell : ℝ) := by
+        simpa [periodizedAffinePacketBump] using h
+    _ = packetFourier (complexPacketBumpTerm q A θ₀ p) (ell : ℝ) := by
+      rw [Real.fourierIntegral_real_eq]
+      rfl
 
 /-- Fully explicit coefficient formula for one periodized affine bump. -/
 theorem fourierCoeff_periodizedAffinePacketBump_eq
