@@ -305,3 +305,9 @@ import TNumbersLean
 #print axioms TNumbersLean.exists_compact_perfect_weylAbsolutelyNormal_subset_of_pos_measure
 #print axioms TNumbersLean.exists_compact_perfect_weylAbsolutelyNormal_TNumbers
 #print axioms TNumbersLean.exists_compact_perfect_weylAbsolutelyNormal_TNumbers_of_compact
+
+#print axioms TNumbersLean.PacketStageWitness
+#print axioms TNumbersLean.PacketStageWitness.toStageWitness
+#print axioms TNumbersLean.memE_of_packetStageWitness
+#print axioms TNumbersLean.tendsto_paperDecayProfile_atTop
+#print axioms TNumbersLean.tendsto_norm_paperFourier_atTop_of_decay
