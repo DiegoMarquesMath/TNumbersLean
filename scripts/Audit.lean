@@ -401,3 +401,10 @@ import TNumbersLean
 #print axioms TNumbersLean.paperBumpFourierDecayConstant
 #print axioms TNumbersLean.paperBumpFourier_weighted_decay
 #print axioms TNumbersLean.norm_packetFourier_paperBump_le
+
+-- Formula-side Fourier coefficient of the averaged packet.
+#print axioms TNumbersLean.primePacketCoeffFormula
+#print axioms TNumbersLean.primePacketCoeffFormula_eq_periodized
+#print axioms TNumbersLean.averagedPacketCoeffFormula
+#print axioms TNumbersLean.norm_averagedPacketCoeffFormula_le
+#print axioms TNumbersLean.norm_primePacketCoeffFormula
