@@ -263,3 +263,7 @@ import TNumbersLean
 #print axioms TNumbersLean.integral_weylCorrelation
 #print axioms TNumbersLean.ofReal_normSq_weylSum_eq_doubleSum
 #print axioms TNumbersLean.integral_normSq_weylSum_eq_doubleFourier
+#print axioms TNumbersLean.weylFrequency_diag
+#print axioms TNumbersLean.paperFourier_zero
+#print axioms TNumbersLean.two_pow_le_pow_sub_pow
+#print axioms TNumbersLean.abs_weylFrequency_lower_bound
