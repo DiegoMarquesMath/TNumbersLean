@@ -14,6 +14,10 @@ import TNumbersLean.ConcreteCriterionInputs
 import TNumbersLean.PacketSupport
 import TNumbersLean.PacketSupportSet
 import TNumbersLean.PacketBumpGeometry
+import TNumbersLean.PaperBump
+import TNumbersLean.PrimePacket
+import TNumbersLean.AveragedPacket
+import TNumbersLean.PacketDensitySupport
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
