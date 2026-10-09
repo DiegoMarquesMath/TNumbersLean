@@ -40,8 +40,10 @@ for every sufficiently large real height $H$, rather than only along selected sc
 
 | Manuscript | Lean source | Status |
 | --- | --- | --- |
-| Lemma 3.1 / (3.1)--(3.5), concrete degree schedule | [ConcreteSchedule.lean](TNumbersLean/ConcreteSchedule.lean) | Verified from threshold data |
+| Lemma 3.1 / (3.1)--(3.5), concrete degree schedule | [ConcreteAlgebraicData.lean](TNumbersLean/ConcreteAlgebraicData.lean) | Actual real algebraicity, degree, primitive minimal polynomial naive height, and elementary Northcott |
+| [ConcreteSchedule.lean](TNumbersLean/ConcreteSchedule.lean) | Verified from threshold data |
 | Lemma 3.1 / (3.6), bounded scale gaps | [ScheduleBudget.lean](TNumbersLean/ScheduleBudget.lean), [HeightRangeCoverage.lean](TNumbersLean/HeightRangeCoverage.lean) | Verified |
+| Actual algebraic degree, naive height, and Northcott | [ConcreteAlgebraicData.lean](TNumbersLean/ConcreteAlgebraicData.lean) | Verified |
 | Proposition 3.2, Koksma framework | [KoksmaExponent.lean](TNumbersLean/KoksmaExponent.lean) | Verified |
 | Proposition 3.2, Section 2 input interface | [CriterionInputs.lean](TNumbersLean/CriterionInputs.lean) | Verified interface |
 | Proposition 3.2, (3.12)--(3.20) and final assembly | [PropositionThreeTwo.lean](TNumbersLean/PropositionThreeTwo.lean) | Verified from interfaces |
@@ -51,8 +53,9 @@ for every sufficiently large real height $H$, rather than only along selected sc
 The concrete schedule is `ScheduleThresholds.concreteCriterionSchedule`;
 `ScheduleThresholds.lemma_three_one` collects its manuscript properties. It
 assumes only the external integer thresholds and the initial scale. Lean stage
-`k` is manuscript stage `k+1`. Actual algebraic height and the construction of
-`CriterionInputs` remain pending.
+`k` is manuscript stage `k+1`. The actual algebraic system is
+`realAlgebraicApproximationSystem`; construction of `CriterionInputs` remains
+pending.
 
 The exact scope and the remaining concrete-instantiation work are recorded in
 [docs/PROPOSITION_3_2.md](docs/PROPOSITION_3_2.md).
@@ -62,6 +65,7 @@ The exact scope and the remaining concrete-instantiation work are recorded in
 | File | Purpose |
 | --- | --- |
 | [KoksmaExponent.lean](TNumbersLean/KoksmaExponent.lean) | Koksma exponents, Northcott bridge, and T-number criterion |
+| [ConcreteAlgebraicData.lean](TNumbersLean/ConcreteAlgebraicData.lean) | Actual real algebraicity, degree, primitive minimal polynomial naive height, and elementary Northcott |
 | [ConcreteSchedule.lean](TNumbersLean/ConcreteSchedule.lean) | Concrete recursive integer schedule and proved CriterionSchedule instance |
 | [CriterionInputs.lean](TNumbersLean/CriterionInputs.lean) | Abstract interface for the schedule, centers, degree, height, and Section 2 separation |
 | [HeightRangeCoverage.lean](TNumbersLean/HeightRangeCoverage.lean) | Scale gaps, overlap, and coverage of all sufficiently large heights |
@@ -97,9 +101,10 @@ See [VALIDATION.md](VALIDATION.md) for the compact validation record.
 At present, Proposition 3.2 is formally proved **from explicit interfaces**
 encoding the schedule and the algebraic-approximation data used in the manuscript.
 
-Still to be instantiated concretely are the schedule (3.1)--(3.3), real
-algebraic degree and naive height, Northcott finiteness, and the centers arising
-from membership in $E(J;Q_1)$. Schmidt's theorem and Icen's height lemma remain
+The concrete schedule (3.1)--(3.3), real algebraic degree, primitive integer
+minimal polynomial naive height, and elementary Northcott finiteness are
+implemented. Still to be constructed are the centers arising from membership
+in $E(J;Q_1)$ and their `CriterionInputs` instance. Schmidt's theorem and Icen's height lemma remain
 external mathematical inputs, as in the paper.
 
 The full Fourier-measure argument, Weyl/Borel--Cantelli step, and complete

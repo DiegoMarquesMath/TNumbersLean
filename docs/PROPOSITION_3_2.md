@@ -5,8 +5,10 @@ This branch aims to formalize the complete logical proof of Proposition 3.2 of
 stated algebraic-approximation inputs.
 
 **Completed:** the complete logical proof of Proposition 3.2 from the
-interfaces, and, on `concrete-prop3`, the concrete integer schedule (3.1)--(3.3).
-The actual algebraic/naive-height data and `CriterionInputs` remain pending.
+interfaces, and, on `concrete-prop3`, the concrete integer schedule (3.1)--(3.3),
+actual rational algebraicity and degree, primitive integer minimal polynomial
+naive height, and elementary Northcott. Construction of `CriterionInputs`
+from membership in the concrete E(J;Q_1) remains pending.
 
 ## Scope boundary
 
@@ -44,8 +46,8 @@ interfaces remains pending.
 `AlgebraicApproximationSystem` supplies `isAlg`, `degree`, `height`, positive
 algebraic degree, height at least one, and bounded-degree/bounded-height
 Northcott finiteness. Algebraicity and transcendence are relative to this
-interface; no concrete naive-height implementation or external theorem is
-asserted by Lean.
+interface in this module. `ConcreteAlgebraicData.lean` now supplies the actual
+naive-height implementation and proves its Northcott field.
 
 `approximants` encodes exactly `0 < |x - α| < H(α)^(-w-1)` with degree at
 most `n`. `admissibleExponents` requires this set of real values to be
@@ -456,21 +458,18 @@ height bound, both explicit Koksma exponent bounds, normalized tail
 unboundedness, convergence to infinity, limsup top, and the T-number criterion.
 All logical arguments of (3.12)--(3.20) are now kernel-checked from those inputs.
 
-### B. Concrete algebraic instantiation — pending
+### B. Concrete schedule and algebraic system — verified; centers pending
 
 The schedule obligation is complete: `ScheduleThresholds.concreteCriterionSchedule`
 is constructed from the threshold data, and `concrete_threshold` proves the
-threshold condition at every stage. Remaining obligations:
+threshold condition at every stage.
 
-1. Instantiate `AlgebraicApproximationSystem` with actual real algebraicity,
-   actual degree, and primitive-minimal-polynomial naive height; supply the
-   positivity and Northcott fields for those actual functions. Then the
-   abstract `wStar` and `IsTNumber` literally use the manuscript's data.
-2. From x belonging to the concrete E(J;Q_1), select the reduced p_k/q_k
-   witnesses and construct centers theta_{d_k}+p_k/q_k. Prove the source and
-   denominator fields, establish the bounded-translation/center conditions,
-   and instantiate the exact-degree/height comparison (2.2) and separation
-   Lemma 2.1 at the scheduled thresholds.
+The actual system is now `realAlgebraicApproximationSystem`, with all fields
+proved. From x belonging to the concrete E(J;Q_1), it remains to select the
+reduced p_k/q_k witnesses and construct centers theta_{d_k}+p_k/q_k. Prove the
+source and denominator fields, establish the bounded-translation/center
+conditions, and instantiate the exact-degree/height comparison (2.2) and
+separation Lemma 2.1 at the scheduled thresholds.
 
 Schmidt's theorem and Icen's height lemma remain explicit external mathematical
 inputs under the agreed scope. This run does not claim formal proofs of those
@@ -478,3 +477,53 @@ external results or a completed concrete algebraic input instance. Once the
 remaining concrete constructors are supplied, the existing proposition theorem applies directly.
 Nonemptiness of E, Fourier measures, and digital properties belong to other
 manuscript results and are not prerequisites for this conditional criterion.
+
+
+## Actual real algebraic data
+
+`ConcreteAlgebraicData.lean` implements `RealAlgebraicData.isAlg` as
+`IsAlgebraic ℚ α`, and `degree` as `(minpoly ℚ α).natDegree`.
+`degree_eq_finrank` identifies this with the degree of `ℚ(α)` over `ℚ`.
+
+The pinned mathlib has denominator clearing, integer polynomial content,
+primitive parts, Gauss's lemma, and finite polynomial root sets. It has no
+naive-algebraic-height/Northcott module (the suggested `NumberTheory/Height`
+directory is absent). The local construction uses
+`IsLocalization.integerNormalization (nonZeroDivisors ℤ)` on `minpoly ℚ α`,
+then divides by content via `Polynomial.primPart`. For algebraic α the result
+is nonzero, primitive, irreducible over both ℤ and ℚ, vanishes at α, and has
+exactly `degree α`. Its rational image is a nonzero scalar multiple of the
+monic rational minimal polynomial.
+
+`coefficientHeight` is the radius-one Gauss norm for the ordinary integer norm.
+`coefficientHeight_eq_max` proves that it is literally the maximum absolute
+integer coefficient. `naiveHeight` applies it to `primitiveMinpoly`.
+`primitiveMinpoly_unique_sign` proves uniqueness up to sign among primitive
+integer polynomials irreducible over ℚ with root α;
+`naiveHeight_eq_of_primitive_minimal` proves height agreement for either sign.
+Nonalgebraic default values are unused by the system's mathematical fields.
+
+`northcott` counts polynomials through their first n+1 bounded integer
+coefficients, then takes a finite union of real root sets of nonzero
+polynomials. It proves finiteness of real values for every natural degree bound
+and every real height bound, without an external Northcott hypothesis.
+Rational translation of algebraicity and degree is also proved; no translated
+height estimate, Icen theorem, or Schmidt theorem is proved here.
+
+The constructor has no external mathematical parameters. No `CriterionInputs`
+constructor or selection of E witnesses/centers is included in this module.
+
+
+### Actual algebraic data validation
+
+- `lake build` passed (7363 jobs).
+- `bash scripts/check.sh` passed, run with shell tracing; all eleven source
+  modules and `scripts/Audit.lean` passed with warnings treated as errors.
+- The required placeholder/custom-axiom search returned no matches.
+- All 37 new definitions and theorems are listed in `scripts/Audit.lean`.
+- Every new declaration uses only `propext`, `Classical.choice`, and
+  `Quot.sound` (or a subset). The principal degree positivity, height
+  positivity, primitive polynomial identification, Northcott, and system
+  constructor declarations each report exactly these three axioms.
+- The abstract interfaces, existing proposition and concrete schedule were
+  unchanged. The manuscript was not modified.
