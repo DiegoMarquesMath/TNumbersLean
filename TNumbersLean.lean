@@ -12,3 +12,4 @@ import TNumbersLean.ConcreteAlgebraicData
 import TNumbersLean.ConcreteCriterionInputs
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
+import TNumbersLean.NormalityFromFourier
