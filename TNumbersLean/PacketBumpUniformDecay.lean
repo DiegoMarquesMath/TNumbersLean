@@ -18,7 +18,6 @@ theorem norm_packetFourier_paperBump_scaled_le
   have hpow :
       (q : ℝ) ^ A ≤ (((2 * Q : ℕ) : ℝ) ^ A) := by
     gcongr
-    exact_mod_cast hqhi.le
   have hratio :
       |(ell : ℝ)| / (((2 * Q : ℕ) : ℝ) ^ A) ≤
         |(ell : ℝ)| / ((q : ℝ) ^ A) :=
