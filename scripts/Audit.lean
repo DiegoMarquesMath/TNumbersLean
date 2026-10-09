@@ -371,6 +371,7 @@ import TNumbersLean
 #print axioms TNumbersLean.packetPhaseSum
 #print axioms TNumbersLean.packetPhaseSum_eq_packetResidueSum
 #print axioms TNumbersLean.fourierChar_affine_zmod_phase_factor
+#print axioms TNumbersLean.fourierChar_affine_zmod_phase_factor_intVal
 #print axioms TNumbersLean.periodizedPrimePacketCoeff
 #print axioms TNumbersLean.periodizedPrimePacketCoeff_eq_residueFactor
 #print axioms TNumbersLean.periodizedPrimePacketCoeff_eq_manuscript
