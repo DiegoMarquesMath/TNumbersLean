@@ -89,6 +89,7 @@ The audit builds every project module with warnings treated as errors, prints
 the axioms of the principal declarations, and fails if any listed theorem
 depends on `sorryAx`.
 
+Formal proof commit: [`45485ed`](https://github.com/DiegoMarquesMath/TNumbersLean/tree/45485edceb96ea46879e8f4ab174f3f1d953bbcc).  
 See [VALIDATION.md](VALIDATION.md) for the final verification record.
 
 ## Scope
