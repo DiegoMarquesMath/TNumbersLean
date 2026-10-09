@@ -1,4 +1,3 @@
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
 import TNumbersLean.PacketBumpFourier
 import TNumbersLean.SchwartzPeriodization
 
