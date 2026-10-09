@@ -9,9 +9,9 @@ theorem one_div_Q_sub_one_le_two_div_Q
   have hQpos : (0 : ℝ) < (Q : ℝ) := by positivity
   have hden : (0 : ℝ) < (Q : ℝ) - 1 := by
     exact sub_pos.mpr (by exact_mod_cast (lt_of_lt_of_le Nat.one_lt_two hQ))
+  have hQr : (2 : ℝ) ≤ (Q : ℝ) := by exact_mod_cast hQ
   rw [div_le_div_iff₀ hden hQpos]
-  have hnat : Q ≤ 2 * (Q - 1) := by omega
-  exact_mod_cast hnat
+  nlinarith [hQr]
 
 /-- For a nonzero integer frequency, the harmless 2/Q term is absorbed by
 the same logarithmic factor as the exceptional-prime contribution. -/
