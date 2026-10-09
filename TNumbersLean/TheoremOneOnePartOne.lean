@@ -1,4 +1,5 @@
 import TNumbersLean.ConcretePropositionThreeTwo
+import TNumbersLean.PacketSupportSet
 import TNumbersLean.TheoremOneOneAssembly
 
 namespace TNumbersLean
@@ -73,5 +74,33 @@ theorem exists_compact_perfect_weylAbsolutelyNormal_TNumbers_of_compact
   · intro x hx
     have hE : MemE t J x := hKmemE x (hPsubset hx)
     exact ⟨concrete_isTNumber hR hJ hE H, hPnormal x hx⟩
+
+
+/-- Geometric construction-facing form of Theorem 1.1(i).
+
+It is enough for the limiting measure to give positive mass to a compact set
+contained in the intersection of the prime-packet supports.  The conversion
+from packet geometry to the arithmetic set `MemE` is automatic. -/
+theorem exists_compact_perfect_weylAbsolutelyNormal_TNumbers_of_packetSupport
+    (t : ScheduleThresholds) (J : Set ℝ) (R : ℝ)
+    (hR : 2 ≤ R) (hJ : J ⊆ Set.Ioo (-R) R)
+    (H : SectionTwoInputs t R)
+    {μ : Measure ℝ} [IsProbabilityMeasure μ] [NoAtoms μ]
+    {C c : ℝ} (hdecay : HasPaperFourierDecay μ C c)
+    {K : Set ℝ} (hKcompact : IsCompact K) (hKpos : 0 < μ K)
+    (hKsupport : K ⊆ manuscriptPacketSet t J) :
+    ∃ P : Set ℝ,
+      P.Nonempty ∧
+      IsCompact P ∧
+      Perfect P ∧
+      P ⊆ K ∧
+      P ⊆ J ∧
+      ∀ x ∈ P,
+        realAlgebraicApproximationSystem.IsTNumber x ∧
+        WeylAbsolutelyNormal x := by
+  apply exists_compact_perfect_weylAbsolutelyNormal_TNumbers_of_compact
+    t J R hR hJ H hdecay hKcompact hKpos
+  intro x hx
+  exact memE_of_mem_manuscriptPacketSet (hKsupport hx)
 
 end TNumbersLean
