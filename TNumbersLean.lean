@@ -19,3 +19,4 @@ import TNumbersLean.DoubleSumTriangle
 import TNumbersLean.FourierTailSummability
 import TNumbersLean.FourierBorelCantelli
 import TNumbersLean.WeylInterpolation
+import TNumbersLean.WeylAlmostEverywhere
