@@ -16,3 +16,6 @@ import TNumbersLean.NormalityFromFourier
 import TNumbersLean.FourierSecondMoment
 import TNumbersLean.StretchedExpSummability
 import TNumbersLean.DoubleSumTriangle
+import TNumbersLean.FourierTailSummability
+import TNumbersLean.FourierBorelCantelli
+import TNumbersLean.WeylInterpolation
