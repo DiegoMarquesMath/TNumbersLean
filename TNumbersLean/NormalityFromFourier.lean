@@ -189,6 +189,40 @@ theorem ae_squareNormRatio_tendsto_zero_of_summable_bad
   filter_upwards [hall] with x hx
   exact squareNormRatio_tendsto_zero_of_reciprocal_control hx
 
+/-- The natural square root tends to infinity. -/
+theorem natSqrt_tendsto_atTop :
+    Tendsto Nat.sqrt atTop atTop := by
+  rw [tendsto_atTop_atTop]
+  intro m
+  refine ⟨m ^ 2, ?_⟩
+  intro N hN
+  rw [Nat.le_sqrt]
+  simpa [pow_two] using hN
+
+/-- The relative length of the gap from j^2 to (j+1)^2. -/
+noncomputable def squareGapRatio (j : ℕ) : ℝ :=
+  ((2 * j + 1 : ℕ) : ℝ) / (j : ℝ) ^ 2
+
+/-- The square-gap ratio tends to zero. -/
+theorem squareGapRatio_tendsto_zero :
+    Tendsto squareGapRatio atTop (𝓝 0) := by
+  have hinv : Tendsto (fun j : ℕ => ((j : ℝ))⁻¹) atTop (𝓝 0) :=
+    tendsto_inv_atTop_nhds_zero_nat
+  have hlim :
+      Tendsto
+        (fun j : ℕ => 2 * ((j : ℝ))⁻¹ + ((j : ℝ))⁻¹ * ((j : ℝ))⁻¹)
+        atTop (𝓝 0) := by
+    simpa using (hinv.const_mul 2).add (hinv.mul hinv)
+  convert hlim using 1
+  funext j
+  simp [squareGapRatio, div_eq_mul_inv, pow_two]
+  ring
+
+/-- The square-gap ratio evaluated at floor(sqrt N) also tends to zero. -/
+theorem squareGapRatio_sqrt_tendsto_zero :
+    Tendsto (fun N : ℕ => squareGapRatio (Nat.sqrt N)) atTop (𝓝 0) :=
+  squareGapRatio_tendsto_zero.comp natSqrt_tendsto_atTop
+
 /-- Weyl's exponential-sum criterion, recorded as the analytic intermediate
 property used before identifying it with digit normality. -/
 def WeylNormalToBase (b : ℕ) (x : ℝ) : Prop :=
