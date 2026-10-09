@@ -240,3 +240,6 @@ import TNumbersLean
 #print axioms TNumbersLean.square_gap_le
 #print axioms TNumbersLean.squareBadSet
 #print axioms TNumbersLean.ae_eventually_square_control
+#print axioms TNumbersLean.norm_weylSum_between_squares
+#print axioms TNumbersLean.nat_sqrt_square_bounds
+#print axioms TNumbersLean.norm_weylSum_sqrt_interpolation
