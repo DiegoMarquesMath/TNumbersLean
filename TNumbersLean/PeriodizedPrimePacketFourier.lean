@@ -61,8 +61,7 @@ theorem fourierChar_affine_zmod_phase_factor
 over the nonzero residue classes and inserting the manuscript normalization
 of the single-prime packet. -/
 noncomputable def periodizedPrimePacketCoeff
-    {q A : ℕ} (hq : Nat.Prime q) (θ₀ : ℝ) (ell : ℤ) : ℂ :=
-  letI : NeZero q := ⟨hq.ne_zero⟩
+    {q A : ℕ} [NeZero q] (hq : Nat.Prime q) (θ₀ : ℝ) (ell : ℤ) : ℂ :=
   ((q : ℂ) ^ A / ((q : ℂ) - 1)) *
     ∑ a ∈ (Finset.univ.erase (0 : ZMod q)),
       fourierCoeff
@@ -73,13 +72,12 @@ noncomputable def periodizedPrimePacketCoeff
 normalized finite residue factor.  All dependence on the residue classes is
 now contained in `packetResidueFactor`. -/
 theorem periodizedPrimePacketCoeff_eq_residueFactor
-    {q A : ℕ} (hq : Nat.Prime q) (θ₀ : ℝ) (ell : ℤ) :
-    periodizedPrimePacketCoeff hq θ₀ ell =
+    {q A : ℕ} [NeZero q] (hq : Nat.Prime q) (θ₀ : ℝ) (ell : ℤ) :
+    periodizedPrimePacketCoeff (A := A) hq θ₀ ell =
       (Real.fourierChar (-θ₀ * (ell : ℝ)) : ℂ) *
         packetFourier paperBumpComplex
           ((ell : ℝ) / ((q : ℝ) ^ A)) *
         packetResidueFactor q ell := by
-  letI : NeZero q := ⟨hq.ne_zero⟩
   rw [periodizedPrimePacketCoeff]
   simp_rw [fourierCoeff_periodizedAffinePacketBump_eq
     (A := A) hq.pos θ₀]
@@ -114,15 +112,15 @@ theorem periodizedPrimePacketCoeff_eq_residueFactor
 /-- The exact single-prime Fourier coefficient in the form displayed in the
 manuscript. -/
 theorem periodizedPrimePacketCoeff_eq_manuscript
-    {q A : ℕ} (hq : Nat.Prime q) (θ₀ : ℝ) (ell : ℤ) :
-    periodizedPrimePacketCoeff hq θ₀ ell =
+    {q A : ℕ} [NeZero q] (hq : Nat.Prime q) (θ₀ : ℝ) (ell : ℤ) :
+    periodizedPrimePacketCoeff (A := A) hq θ₀ ell =
       (Real.fourierChar (-θ₀ * (ell : ℝ)) : ℂ) *
         packetFourier paperBumpComplex
           ((ell : ℝ) / ((q : ℝ) ^ A)) *
         (((q : ℂ) / ((q : ℂ) - 1)) *
             (if q ∣ ell.natAbs then 1 else 0) -
           1 / ((q : ℂ) - 1)) := by
-  rw [periodizedPrimePacketCoeff_eq_residueFactor hq θ₀ ell]
+  rw [periodizedPrimePacketCoeff_eq_residueFactor (A := A) hq θ₀ ell]
   rw [packetResidueFactor_eq_manuscript hq ell]
 
 end TNumbersLean
