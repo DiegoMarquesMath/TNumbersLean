@@ -10,7 +10,8 @@ theorem one_div_Q_sub_one_le_two_div_Q
   have hden : (0 : ℝ) < (Q : ℝ) - 1 := by
     exact sub_pos.mpr (by exact_mod_cast (lt_of_lt_of_le Nat.one_lt_two hQ))
   rw [div_le_div_iff₀ hden hQpos]
-  nlinarith
+  have hnat : Q ≤ 2 * (Q - 1) := by omega
+  exact_mod_cast hnat
 
 /-- For a nonzero integer frequency, the harmless 2/Q term is absorbed by
 the same logarithmic factor as the exceptional-prime contribution. -/
@@ -54,7 +55,8 @@ theorem packetCoefficientArithmeticConstant_pos
   unfold packetCoefficientArithmeticConstant
   have hlog2 : 0 < Real.log (2 : ℝ) :=
     Real.log_pos (by norm_num)
-  positivity
+  exact add_pos (one_div_pos.mpr H.constant_pos)
+    (div_pos (by norm_num) hlog2)
 
 /-- The normalized arithmetic envelope has exactly the logarithmic shape used
 in the manuscript. -/
@@ -97,6 +99,5 @@ theorem normalized_packet_arithmetic_envelope_le
       have hc : H.constant ≠ 0 := H.constant_pos.ne'
       have hQne : (Q : ℝ) ≠ 0 := by positivity
       field_simp [hc, hQne]
-      ring
 
 end TNumbersLean
