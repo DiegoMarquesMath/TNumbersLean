@@ -45,4 +45,24 @@ theorem tendsto_norm_paperFourier_atTop_of_decay
   · simpa using
       (tendsto_const_nhds.mul (tendsto_paperDecayProfile_atTop (c := c) hc))
 
+
+/-- In the characteristic-function convention used by mathlib, the same decay
+implies vanishing at positive infinity. -/
+theorem tendsto_norm_charFun_atTop_of_paperDecay
+    {μ : MeasureTheory.Measure ℝ} {C c : ℝ}
+    (hdecay : HasPaperFourierDecay μ C c) :
+    Tendsto (fun t : ℝ => ‖MeasureTheory.charFun μ t‖) atTop (𝓝 0) := by
+  have hscale :
+      Tendsto (fun t : ℝ => t / (2 * Real.pi)) atTop atTop :=
+    tendsto_id.atTop_div_const (by positivity)
+  have hcomp :=
+    (tendsto_norm_paperFourier_atTop_of_decay hdecay).comp hscale
+  refine hcomp.congr' ?_
+  filter_upwards with t
+  rw [paperFourier]
+  have harg : -2 * Real.pi * (t / (2 * Real.pi)) = -t := by
+    field_simp [Real.pi_ne_zero]
+  rw [harg, MeasureTheory.charFun_neg]
+  exact Complex.norm_conj _
+
 end TNumbersLean
