@@ -130,7 +130,6 @@ theorem periodizedPrimePacketCoeff_eq_residueFactor
   have hscaleC : (q : ℂ) ^ A ≠ 0 := pow_ne_zero A hqC
   push_cast
   field_simp [hscaleC]
-  ring
 
 /-- The exact single-prime Fourier coefficient in the form displayed in the
 manuscript. -/
