@@ -177,9 +177,14 @@ theorem weylSecondMoment_eq_re_doubleFourier
     weylSecondMoment μ b h N =
       (∑ r ∈ Finset.range N, ∑ s ∈ Finset.range N,
         paperFourier μ (weylFrequency b h (r + 1) (s + 1))).re := by
-  have hcorr := congrArg Complex.re
-    (integral_normSq_weylSum_eq_doubleFourier (μ := μ) b N h)
-  simpa [weylSecondMoment] using hcorr
+  have hcomplex :
+      ((weylSecondMoment μ b h N : ℝ) : ℂ) =
+        ∑ r ∈ Finset.range N, ∑ s ∈ Finset.range N,
+          paperFourier μ (weylFrequency b h (r + 1) (s + 1)) := by
+    rw [weylSecondMoment, ← integral_complex_ofReal]
+    exact integral_normSq_weylSum_eq_doubleFourier (μ := μ) b N h
+  have hcorr := congrArg Complex.re hcomplex
+  simpa using hcorr
 
 /-- Before using Fourier decay, the second moment is bounded by the sum
 of the absolute values of all Fourier correlation terms. -/
