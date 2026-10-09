@@ -129,6 +129,51 @@ theorem abs_weylFrequency_lower_bound
   exact hpow.trans (by
     simpa [one_mul] using mul_le_mul_of_nonneg_right hhabs hdiff)
 
+
+/-- The stretched-logarithmic decay profile in equation (1.4) of the manuscript. -/
+noncomputable def paperDecayProfile (c t : ℝ) : ℝ :=
+  Real.exp (-c * (Real.log (2 + |t|)) ^ ((1 : ℝ) / 4))
+
+/-- Literal formulation of the Fourier-decay hypothesis used in Section 6. -/
+def HasPaperFourierDecay (μ : Measure ℝ) (C c : ℝ) : Prop :=
+  0 < C ∧ 0 < c ∧
+    ∀ t : ℝ, ‖paperFourier μ t‖ ≤ C * paperDecayProfile c t
+
+theorem paperDecayProfile_le_of_abs_ge
+    {c u t : ℝ} (hc : 0 ≤ c) (hu : 0 ≤ u) (hut : u ≤ |t|) :
+    paperDecayProfile c t ≤
+      Real.exp (-c * (Real.log (2 + u)) ^ ((1 : ℝ) / 4)) := by
+  unfold paperDecayProfile
+  apply Real.exp_le_exp.mpr
+  have hlog :
+      Real.log (2 + u) ≤ Real.log (2 + |t|) := by
+    apply Real.log_le_log
+    · linarith
+    · linarith
+  have hlog_nonneg : 0 ≤ Real.log (2 + u) := by
+    exact Real.log_nonneg (by linarith)
+  have hroot :
+      (Real.log (2 + u)) ^ ((1 : ℝ) / 4) ≤
+        (Real.log (2 + |t|)) ^ ((1 : ℝ) / 4) := by
+    exact Real.rpow_le_rpow hlog_nonneg hlog (by norm_num)
+  exact mul_le_mul_of_nonpos_left hroot (neg_nonpos.mpr hc)
+
+/-- Fourier decay at an off-diagonal Weyl frequency, with the frequency
+replaced by the paper's lacunary lower bound 2^(r-1). -/
+theorem paperFourier_offdiag_decay
+    {μ : Measure ℝ} {C c : ℝ}
+    (hdecay : HasPaperFourierDecay μ C c)
+    {b m r : ℕ} {h : ℤ}
+    (hb : 2 ≤ b) (hh : h ≠ 0) (hm : 1 ≤ m) (hmr : m < r) :
+    ‖paperFourier μ (weylFrequency b h r m)‖ ≤
+      C * Real.exp
+        (-c * (Real.log (2 + (2 : ℝ) ^ (r - 1))) ^ ((1 : ℝ) / 4)) := by
+  rcases hdecay with ⟨hC, hc, hbound⟩
+  refine (hbound (weylFrequency b h r m)).trans ?_
+  apply mul_le_mul_of_nonneg_left _ hC.le
+  exact paperDecayProfile_le_of_abs_ge hc.le (by positivity)
+    (abs_weylFrequency_lower_bound hb hh hm hmr)
+
 /-- Pointwise expansion of |S_N|^2 into the double correlation sum. -/
 theorem ofReal_normSq_weylSum_eq_doubleSum
     (b N : ℕ) (h : ℤ) (x : ℝ) :
