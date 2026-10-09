@@ -430,3 +430,10 @@ import TNumbersLean
 -- Normalized prime-divisor ratio in a packet.
 #print axioms TNumbersLean.packetPrimeDivisor_ratio_le
 #print axioms TNumbersLean.norm_inv_packetPrimes_card
+
+-- Logarithmic arithmetic envelope for averaged packet coefficients.
+#print axioms TNumbersLean.one_div_Q_sub_one_le_two_div_Q
+#print axioms TNumbersLean.two_div_Q_le_log_term
+#print axioms TNumbersLean.packetCoefficientArithmeticConstant
+#print axioms TNumbersLean.packetCoefficientArithmeticConstant_pos
+#print axioms TNumbersLean.normalized_packet_arithmetic_envelope_le
