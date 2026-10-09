@@ -33,12 +33,16 @@ theorem norm_packetResidueFormula_of_not_dvd
       1 / ((q : ℝ) - 1) := by
   rw [packetResidueFormula_eq_factor hq ell,
     packetResidueFactor_eq hq ell]
-  simp [hd, norm_div]
+  simp [hd]
   have hqone : (1 : ℝ) ≤ (q : ℝ) := by
     exact_mod_cast hq.one_le
-  rw [abs_of_nonneg]
-  · norm_num
-  · exact sub_nonneg.mpr hqone
+  have hcast :
+      (q : ℂ) - 1 = ((((q : ℝ) - 1 : ℝ)) : ℂ) := by
+    push_cast
+    ring
+  rw [hcast, Complex.norm_real, Real.norm_eq_abs,
+    abs_of_nonneg (sub_nonneg.mpr hqone)]
+  norm_num
 
 /-- Off the divisibility set, every residual factor in the dyadic window is
 bounded by `1/(Q-1)`. -/
@@ -71,8 +75,11 @@ theorem norm_packetResidueFormula_le_indicator_add
   · have hqprime := (mem_packetPrimes_iff.mp hqmem).2.2
     letI : NeZero q := ⟨hqprime.ne_zero⟩
     rw [norm_packetResidueFormula_of_dvd hqprime hd]
-    simp [hd]
-    positivity
+    simp only [hd, if_true]
+    have hQone : (1 : ℝ) < (Q : ℝ) := by
+      exact_mod_cast (lt_of_lt_of_le Nat.one_lt_two hQ)
+    exact le_add_of_nonneg_right
+      (le_of_lt (one_div_pos.mpr (sub_pos.mpr hQone)))
   · simp only [hd, if_false, zero_add]
     exact norm_packetResidueFormula_le_window hQ hqmem hd
 
