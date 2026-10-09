@@ -20,6 +20,7 @@ import TNumbersLean.AveragedPacket
 import TNumbersLean.PacketDensitySupport
 import TNumbersLean.PacketFourierArithmetic
 import TNumbersLean.PacketFourierTransform
+import TNumbersLean.PacketBumpFourier
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
