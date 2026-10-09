@@ -96,17 +96,17 @@ theorem integral_normSq_weylSum_eq_doubleFourier
         paperFourier μ (weylFrequency b h (r + 1) (s + 1)) := by
   rw [integral_congr_ae (ae_of_all μ fun x =>
     ofReal_normSq_weylSum_eq_doubleSum b N h x)]
-  rw [integral_finsetSum]
+  rw [integral_finset_sum]
   · apply Finset.sum_congr rfl
     intro r hr
-    rw [integral_finsetSum]
+    rw [integral_finset_sum]
     · apply Finset.sum_congr rfl
       intro s hs
       exact integral_weylCorrelation b (r + 1) (s + 1) h
     · intro s hs
       exact integrable_weylCorrelation b (r + 1) (s + 1) h
   · intro r hr
-    exact integrable_finsetSum' _ fun s hs =>
+    exact integrable_finset_sum _ fun s hs =>
       integrable_weylCorrelation b (r + 1) (s + 1) h
 
 end TNumbersLean
