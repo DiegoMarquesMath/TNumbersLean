@@ -25,12 +25,13 @@ theorem fourierChar_zmod_phase_eq_stdAddChar
     (fourierChar_rational_phase_eq_stdAddChar
       q (a.val : ℤ) ell)
 
-/-- The nonzero rational phase sum is exactly the Ramanujan-type residue
-sum isolated in `PacketFourierArithmetic`. -/
-theorem packetPhaseSum_eq_packetResidueSum
+/-- The sum of the standard additive character over the nonzero residue
+classes is the residue sum used in the single-prime coefficient. -/
+theorem packetStdAddCharSum_eq_packetResidueSum
     (q : ℕ) [NeZero q] (ell : ℤ) :
-    packetPhaseSum q ell = packetResidueSum q ell := by
-  simp_rw [packetPhaseSum, fourierChar_zmod_phase_eq_stdAddChar]
+    (∑ a ∈ (Finset.univ.erase (0 : ZMod q)),
+      ZMod.stdAddChar (-(a * (ell : ZMod q)))) =
+      packetResidueSum q ell := by
   rw [packetResidueSum, fullPacketResidueSum]
   have h :=
     Finset.add_sum_erase
@@ -40,6 +41,15 @@ theorem packetPhaseSum_eq_packetResidueSum
       (by simp : (0 : ZMod q) ∈ (Finset.univ : Finset (ZMod q)))
   rw [← h]
   simp
+
+/-- The nonzero rational phase sum is exactly the Ramanujan-type residue
+sum isolated in `PacketFourierArithmetic`. -/
+theorem packetPhaseSum_eq_packetResidueSum
+    (q : ℕ) [NeZero q] (ell : ℤ) :
+    packetPhaseSum q ell = packetResidueSum q ell := by
+  rw [packetPhaseSum]
+  simp_rw [fourierChar_zmod_phase_eq_stdAddChar]
+  exact packetStdAddCharSum_eq_packetResidueSum q ell
 
 /-- Splitting the phase of an affine packet center into its common
 translation part and its residue-class part. -/
@@ -100,20 +110,20 @@ theorem periodizedPrimePacketCoeff_eq_residueFactor
       (∑ a ∈ (Finset.univ.erase (0 : ZMod q)),
         (Real.fourierChar (-θ₀ * (ell : ℝ)) : ℂ) *
           ZMod.stdAddChar (-(a * (ell : ZMod q))) *
-          (((q : ℝ) ^ A)⁻¹ : ℂ) *
-          packetFourier paperBumpComplex
-            ((ell : ℝ) / ((q : ℝ) ^ A))) =
+          (((((q : ℝ) ^ A)⁻¹ : ℝ) : ℂ) *
+            packetFourier paperBumpComplex
+              ((ell : ℝ) / ((q : ℝ) ^ A)))) =
         (Real.fourierChar (-θ₀ * (ell : ℝ)) : ℂ) *
-          (((q : ℝ) ^ A)⁻¹ : ℂ) *
-          packetFourier paperBumpComplex
-            ((ell : ℝ) / ((q : ℝ) ^ A)) *
-          packetPhaseSum q ell := by
-    rw [packetPhaseSum]
+          (((((q : ℝ) ^ A)⁻¹ : ℝ) : ℂ) *
+            packetFourier paperBumpComplex
+              ((ell : ℝ) / ((q : ℝ) ^ A))) *
+          packetResidueSum q ell := by
+    rw [← packetStdAddCharSum_eq_packetResidueSum q ell]
     rw [Finset.mul_sum]
     apply Finset.sum_congr rfl
     intro a ha
     ring
-  rw [hsum, packetPhaseSum_eq_packetResidueSum]
+  rw [hsum]
   rw [packetResidueFactor]
   have hqC : (q : ℂ) ≠ 0 := by
     exact_mod_cast hq.ne_zero
