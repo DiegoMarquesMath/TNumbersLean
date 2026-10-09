@@ -225,3 +225,15 @@ import TNumbersLean
 
 -- Theorem 1.1: perfect-set extraction.
 #print axioms TNumbersLean.exists_compact_perfect_subset_of_pos_measure
+
+-- Theorem 1.1: Weyl-normality infrastructure.
+#print axioms TNumbersLean.circleExp
+#print axioms TNumbersLean.weylTerm
+#print axioms TNumbersLean.weylSum
+#print axioms TNumbersLean.normalizedWeylSum
+#print axioms TNumbersLean.norm_circleExp
+#print axioms TNumbersLean.norm_weylTerm
+#print axioms TNumbersLean.norm_weylSum_le
+#print axioms TNumbersLean.norm_weylSum_sub_le
+#print axioms TNumbersLean.WeylNormalToBase
+#print axioms TNumbersLean.WeylAbsolutelyNormal
