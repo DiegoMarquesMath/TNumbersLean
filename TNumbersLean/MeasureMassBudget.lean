@@ -45,7 +45,7 @@ theorem abs_mass_sub_one_le_one_sixteenth
         calc
           |m (n + 1) - 1|
               = |(m (n + 1) - m n) + (m n - 1)| := by ring_nf
-          _ ≤ |m (n + 1) - m n| + |m n - 1| := abs_add _ _
+          _ ≤ |m (n + 1) - m n| + |m n - 1| := abs_add_le _ _
           _ ≤ measureMassIncrementBudget n +
                 ∑ i ∈ range n, measureMassIncrementBudget i :=
               add_le_add (hstep n) ih
