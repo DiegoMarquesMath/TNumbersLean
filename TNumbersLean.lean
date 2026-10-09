@@ -29,6 +29,7 @@ import TNumbersLean.PacketPrimeDivisorCount
 import TNumbersLean.PacketPrimeDivisorLog
 import TNumbersLean.PrimePacketCountInputs
 import TNumbersLean.PaperBumpFourierDecay
+import TNumbersLean.AveragedPacketFourierFormula
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
