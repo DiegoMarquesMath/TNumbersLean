@@ -48,7 +48,7 @@ theorem packetFourier_scale (f : ℝ → ℂ) {a : ℝ} (ha : a ≠ 0) (t : ℝ)
     _ =
       |a⁻¹| •
         ∫ y : ℝ, Real.fourierChar (-(y * (t / a))) • f y := by
-          exact MeasureTheory.integral_comp_mul_left
+          exact Measure.integral_comp_mul_left
             (fun y : ℝ => Real.fourierChar (-(y * (t / a))) • f y) a
 
 /-- Positive-scale form, used for the packet scale `q^A`. -/
