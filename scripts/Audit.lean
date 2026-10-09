@@ -399,6 +399,7 @@ import TNumbersLean
 #print axioms TNumbersLean.paperBumpFourierSchwartz
 #print axioms TNumbersLean.paperBumpFourierSchwartz_apply
 #print axioms TNumbersLean.paperBumpFourierDecayConstant
+#print axioms TNumbersLean.paperBumpFourierDecayConstant_nonneg
 #print axioms TNumbersLean.paperBumpFourier_weighted_decay
 #print axioms TNumbersLean.norm_packetFourier_paperBump_le
 
