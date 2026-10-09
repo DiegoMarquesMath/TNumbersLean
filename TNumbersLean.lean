@@ -18,6 +18,7 @@ import TNumbersLean.PaperBump
 import TNumbersLean.PrimePacket
 import TNumbersLean.AveragedPacket
 import TNumbersLean.PacketDensitySupport
+import TNumbersLean.PacketFourierArithmetic
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
