@@ -276,3 +276,4 @@ import TNumbersLean
 #print axioms TNumbersLean.paperFourier_offdiag_decay
 #print axioms TNumbersLean.stretchedExpMomentTerm
 #print axioms TNumbersLean.summable_stretchedExpMomentTerm
+#print axioms TNumbersLean.double_sum_le_diag_add_two_triangle
