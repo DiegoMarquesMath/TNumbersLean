@@ -69,7 +69,6 @@ theorem packetResidueFactor_eq {q : ℕ} [NeZero q]
   by_cases hd : q ∣ ell.natAbs
   · simp [hd, hden]
   · simp [hd, div_eq_mul_inv]
-    ring
 
 /-- Equivalent form matching the parenthesis in the manuscript coefficient:
 `q/(q-1) * 1_{q|ell} - 1/(q-1)`. -/
