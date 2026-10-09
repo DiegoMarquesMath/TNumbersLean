@@ -47,12 +47,11 @@ theorem packetPrimeDivisor_ratio_le
     _ = Real.log (2 + (ell.natAbs : ℝ)) /
           (H.constant * (Q : ℝ)) := by
       field_simp [hlogQ.ne', H.constant_pos.ne']
-      ring
 
 /-- The complex normalization used in the averaged coefficient has the
 expected real norm. -/
 theorem norm_inv_packetPrimes_card
-    {Q : ℕ} (hcard : (packetPrimes Q).card ≠ 0) :
+    (Q : ℕ) :
     ‖(1 / ((packetPrimes Q).card : ℂ))‖ =
       1 / ((packetPrimes Q).card : ℝ) := by
   rw [norm_div, norm_one]
