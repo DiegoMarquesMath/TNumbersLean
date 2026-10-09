@@ -62,6 +62,7 @@ theorem norm_averagedPacketCoeffFormula_le_envelope
           (∑ q ∈ packetPrimes Q,
             ‖packetResidueFormula q ell‖) := by
       rw [← Finset.mul_sum]
+      ring
     _ ≤ ‖(1 / ((packetPrimes Q).card : ℂ))‖ *
           B *
           (((packetPrimeDivisors Q ell.natAbs).card : ℝ) +
