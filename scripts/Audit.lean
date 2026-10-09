@@ -330,3 +330,11 @@ import TNumbersLean
 #print axioms TNumbersLean.packetResidueFactor
 #print axioms TNumbersLean.packetResidueFactor_eq
 #print axioms TNumbersLean.packetResidueFactor_eq_manuscript
+
+-- Fourier translation and scaling for packet bumps.
+#print axioms TNumbersLean.packetFourier
+#print axioms TNumbersLean.packetFourier_def
+#print axioms TNumbersLean.packetFourier_translate
+#print axioms TNumbersLean.packetFourier_scale
+#print axioms TNumbersLean.packetFourier_scale_pos
+#print axioms TNumbersLean.packetFourier_affine_pos
