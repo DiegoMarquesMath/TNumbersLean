@@ -238,3 +238,5 @@ import TNumbersLean
 #print axioms TNumbersLean.WeylNormalToBase
 #print axioms TNumbersLean.WeylAbsolutelyNormal
 #print axioms TNumbersLean.square_gap_le
+#print axioms TNumbersLean.squareBadSet
+#print axioms TNumbersLean.ae_eventually_square_control
