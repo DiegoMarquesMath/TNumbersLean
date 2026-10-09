@@ -143,10 +143,10 @@ noncomputable def squareNormRatio (S : ℕ → ℝ → ℂ) (x : ℝ) (j : ℕ) 
 
 theorem squareNormRatio_nonneg (S : ℕ → ℝ → ℂ) (x : ℝ) (j : ℕ) :
     0 ≤ squareNormRatio S x j := by
-  positivity
+  exact div_nonneg (norm_nonneg _) (sq_nonneg _)
 
 theorem squareNormRatio_eventually_le
-    {S : ℕ → ℝ → ℂ} {x : ℝ} {m : ℕ} (hm : 0 < m)
+    {S : ℕ → ℝ → ℂ} {x : ℝ} {m : ℕ}
     (hcontrol : ∀ᶠ j : ℕ in atTop,
       ‖S (j ^ 2) x‖ ≤ (m : ℝ)⁻¹ * (j : ℝ) ^ 2) :
     ∀ᶠ j : ℕ in atTop, squareNormRatio S x j ≤ (m : ℝ)⁻¹ := by
@@ -166,7 +166,7 @@ theorem squareNormRatio_tendsto_zero_of_reciprocal_control
   apply tendsto_zero_of_eventually_le_inv_nat
   · exact squareNormRatio_nonneg S x
   · intro m hm
-    exact squareNormRatio_eventually_le hm (hcontrol m hm)
+    exact squareNormRatio_eventually_le (hcontrol m hm)
 
 /-- The Borel--Cantelli square-subsequence conclusion, simultaneously for
 the reciprocal thresholds 1/m used to force convergence to zero. -/
