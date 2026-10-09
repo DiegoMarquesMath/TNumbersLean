@@ -274,3 +274,5 @@ import TNumbersLean
 #print axioms TNumbersLean.HasPaperFourierDecay
 #print axioms TNumbersLean.paperDecayProfile_le_of_abs_ge
 #print axioms TNumbersLean.paperFourier_offdiag_decay
+#print axioms TNumbersLean.stretchedExpMomentTerm
+#print axioms TNumbersLean.summable_stretchedExpMomentTerm
