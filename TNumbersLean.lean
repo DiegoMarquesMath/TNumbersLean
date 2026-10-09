@@ -13,6 +13,7 @@ import TNumbersLean.ConcreteAlgebraicData
 import TNumbersLean.ConcreteCriterionInputs
 import TNumbersLean.PacketSupport
 import TNumbersLean.PacketSupportSet
+import TNumbersLean.PacketBumpGeometry
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
