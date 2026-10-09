@@ -26,7 +26,7 @@ theorem packetBumpTerm_ne_zero_implies_approx
   have habs :
       |((q : ℝ) ^ A) * (x - θ₀ - (p : ℝ) / (q : ℝ))| < (1 / 4 : ℝ) := by
     rw [abs_lt]
-    exact hIoo
+    simpa only [Set.mem_Ioo] using hIoo
   have hqR : (0 : ℝ) < (q : ℝ) := by exact_mod_cast hq
   have hscale : (0 : ℝ) < (q : ℝ) ^ A := pow_pos hqR A
   rw [abs_mul, abs_of_pos hscale] at habs
