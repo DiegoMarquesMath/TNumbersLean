@@ -2,64 +2,56 @@
 
 ## Environment
 
-- Lean 4.24.0
-- mathlib v4.24.0
-- library: `TNumbersLean`
+Lean 4.24.0 and mathlib v4.24.0, pinned by `lean-toolchain`, `lakefile.toml`,
+and `lake-manifest.json`.
 
-The environment is pinned by `lean-toolchain`, `lakefile.toml`, and `lake-manifest.json`.
+## Concrete Proposition 3.2
 
-## Proposition 3.2
+Final theorem: `TNumbersLean.concrete_proposition_three_two` in
+[ConcretePropositionThreeTwo.lean](TNumbersLean/ConcretePropositionThreeTwo.lean).
 
-Proof commit:
+Formal proof commit: [`45485edceb96ea46879e8f4ab174f3f1d953bbcc`](https://github.com/DiegoMarquesMath/TNumbersLean/tree/45485edceb96ea46879e8f4ab174f3f1d953bbcc)
+(`Complete concrete verification of Proposition 3.2`).
 
-[`05cb79aa572d156674c562ae0dd0120a5ae15a36`](https://github.com/DiegoMarquesMath/TNumbersLean/tree/05cb79aa572d156674c562ae0dd0120a5ae15a36)
+The theorem assembles the certified concrete schedule (3.1)--(3.3), actual
+rational algebraicity and degree, primitive integer minimal polynomial naive
+height, elementary Northcott, and reduced witnesses/centers from `MemE`.
+It gives transcendence, the global bound (3.10) with a threshold uniform in
+both points of E and algebraic targets, both explicit Koksma bounds (3.11),
+normalized tail unboundedness, convergence to top, limsup top, and IsTNumber.
+The five named corollaries are projections of the concrete theorem.
 
-The declaration
+## Exact external scope
 
-`TNumbersLean.proposition_three_two`
+Parameters are `t : ScheduleThresholds`, `J : Set ℝ`, R≥2,
+`J ⊆ Set.Ioo (-R) R`, x, `MemE t J x`, and `SectionTwoInputs t R`.
+For the manuscript J is its fixed bounded open interval; the theorem also
+holds for any subset of (-R,R).
 
-proves the complete logical content of Proposition 3.2 from the explicit
-`CriterionSchedule` and `CriterionInputs` interfaces.
+`ScheduleThresholds` contains the nondecreasing integer thresholds T_D≥4
+and initial scale Q₁≥T₂. `SectionTwoInputs` supplies only the concrete
+naive-height comparison (2.2) for reduced bounded rational translations,
+including C_{d,R}≥1, and Lemma 2.1 translated-center separation at those
+thresholds. No proposition conclusion is assumed.
 
-It includes:
+Schmidt's theorem and Icen's lemma themselves are not reproved in Lean.
+There are no remaining concrete-interface construction obligations for
+Proposition 3.2 under this agreed external scope. Nonemptiness of E and the
+Fourier/digit constructions are separate manuscript results.
 
-- transcendence;
-- the local separation estimate (3.12);
-- absorption of the source error and (3.14);
-- coverage of all sufficiently large heights via (3.16)--(3.18);
-- the uniform global lower bound (3.10)/(3.19);
-- the upper Koksma bound `wStar x n <= B_n`;
-- infinitely many distinct recurrent exact-degree approximants;
-- the lower Koksma bound in (3.11);
-- normalized divergence (3.20), limsup `top`, and the T-number conclusion.
+## Final checks
 
-## Verification
+- `lake build` passed (7365 jobs).
+- `bash scripts/check.sh` passed, run with shell tracing. All thirteen source
+  modules and `scripts/Audit.lean` passed with warnings treated as errors.
+- The required project placeholder/custom-axiom search returned no matches
+  (empty output; grep exit status 1).
+- All 205 audit entries use only standard allowed axioms. The final theorem
+  and all five corollaries each report exactly `[propext, Classical.choice,
+  Quot.sound]`.
+- The README correspondence table has exactly three columns in every row;
+  `git diff --check` passed.
+- The manuscript was not modified in the formalization runs.
 
-Run:
-
-```bash
-lake exe cache get
-bash scripts/check.sh
-```
-
-For the Proposition 3.2 proof commit:
-
-- `lake build` passed with 7361 jobs;
-- `scripts/check.sh` passed with warnings treated as errors;
-- the project search for `sorry`, `admit`, and custom `axiom` declarations returned no matches;
-- all 29 new audited declarations depend only on `propext`, `Classical.choice`, and `Quot.sound`.
-
-The audit script is [`scripts/Audit.lean`](scripts/Audit.lean).
-
-## Scope boundary
-
-The completed theorem is currently conditional on two explicit interfaces.
-
-`AlgebraicApproximationSystem` packages algebraicity, degree, naive-height behavior, and Northcott finiteness. `CriterionSchedule` and `CriterionInputs` package the schedule, selected centers, source approximation, height comparison, and the translated-center separation used from Section 2.
-
-The remaining task is to instantiate these interfaces with the manuscript's concrete schedule (3.1)--(3.3), actual real algebraic degree and naive height, and the centers arising from membership in `E(J;Q_1)`.
-
-Schmidt's theorem and Icen's height lemma remain external mathematical inputs rather than being reproved in Lean.
-
-For the detailed theorem-by-theorem correspondence, see
+The audit is [scripts/Audit.lean](scripts/Audit.lean); the detailed record is
 [docs/PROPOSITION_3_2.md](docs/PROPOSITION_3_2.md).

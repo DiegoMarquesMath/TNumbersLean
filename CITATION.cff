@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this formalization, please cite this repository and the accompanying manuscript."
+title: "TNumbersLean: Lean 4 verification for Normality in Mahler's Class of T-Numbers"
+type: software
+authors:
+  - family-names: Marques
+    given-names: Diego
+repository-code: "https://github.com/DiegoMarquesMath/TNumbersLean"
+url: "https://github.com/DiegoMarquesMath/TNumbersLean"
+abstract: >-
+  Lean 4 formalization accompanying the manuscript Normality in Mahler's Class
+  of T-Numbers. The repository formally verifies Proposition 3.2 from the stated
+  Section 2 external algebraic-approximation inputs and machine-checks selected
+  quantitative steps in the Fourier and digit-block constructions.

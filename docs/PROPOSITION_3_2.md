@@ -1,12 +1,15 @@
 # Proposition 3.2 — formalization record
 
-This branch aims to formalize the complete logical proof of Proposition 3.2 of
+This branch formalizes the complete logical proof of Proposition 3.2 of
 *Normality in Mahler's Class of T-Numbers*, starting from the manuscript's
 stated algebraic-approximation inputs.
 
-**Completed on `prop3-full`: the complete logical proof of Proposition 3.2
-from `CriterionSchedule` and `CriterionInputs`.** The concrete manuscript
-schedule and the actual algebraic/naive-height data are not yet instantiated.
+**Completed:** the complete logical proof of Proposition 3.2 from the
+interfaces, and, on `concrete-prop3`, the concrete integer schedule (3.1)--(3.3),
+actual rational algebraicity and degree, primitive integer minimal polynomial
+naive height, and elementary Northcott. `concreteCriterionInputs` now constructs the actual center inputs from
+membership in E(J;Q_1), conditional only on the explicit Section 2 height and
+separation consequences. The literal final theorem is `TNumbersLean.concrete_proposition_three_two`.
 
 ## Scope boundary
 
@@ -34,8 +37,9 @@ For a point satisfying the criterion defining E(J;Q_1), prove in Lean:
 
 `TNumbersLean.proposition_three_two` now supplies all of these conclusions
 from the declared interfaces, including the stronger normalized limit.
-The literal connection from membership in the concrete E(J;Q_1) to those
-interfaces remains pending.
+The connection from membership in the concrete E(J;Q_1) to those interfaces
+is now `concreteCriterionInputs`, with only Section 2 estimates external.
+The final literal proposition wrapper is `concrete_proposition_three_two`.
 
 ## Modules
 
@@ -44,8 +48,8 @@ interfaces remains pending.
 `AlgebraicApproximationSystem` supplies `isAlg`, `degree`, `height`, positive
 algebraic degree, height at least one, and bounded-degree/bounded-height
 Northcott finiteness. Algebraicity and transcendence are relative to this
-interface; no concrete naive-height implementation or external theorem is
-asserted by Lean.
+interface in this module. `ConcreteAlgebraicData.lean` now supplies the actual
+naive-height implementation and proves its Northcott field.
 
 `approximants` encodes exactly `0 < |x - α| < H(α)^(-w-1)` with degree at
 most `n`. `admissibleExponents` requires this set of real values to be
@@ -75,8 +79,9 @@ recurrence, the cubic stage exponent, divergence of scales, recurrent degrees,
 and eventual availability of an admissible stage within the next two stages.
 These are construction hypotheses corresponding to Lemma 3.1, separate from
 the external algebraic inputs. The actual scale-gap estimate is now derived
-in `HeightRangeCoverage`. A concrete instance verifying all schedule fields
-from the manuscript construction is not yet formalized.
+in `HeightRangeCoverage`. `ConcreteSchedule` now constructs an instance and
+verifies all schedule fields from the manuscript recursion and the external
+threshold data.
 
 `CriterionInputs S schedule x` records selected centers and denominators,
 the denominator block, the original q-based source approximation (3.8),
@@ -248,6 +253,83 @@ All 29 new certification declarations are listed in `scripts/Audit.lean`:
 - `TNumbersLean.CriterionInputs.isTNumber`;
 - `TNumbersLean.proposition_three_two`.
 
+### 5. ConcreteSchedule.lean — concrete schedule
+
+`ScheduleThresholds` contains only natural thresholds `T`, monotonicity on
+`{d | 2 ≤ d}`, `T d ≥ 4` for those degrees, an integer `Q₁`, and `T 2 ≤ Q₁`.
+Thresholds at degrees zero and one are unused and unrestricted. No assertion
+of Lemma 3.1 is an input.
+
+All definitions and theorems below are in `TNumbersLean.ScheduleThresholds`.
+Lean stage `k` represents manuscript stage `k+1`. Lean pair `i` represents
+manuscript pair `j=i+1`: `2*i` is paper stage `2j-1`, and `2*i+1` is paper
+stage `2j`. Thus `concreteD i` represents paper `D_{i+1}`.
+
+- `availableDegrees i q` is the finite set of degrees `2 ≤ d ≤ i+2` with
+  `T d ≤ q`.
+- `selectDegree i q` is its maximum, implemented using `Nat.findGreatest`.
+- `v₂ j` is mathlib's `padicValNat 2 j`; all scheduled arguments are positive.
+- `pairScale` is a natural recursion starting at `Q₁`. Its successor performs
+  exactly the odd-stage power update and then the even-stage power update.
+- `concreteD`, `concreteDegree`, `concreteExponent`, and `concreteQ` recover
+  the stage data from this recursion.
+- `concreteCriterionSchedule` casts the natural scales to reals and fills
+  every field with a proved theorem.
+
+| Manuscript | Concrete certification |
+| --- | --- |
+| (3.1), genuine finite maximum | `concrete_availableDegrees_nonempty`, `concreteD_spec`, `concreteD_maximal`, `concreteD_isGreatest` |
+| (3.2), degree prescriptions | `concreteDegree_even`, `concreteDegree_odd`; `concreteExponent` is definitionally the existing cubic exponent |
+| (3.3), no additional scale jump | `concreteQ_even`, `concreteQ_odd`, `concreteQ_recurrence` |
+| (3.4), delayed degree divergence | `eventually_concreteD_ge`, `concreteD_tends_to_infinity` |
+| (3.4), recurrence of each degree | `v₂_witness`, `v₂_fiber_infinite`, `concrete_recurrent` |
+| (3.5), threshold at both stages | `concrete_threshold` |
+| (3.5), exponent bounds | `concreteExponent_bounds`: `27 ≤ A(k) ≤ (k+4)^3` |
+| (3.5), lower scale growth | `concreteQ_growth`: `Q₁^(2^k) ≤ Q(k)` |
+| Lemma 3.1, strict growth and divergence | `concreteQ_strictMono`, `concreteQ_tends_to_infinity`, `concreteQ_real_tends_to_infinity` |
+| Lemma 3.1, admissibility within two stages | `eventual_odd_admissible`, `concrete_eventual_next_admissible` |
+| (3.6), eventual consecutive scale gap | `concrete_eventual_scale_gap`, reusing the proved abstract numerical argument after constructing the instance |
+
+The valuation witnesses are `j=2^r*(2*m+1)`. Their injective family gives an
+infinite valuation fiber; removing the finite initial segment where `D<d`
+leaves an infinite tail. Its injective image `j ↦ 2*j-1` consists of Lean
+indices of the manuscript's even stages and has degree exactly `d`.
+
+The even-stage threshold proof uses `d_even ≤ D`, monotonicity of `T` on
+its actual domain, and the first power update. No threshold is used to
+increase a scale directly. `D` tends to infinity by maximality once both the
+pair index and its recursively generated scale exceed the fixed requirements.
+No `CriterionSchedule` field is used to establish the construction properties;
+only the final (3.6) corollary uses the completed instance. `lemma_three_one`
+collects the concrete schedule properties and the one/two-stage scale gap
+in a single manuscript-correspondence theorem.
+
+## Adversarial audit of the concrete schedule
+
+- `concreteD_isGreatest` identifies the selected degree with the actual
+  greatest member of the finite set. `concrete_availableDegrees_nonempty`
+  establishes nonemptiness at every pair from `T 2 ≤ Q₁ ≤ pairScale i`.
+  The initial-scale lower bound uses positivity of the cubic exponent at
+  every natural degree, so it does not presuppose nonemptiness or `D ≥ 2`.
+- The pair recursion contains exactly two power updates. Thresholds enter
+  only the bounded degree selection; no maximum or threshold replacement
+  changes any scale.
+- Degree recurrence removes a finite prefix from an infinite positive
+  valuation fiber, then uses an injective map to stage indices. Every member
+  of that image has the specified exact degree.
+- Lean stages `2*i` and `2*i+1` are paper stages `2j-1` and `2j`, with
+  `j=i+1`. The valuation argument is `i+1`, never zero. The cap `i+2` is
+  paper `j+1`; the exponent bound `k+4` is paper stage number plus three;
+  the growth exponent `2^k` is paper `2^(stage-1)`.
+- The threshold proof splits both stage parities. At the second stage it
+  uses the first update and `T(min D (2+v₂ j)) ≤ T D`.
+- Every sufficiently late paper odd stage has degree above the target;
+  one of the next two Lean indices is such a stage. This proves the gap
+  field without assuming any schedule conclusion.
+- The concrete instance is defined after all its component proofs. Only
+  the final scale-gap corollary uses the existing abstract schedule theorem.
+  `CriterionSchedule` and `CriterionInputs` have no added fields.
+
 ## Quality requirements
 
 No placeholders or custom unproved axioms are permitted.
@@ -330,6 +412,23 @@ formal interface.
   were not changed. No conclusion of the proposition became an input field.
 - The manuscript `.tex` and `.pdf` were not modified.
 
+## Validation of the concrete schedule
+
+- `lake build`: passed (7362 jobs).
+- `scripts/check.sh`: passed with shell tracing enabled; all ten source
+  modules and the full axiom audit passed with `warningAsError=true`.
+- The required project placeholder/custom-axiom search produced no output
+  (exit status 1, meaning no matches).
+- All 39 new theorems and all nine definitions, including the constructed
+  instance, are listed in `scripts/Audit.lean` (48 new audit entries).
+- Every new audit entry depends only on `propext`, `Classical.choice`, and
+  `Quot.sound`. The principal maximum, degree-divergence, recurrence,
+  threshold, scale-divergence, eventual-admissibility, instance, and
+  `lemma_three_one` declarations report exactly these three axioms.
+- The existing abstract interfaces and proposition proof were not changed.
+  No naive-height or `CriterionInputs` implementation was added.
+- The manuscript `.tex` and `.pdf` were not modified.
+
 ## Adversarial audit of Proposition 3.2
 
 - Transcendence is proved from (3.14); no hypothesis states it.
@@ -361,27 +460,187 @@ height bound, both explicit Koksma exponent bounds, normalized tail
 unboundedness, convergence to infinity, limsup top, and the T-number criterion.
 All logical arguments of (3.12)--(3.20) are now kernel-checked from those inputs.
 
-### B. Concrete instantiation — pending
+### B. Concrete proposition — verified from Section 2 inputs
 
-Before identifying this theorem with the manuscript's literal Proposition 3.2:
+The schedule obligation is complete: `ScheduleThresholds.concreteCriterionSchedule`
+is constructed from the threshold data, and `concrete_threshold` proves the
+threshold condition at every stage.
 
-1. Implement the concrete delayed schedule (3.1)--(3.3), with D_j, the
-   valuation-based recurrent degrees, and natural scales, and prove all
-   `CriterionSchedule` fields, including recurrence, divergence, and eventual
-   admissibility. Prove the threshold condition Q_k>=T_{d_k} needed by Lemma 2.1.
-2. Instantiate `AlgebraicApproximationSystem` with actual real algebraicity,
-   actual degree, and primitive-minimal-polynomial naive height; supply the
-   positivity and Northcott fields for those actual functions. Then the
-   abstract `wStar` and `IsTNumber` literally use the manuscript's data.
-3. From x belonging to the concrete E(J;Q_1), select the reduced p_k/q_k
-   witnesses and construct centers theta_{d_k}+p_k/q_k. Prove the source and
-   denominator fields, establish the bounded-translation/center conditions,
-   and instantiate the exact-degree/height comparison (2.2) and separation
-   Lemma 2.1 at the scheduled thresholds.
+The actual system is `realAlgebraicApproximationSystem`, with all fields
+proved. `concreteCriterionInputs` selects the reduced p_k/q_k witnesses from
+membership in E(J;Q_1), constructs theta_{d_k}+p_k/q_k, and proves all input
+fields. `concrete_proposition_three_two` now assembles the literal proposition.
 
-Schmidt's theorem and Icen's height lemma remain explicit external mathematical
-inputs under the agreed scope. This run does not claim formal proofs of those
-external results or a completed concrete interface instance. Once the concrete
-constructors are supplied, the existing proposition theorem applies directly.
+Schmidt's theorem and Icen's height lemma remain external mathematical inputs
+under the agreed scope. Their concrete Section 2 consequences are explicitly
+packaged in `SectionTwoInputs`; no unconditional proof of these external
+estimates is claimed. The existing proposition theorem can now be applied
+directly to the concrete constructor.
 Nonemptiness of E, Fourier measures, and digital properties belong to other
 manuscript results and are not prerequisites for this conditional criterion.
+
+
+## Actual real algebraic data
+
+`ConcreteAlgebraicData.lean` implements `RealAlgebraicData.isAlg` as
+`IsAlgebraic ℚ α`, and `degree` as `(minpoly ℚ α).natDegree`.
+`degree_eq_finrank` identifies this with the degree of `ℚ(α)` over `ℚ`.
+
+The pinned mathlib has denominator clearing, integer polynomial content,
+primitive parts, Gauss's lemma, and finite polynomial root sets. It has no
+naive-algebraic-height/Northcott module (the suggested `NumberTheory/Height`
+directory is absent). The local construction uses
+`IsLocalization.integerNormalization (nonZeroDivisors ℤ)` on `minpoly ℚ α`,
+then divides by content via `Polynomial.primPart`. For algebraic α the result
+is nonzero, primitive, irreducible over both ℤ and ℚ, vanishes at α, and has
+exactly `degree α`. Its rational image is a nonzero scalar multiple of the
+monic rational minimal polynomial.
+
+`coefficientHeight` is the radius-one Gauss norm for the ordinary integer norm.
+`coefficientHeight_eq_max` proves that it is literally the maximum absolute
+integer coefficient. `naiveHeight` applies it to `primitiveMinpoly`.
+`primitiveMinpoly_unique_sign` proves uniqueness up to sign among primitive
+integer polynomials irreducible over ℚ with root α;
+`naiveHeight_eq_of_primitive_minimal` proves height agreement for either sign.
+Nonalgebraic default values are unused by the system's mathematical fields.
+
+`northcott` counts polynomials through their first n+1 bounded integer
+coefficients, then takes a finite union of real root sets of nonzero
+polynomials. It proves finiteness of real values for every natural degree bound
+and every real height bound, without an external Northcott hypothesis.
+Rational translation of algebraicity and degree is also proved; no translated
+height estimate, Icen theorem, or Schmidt theorem is proved here.
+
+The constructor has no external mathematical parameters. No `CriterionInputs`
+constructor or selection of E witnesses/centers is included in this module.
+
+
+### Actual algebraic data validation
+
+- `lake build` passed (7363 jobs).
+- `bash scripts/check.sh` passed, run with shell tracing; all eleven source
+  modules and `scripts/Audit.lean` passed with warnings treated as errors.
+- The required placeholder/custom-axiom search returned no matches.
+- All 37 new definitions and theorems are listed in `scripts/Audit.lean`.
+- Every new declaration uses only `propext`, `Classical.choice`, and
+  `Quot.sound` (or a subset). The principal degree positivity, height
+  positivity, primitive polynomial identification, Northcott, and system
+  constructor declarations each report exactly these three axioms.
+- The abstract interfaces, existing proposition and concrete schedule were
+  unchanged. The manuscript was not modified.
+
+
+## Concrete E witnesses and CriterionInputs
+
+`ConcreteCriterionInputs.lean` defines `theta d = (2 : ℝ) ^ (d : ℝ)⁻¹`.
+`theta_polynomial_irreducible` proves integer irreducibility of `X^d - 2`
+by Eisenstein at 2. Gauss's lemma and the root identity identify the rational
+minimal polynomial; `theta_degree` proves actual degree d for d≥2.
+Rational translation preserves both actual algebraicity and exact degree.
+
+`MemE t J x` is literally `x ∈ J` and, for each Lean stage k, existence of
+an integer p and natural q with q>0, `Nat.Coprime p.natAbs q`,
+`concreteQ k ≤ q < 2*concreteQ k`, and
+`|x - theta (concreteDegree k) - p/q| ≤ (1/4)*q^(-concreteExponent k)`.
+Nat.Coprime states gcd(|p|,q)=1. Lean k is manuscript stage k+1.
+For the manuscript J is its fixed bounded open interval. The predicate also
+makes sense for any set J; the constructor needs only `J ⊆ (-R,R)` and R≥2.
+This generality does not alter the membership conditions.
+
+The `MemE.numerator` and `MemE.denominator` functions use Classical.choose
+only on `memE_stage_witness`. `witness_spec`, `reduced`, `denominator_block`,
+and `source_approximation` certify the selected reduced fractions.
+`MemE.center k` is `theta (concreteDegree k) + (MemE.rational k : ℝ)`.
+Its algebraicity and exact degree are proved. The source bound implies error
+at most one, hence center membership in [-R-1,R+1] and |p/q|≤R+3.
+
+`SectionTwoInputs t R` contains exactly:
+
+- constants C_{d,R}≥1 and (2.2) for reduced p/q with |p/q|≤R+3;
+- Lemma 2.1 for all 2≤d≤D, 1≤n<d, Q≥T_D, Q≤q<2Q, and centers in
+  [-R-1,R+1], using the actual naive height. Separation requires no reducedness.
+
+No degree, source approximation, interval membership, transcendence, global
+lower bound, Koksma conclusion, or coverage conclusion is supplied by this
+external structure. Schmidt's theorem and Icen's lemma are not formalized.
+
+`concreteCriterionInputs` proves all `CriterionInputs` fields for
+`realAlgebraicApproximationSystem` and `t.concreteCriterionSchedule`.
+Only center-height comparison and local separation use `SectionTwoInputs`.
+The separation proof explicitly uses `concrete_threshold` with D=d_k.
+The schedule and actual algebraic system are not redefined or strengthened.
+
+`concrete_proposition_three_two` applies `proposition_three_two` to this
+constructor, retaining the explicit Section 2 premise. No proof of those
+external estimates is claimed.
+
+
+### Concrete CriterionInputs validation
+
+- `lake build` passed (7364 jobs).
+- `bash scripts/check.sh` passed, run with shell tracing. All twelve source
+  modules and the audit passed with warnings treated as errors.
+- The required project placeholder/custom-axiom search returned no matches.
+- All 29 new audit entries are present. Every new declaration uses only
+  `propext`, `Classical.choice`, and `Quot.sound` (or a subset). Theta
+  algebraicity, theta exact degree, witness extraction, center algebraicity,
+  center exact degree, and `concreteCriterionInputs` each report exactly
+  these three axioms.
+- The README correspondence table has three columns in every row, with
+  separate concrete schedule and actual algebraic-data rows; no README
+  expansion was made.
+- The existing schedule, actual algebraic system, interfaces, and abstract
+  proposition proof were unchanged. The manuscript was not modified.
+- At the concrete-input commit `defb510`, no literal final Proposition 3.2
+  wrapper had yet been created.
+
+
+## Final concrete Proposition 3.2
+
+Final theorem: `TNumbersLean.concrete_proposition_three_two` in
+`ConcretePropositionThreeTwo.lean`.
+Formal proof commit: [`45485edceb96ea46879e8f4ab174f3f1d953bbcc`](https://github.com/DiegoMarquesMath/TNumbersLean/tree/45485edceb96ea46879e8f4ab174f3f1d953bbcc)
+(`Complete concrete verification of Proposition 3.2`).
+
+The statement uses actual `IsAlgebraic ℚ`, `RealAlgebraicData.degree`, and
+`RealAlgebraicData.naiveHeight`. Its Koksma exponents and IsTNumber predicate
+use `realAlgebraicApproximationSystem`, so the exponent definition (1.1)
+and criterion (1.2) now literally use the manuscript degree and naive height.
+`propositionB` is precisely (3.9); `recurrentW` is precisely the lower bound
+in (3.11). The concrete schedule and MemE are unchanged.
+
+The eight conclusions are transcendence, the uniform global exclusion,
+upper and lower Koksma bounds, normalized tail unboundedness, convergence
+to top, limsup top, and the concrete T-number conclusion. For (3.10), the
+height threshold is chosen before **both** y∈E and β. This stronger uniform
+conclusion is assembled from the existing `global_separation_uniform` theorem;
+all other conclusions come directly from `proposition_three_two` applied
+to `concreteCriterionInputs`. No Diophantine proof is repeated.
+
+`concrete_transcendence`, `concrete_global_separation`, `concrete_upper_wStar`,
+`concrete_lower_wStar`, and `concrete_isTNumber` are projections of the final
+theorem, not independent mathematical proofs.
+
+The exact external premises are R≥2, the interval bound, threshold data and
+initial scale in `ScheduleThresholds`, E-membership, and `SectionTwoInputs`.
+The only unformalized mathematical results are (2.2) and Lemma 2.1 as packaged
+in `SectionTwoInputs`. Neither E-membership nor either structure contains
+transcendence, global exclusion, exponent bounds, or a T-number conclusion.
+Schmidt's theorem and Icen's lemma themselves are not reproved in Lean.
+There is no remaining concrete instantiation or wrapper obligation within
+this agreed scope. The manuscript was not modified.
+
+
+### Final validation
+
+- `lake build` passed (7365 jobs).
+- `bash scripts/check.sh` passed, run with shell tracing. All thirteen source
+  modules and `scripts/Audit.lean` passed with warnings treated as errors.
+- The required project placeholder/custom-axiom search returned no matches
+  (empty output; grep exit status 1).
+- All 205 audit entries use only standard allowed axioms. The final theorem
+  and all five corollaries each report exactly `[propext, Classical.choice,
+  Quot.sound]`.
+- The README correspondence table has exactly three columns in every row;
+  `git diff --check` passed.
+- The manuscript was not modified; no merge to main was performed.
