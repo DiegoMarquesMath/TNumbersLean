@@ -421,3 +421,8 @@ import TNumbersLean
 
 -- Uniform bump Fourier decay across a dyadic packet.
 #print axioms TNumbersLean.norm_packetFourier_paperBump_scaled_le
+
+-- Combined averaged-packet coefficient envelope.
+#print axioms TNumbersLean.norm_primePacketCoeffFormula_eq_bump_mul_residue
+#print axioms TNumbersLean.norm_primePacketCoeffFormula_le_uniform
+#print axioms TNumbersLean.norm_averagedPacketCoeffFormula_le_envelope
