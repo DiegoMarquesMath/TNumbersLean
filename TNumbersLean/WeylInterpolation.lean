@@ -11,8 +11,7 @@ theorem norm_normalizedWeylSum_eq_div
     (b : ℕ) (h : ℤ) (x : ℝ) (N : ℕ) :
     ‖normalizedWeylSum b h x N‖ =
       ‖weylSum b h x N‖ / (N : ℝ) := by
-  simp [normalizedWeylSum, norm_mul, norm_inv,
-    Complex.norm_natCast, div_eq_mul_inv, mul_comm]
+  simp [normalizedWeylSum, norm_inv, div_eq_mul_inv, mul_comm]
 
 /-- Interpolation from the square subsequence, already normalized by N.
 The right-hand side is precisely the square-gap error plus the normalized
@@ -87,7 +86,6 @@ theorem norm_normalizedWeylSum_le_square_terms
           squareNormRatio
             (fun M y => weylSum b h y M) x j := by
       field_simp [ne_of_gt hjrpos]
-      <;> ring
     _ =
         squareGapRatio (Nat.sqrt N) +
           squareNormRatio
