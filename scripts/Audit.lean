@@ -237,3 +237,4 @@ import TNumbersLean
 #print axioms TNumbersLean.norm_weylSum_sub_le
 #print axioms TNumbersLean.WeylNormalToBase
 #print axioms TNumbersLean.WeylAbsolutelyNormal
+#print axioms TNumbersLean.square_gap_le
