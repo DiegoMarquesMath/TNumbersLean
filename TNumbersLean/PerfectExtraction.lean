@@ -11,7 +11,7 @@ measurable set `F`, then `F` contains a nonempty compact perfect subset.
 The proof uses inner regularity and the Cantor--Bendixson theorem already
 available in mathlib. -/
 theorem exists_compact_perfect_subset_of_pos_measure
-    {μ : Measure ℝ} [IsFiniteMeasure μ] [NullSingletonClass μ]
+    {μ : Measure ℝ} [IsFiniteMeasure μ] [NoAtoms μ]
     {F : Set ℝ} (hF : MeasurableSet F) (hpos : 0 < μ F) :
     ∃ P : Set ℝ, P.Nonempty ∧ IsCompact P ∧ Perfect P ∧ P ⊆ F := by
   have hfin : μ F ≠ ⊤ := measure_ne_top μ F
