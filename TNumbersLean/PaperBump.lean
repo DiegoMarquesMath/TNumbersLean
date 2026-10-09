@@ -20,7 +20,7 @@ theorem paperBump_nonneg (x : ℝ) :
   exact paperContDiffBump.nonneg_normed (μ := volume) x
 
 theorem paperBump_contDiff :
-    ContDiff ℝ ∞ paperBump := by
+    ContDiff ℝ ⊤ paperBump := by
   exact paperContDiffBump.contDiff_normed (μ := volume)
 
 theorem paperBump_integrable :
