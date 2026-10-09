@@ -369,6 +369,7 @@ import TNumbersLean
 
 -- Exact Fourier coefficient of a single prime packet.
 #print axioms TNumbersLean.packetPhaseSum
+#print axioms TNumbersLean.packetStdAddCharSum_eq_packetResidueSum
 #print axioms TNumbersLean.packetPhaseSum_eq_packetResidueSum
 #print axioms TNumbersLean.fourierChar_affine_zmod_phase_factor
 #print axioms TNumbersLean.fourierChar_affine_zmod_phase_factor_intVal
