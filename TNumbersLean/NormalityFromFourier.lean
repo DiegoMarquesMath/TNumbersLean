@@ -49,6 +49,14 @@ theorem norm_weylSum_sub_le (b : ℕ) (h : ℤ) (x : ℝ) {M N : ℕ} (hMN : M �
     _ = N - M := by
       rw [Nat.cast_sub hMN]
 
+/-- The elementary square-subsequence gap used in the manuscript:
+if j^2 <= N < (j+1)^2, then at most 2j+1 terms are missing. -/
+theorem square_gap_le (j N : ℕ) (hlo : j ^ 2 ≤ N) (hhi : N < (j + 1) ^ 2) :
+    N - j ^ 2 ≤ 2 * j + 1 := by
+  have hs : (j + 1) ^ 2 = j ^ 2 + (2 * j + 1) := by ring
+  rw [hs] at hhi
+  omega
+
 /-- Weyl's exponential-sum criterion, recorded as the analytic intermediate
 property used before identifying it with digit normality. -/
 def WeylNormalToBase (b : ℕ) (x : ℝ) : Prop :=
