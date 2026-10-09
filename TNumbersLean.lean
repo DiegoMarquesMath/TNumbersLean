@@ -31,6 +31,7 @@ import TNumbersLean.PrimePacketCountInputs
 import TNumbersLean.PaperBumpFourierDecay
 import TNumbersLean.AveragedPacketFourierFormula
 import TNumbersLean.PacketResidueAverageBound
+import TNumbersLean.PacketBumpUniformDecay
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
