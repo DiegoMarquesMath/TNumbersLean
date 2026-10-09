@@ -366,3 +366,11 @@ import TNumbersLean
 #print axioms TNumbersLean.fourierCoeff_periodizedAffinePacketBump_eq
 
 #print axioms TNumbersLean.fourierChar_rational_phase_eq_stdAddChar
+
+-- Exact Fourier coefficient of a single prime packet.
+#print axioms TNumbersLean.packetPhaseSum
+#print axioms TNumbersLean.packetPhaseSum_eq_packetResidueSum
+#print axioms TNumbersLean.fourierChar_affine_zmod_phase_factor
+#print axioms TNumbersLean.periodizedPrimePacketCoeff
+#print axioms TNumbersLean.periodizedPrimePacketCoeff_eq_residueFactor
+#print axioms TNumbersLean.periodizedPrimePacketCoeff_eq_manuscript
