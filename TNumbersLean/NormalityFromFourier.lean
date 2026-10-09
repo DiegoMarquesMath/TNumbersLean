@@ -121,6 +121,74 @@ theorem ae_eventually_square_control
   filter_upwards [hx] with j hj
   exact not_lt.mp (by simpa [squareBadSet] using hj)
 
+/-- A convenient Archimedean convergence criterion: a nonnegative sequence
+that is eventually bounded by every positive reciprocal tends to zero. -/
+theorem tendsto_zero_of_eventually_le_inv_nat
+    (u : ℕ → ℝ) (hu : ∀ n, 0 ≤ u n)
+    (h : ∀ m : ℕ, 0 < m → ∀ᶠ n : ℕ in atTop, u n ≤ (m : ℝ)⁻¹) :
+    Tendsto u atTop (𝓝 0) := by
+  rw [Metric.tendsto_atTop]
+  intro ε hε
+  obtain ⟨m, hmpos, hmε⟩ := Real.exists_nat_pos_inv_lt hε
+  obtain ⟨N, hN⟩ := eventually_atTop.1 (h m hmpos)
+  refine ⟨N, ?_⟩
+  intro n hn
+  have hle := hN n hn
+  rw [Real.dist_eq, sub_zero, abs_of_nonneg (hu n)]
+  exact hle.trans_lt hmε
+
+/-- The normalized size of the square-subsequence sum used in Borel--Cantelli. -/
+noncomputable def squareNormRatio (S : ℕ → ℝ → ℂ) (x : ℝ) (j : ℕ) : ℝ :=
+  ‖S (j ^ 2) x‖ / (j : ℝ) ^ 2
+
+theorem squareNormRatio_nonneg (S : ℕ → ℝ → ℂ) (x : ℝ) (j : ℕ) :
+    0 ≤ squareNormRatio S x j := by
+  positivity
+
+theorem squareNormRatio_eventually_le
+    {S : ℕ → ℝ → ℂ} {x : ℝ} {m : ℕ} (hm : 0 < m)
+    (hcontrol : ∀ᶠ j : ℕ in atTop,
+      ‖S (j ^ 2) x‖ ≤ (m : ℝ)⁻¹ * (j : ℝ) ^ 2) :
+    ∀ᶠ j : ℕ in atTop, squareNormRatio S x j ≤ (m : ℝ)⁻¹ := by
+  filter_upwards [hcontrol, eventually_gt_atTop 0] with j hj hjpos
+  have hjreal : (0 : ℝ) < j := by exact_mod_cast hjpos
+  have hsq : (0 : ℝ) < (j : ℝ) ^ 2 := sq_pos_of_pos hjreal
+  rw [squareNormRatio, div_le_iff₀ hsq]
+  exact hj
+
+/-- Reciprocal square-subsequence control implies convergence of the
+normalized square-subsequence norms to zero. -/
+theorem squareNormRatio_tendsto_zero_of_reciprocal_control
+    {S : ℕ → ℝ → ℂ} {x : ℝ}
+    (hcontrol : ∀ m : ℕ, 0 < m → ∀ᶠ j : ℕ in atTop,
+      ‖S (j ^ 2) x‖ ≤ (m : ℝ)⁻¹ * (j : ℝ) ^ 2) :
+    Tendsto (squareNormRatio S x) atTop (𝓝 0) := by
+  apply tendsto_zero_of_eventually_le_inv_nat
+  · exact squareNormRatio_nonneg S x
+  · intro m hm
+    exact squareNormRatio_eventually_le hm (hcontrol m hm)
+
+/-- The Borel--Cantelli square-subsequence conclusion, simultaneously for
+the reciprocal thresholds 1/m used to force convergence to zero. -/
+theorem ae_squareNormRatio_tendsto_zero_of_summable_bad
+    {μ : Measure ℝ} {S : ℕ → ℝ → ℂ}
+    (hsum : ∀ m : ℕ, 0 < m →
+      (∑' j : ℕ, μ (squareBadSet S (m : ℝ)⁻¹ j)) ≠ ⊤) :
+    ∀ᵐ x ∂μ, Tendsto (squareNormRatio S x) atTop (𝓝 0) := by
+  have hall :
+      ∀ᵐ x ∂μ, ∀ m : ℕ, 0 < m →
+        ∀ᶠ j : ℕ in atTop,
+          ‖S (j ^ 2) x‖ ≤ (m : ℝ)⁻¹ * (j : ℝ) ^ 2 := by
+    rw [ae_all_iff]
+    intro m
+    by_cases hm : 0 < m
+    · filter_upwards [ae_eventually_square_control (hsum m hm)] with x hx
+      intro _
+      exact hx
+    · exact ae_of_all μ fun _ hm' => (hm hm').elim
+  filter_upwards [hall] with x hx
+  exact squareNormRatio_tendsto_zero_of_reciprocal_control hx
+
 /-- Weyl's exponential-sum criterion, recorded as the analytic intermediate
 property used before identifying it with digit normality. -/
 def WeylNormalToBase (b : ℕ) (x : ℝ) : Prop :=
