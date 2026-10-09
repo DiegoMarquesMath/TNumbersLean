@@ -64,7 +64,7 @@ theorem affinePacketBumpComplex_hasCompactSupport
   have ht :=
     hs.comp_homeomorph
       (Homeomorph.addRight (-(θ₀ + (p : ℝ) / (q : ℝ))))
-  simpa [affinePacketBumpComplex, sub_eq_add_neg, Function.comp_def] using ht
+  simpa only [affinePacketBumpComplex, sub_eq_add_neg, Function.comp_def] using ht
 
 /-- Every individual packet bump is a Schwartz function. -/
 noncomputable def affinePacketBumpSchwartz
@@ -75,7 +75,7 @@ noncomputable def affinePacketBumpSchwartz
 @[simp]
 theorem affinePacketBumpSchwartz_apply
     {q A : ℕ} (hq : 0 < q) (θ₀ : ℝ) (p : ℤ) (x : ℝ) :
-    affinePacketBumpSchwartz hq θ₀ p x =
+    affinePacketBumpSchwartz (A := A) hq θ₀ p x =
       affinePacketBumpComplex q A θ₀ p x := rfl
 
 end TNumbersLean
