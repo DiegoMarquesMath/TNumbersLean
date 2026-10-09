@@ -376,3 +376,11 @@ import TNumbersLean
 #print axioms TNumbersLean.periodizedPrimePacketCoeff
 #print axioms TNumbersLean.periodizedPrimePacketCoeff_eq_residueFactor
 #print axioms TNumbersLean.periodizedPrimePacketCoeff_eq_manuscript
+
+-- Prime divisors in a packet window.
+#print axioms TNumbersLean.packetPrimeDivisors
+#print axioms TNumbersLean.mem_packetPrimeDivisors_iff
+#print axioms TNumbersLean.packetPrimeDivisors_subset_primeFactors
+#print axioms TNumbersLean.prod_packetPrimeDivisors_dvd
+#print axioms TNumbersLean.pow_card_packetPrimeDivisors_le
+#print axioms TNumbersLean.card_packetPrimeDivisors_le_natLog
