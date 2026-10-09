@@ -110,9 +110,15 @@ theorem abs_weylFrequency_lower_bound
     (2 : ℝ) ^ (r - 1) ≤ |weylFrequency b h r m| := by
   have hpowNat : 2 ^ (r - 1) ≤ b ^ r - b ^ m :=
     two_pow_le_pow_sub_pow hb hm hmr
+  have hbase : 1 ≤ b := le_trans (by decide : 1 ≤ 2) hb
+  have hpowOrder : b ^ m ≤ b ^ r :=
+    pow_le_pow_right' hbase hmr.le
+  have hpowCast :
+      ((2 ^ (r - 1) : ℕ) : ℝ) ≤ ((b ^ r - b ^ m : ℕ) : ℝ) := by
+    exact_mod_cast hpowNat
   have hpow :
       (2 : ℝ) ^ (r - 1) ≤ (b : ℝ) ^ r - (b : ℝ) ^ m := by
-    exact_mod_cast hpowNat
+    simpa [Nat.cast_sub hpowOrder] using hpowCast
   have hdiff :
       0 ≤ (b : ℝ) ^ r - (b : ℝ) ^ m :=
     le_trans (pow_nonneg (by positivity) _) hpow
