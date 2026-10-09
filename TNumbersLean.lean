@@ -15,6 +15,7 @@ import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
 import TNumbersLean.FourierSecondMoment
+import TNumbersLean.FourierDecayLimits
 import TNumbersLean.StretchedExpSummability
 import TNumbersLean.DoubleSumTriangle
 import TNumbersLean.FourierTailSummability
