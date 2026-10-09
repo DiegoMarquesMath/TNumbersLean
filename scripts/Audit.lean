@@ -267,3 +267,6 @@ import TNumbersLean
 #print axioms TNumbersLean.paperFourier_zero
 #print axioms TNumbersLean.two_pow_le_pow_sub_pow
 #print axioms TNumbersLean.abs_weylFrequency_lower_bound
+#print axioms TNumbersLean.weylSecondMoment
+#print axioms TNumbersLean.weylSecondMoment_eq_re_doubleFourier
+#print axioms TNumbersLean.weylSecondMoment_le_doubleNormSum
