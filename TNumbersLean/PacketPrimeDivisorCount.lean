@@ -24,7 +24,7 @@ theorem packetPrimeDivisors_subset_primeFactors
     packetPrimeDivisors Q n ⊆ n.primeFactors := by
   intro q hq
   rcases mem_packetPrimeDivisors_iff.mp hq with ⟨_, _, hprime, hdvd⟩
-  exact hprime.mem_primeFactors hdvd hn
+  exact Nat.Prime.mem_primeFactors hprime hdvd hn
 
 /-- The squarefree product of all packet primes dividing `n` divides `n`. -/
 theorem prod_packetPrimeDivisors_dvd
@@ -34,16 +34,16 @@ theorem prod_packetPrimeDivisors_dvd
   have hprod :
       (∏ q ∈ packetPrimeDivisors Q n, q) ∣
         ∏ q ∈ n.primeFactors, q := by
-    exact Finset.prod_dvd_prod_of_subset _ _ id hsub
+    exact Finset.prod_dvd_prod_of_subset _ _ (fun q : ℕ => q) hsub
   exact hprod.trans (Nat.prod_primeFactors_dvd n)
 
 /-- Since every packet denominator is at least `Q`, the number of packet
 primes dividing a nonzero integer is bounded multiplicatively. -/
 theorem pow_card_packetPrimeDivisors_le
     {Q n : ℕ} (hn : n ≠ 0) :
-    Q ^ #(packetPrimeDivisors Q n) ≤ n := by
+    Q ^ (packetPrimeDivisors Q n).card ≤ n := by
   have hlower :
-      Q ^ #(packetPrimeDivisors Q n) ≤
+      Q ^ (packetPrimeDivisors Q n).card ≤
         ∏ q ∈ packetPrimeDivisors Q n, q := by
     simpa using
       (Finset.pow_card_le_prod
@@ -57,7 +57,7 @@ This is the arithmetic core of
 `# {q in P_Q : q | n} <= log n / log Q`. -/
 theorem card_packetPrimeDivisors_le_natLog
     {Q n : ℕ} (hQ : 1 < Q) (hn : n ≠ 0) :
-    #(packetPrimeDivisors Q n) ≤ Nat.log Q n := by
+    (packetPrimeDivisors Q n).card ≤ Nat.log Q n := by
   exact Nat.le_log_of_pow_le hQ (pow_card_packetPrimeDivisors_le hn)
 
 end TNumbersLean
