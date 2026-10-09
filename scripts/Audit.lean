@@ -243,3 +243,9 @@ import TNumbersLean
 #print axioms TNumbersLean.norm_weylSum_between_squares
 #print axioms TNumbersLean.nat_sqrt_square_bounds
 #print axioms TNumbersLean.norm_weylSum_sqrt_interpolation
+#print axioms TNumbersLean.tendsto_zero_of_eventually_le_inv_nat
+#print axioms TNumbersLean.squareNormRatio
+#print axioms TNumbersLean.squareNormRatio_nonneg
+#print axioms TNumbersLean.squareNormRatio_eventually_le
+#print axioms TNumbersLean.squareNormRatio_tendsto_zero_of_reciprocal_control
+#print axioms TNumbersLean.ae_squareNormRatio_tendsto_zero_of_summable_bad
