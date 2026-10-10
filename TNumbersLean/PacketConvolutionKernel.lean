@@ -76,7 +76,7 @@ theorem one_add_abs_int_le_two_mul_one_add_abs_shift
       ring
     rw [hid]
     have htri :=
-      abs_add (t - (round t : ℝ))
+      abs_add_le (t - (round t : ℝ))
         (-(t - ((round t + j : ℤ) : ℝ)))
     simpa [sub_eq_add_neg, abs_neg, add_comm] using htri
   nlinarith [abs_nonneg (t - ((round t + j : ℤ) : ℝ))]
