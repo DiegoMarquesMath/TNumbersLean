@@ -75,10 +75,21 @@ theorem one_add_abs_int_le_two_mul_one_add_abs_shift
       push_cast
       ring
     rw [hid]
-    have htri :=
-      abs_add_le (t - (round t : ℝ))
-        (-(t - ((round t + j : ℤ) : ℝ)))
-    simpa [sub_eq_add_neg, abs_neg, add_comm] using htri
+    calc
+      |(t - (round t : ℝ)) -
+          (t - ((round t + j : ℤ) : ℝ))|
+          =
+        |(t - (round t : ℝ)) +
+          (-(t - ((round t + j : ℤ) : ℝ)))| := by
+            rw [sub_eq_add_neg]
+      _ ≤ |t - (round t : ℝ)| +
+          |-(t - ((round t + j : ℤ) : ℝ))| :=
+        abs_add_le _ _
+      _ = |t - (round t : ℝ)| +
+          |t - ((round t + j : ℤ) : ℝ)| := by
+            rw [abs_neg]
+      _ = |t - ((round t + j : ℤ) : ℝ)| +
+          |t - (round t : ℝ)| := add_comm _ _
   nlinarith [abs_nonneg (t - ((round t + j : ℤ) : ℝ))]
 
 /-- Uniform comparison of shifted power kernels with the fixed 3/2 lattice
