@@ -468,3 +468,12 @@ import TNumbersLean
 -- Weighted convolution factorization.
 #print axioms TNumbersLean.one_add_abs_le_mul_one_add_abs
 #print axioms TNumbersLean.weighted_convolution_factor_le
+
+-- Weighted packet convolution bound.
+#print axioms TNumbersLean.HasQuadraticFourierBound
+#print axioms TNumbersLean.HasWeightedPacketCoeffBound
+#print axioms TNumbersLean.packetConvolutionTerm
+#print axioms TNumbersLean.norm_le_of_weightedPacketCoeffBound
+#print axioms TNumbersLean.weighted_norm_packetConvolutionTerm_le
+#print axioms TNumbersLean.summable_packetConvolutionTerm
+#print axioms TNumbersLean.weighted_norm_tsum_packetConvolutionTerm_le
