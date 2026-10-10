@@ -7,8 +7,8 @@ namespace TNumbersLean
 /-- Integer absolute value and natAbs agree after casting to the reals. -/
 theorem natAbs_cast_real_eq_abs_intCast (ell : ℤ) :
     (ell.natAbs : ℝ) = |(ell : ℝ)| := by
-  rw [← Int.cast_abs]
-  exact_mod_cast Int.natCast_natAbs ell
+  have h := congrArg (fun z : ℤ => (z : ℝ)) (Int.natCast_natAbs ell)
+  simpa using h
 
 /-- Weighted form of the averaged-packet coefficient estimate, before
 specializing s and X to the manuscript scales. -/
@@ -27,10 +27,12 @@ theorem weighted_averagedPacketCoeffFormula_le
     exact_mod_cast (show 2 ≤ 2 * Q by omega)
   have hb1 : (1 : ℝ) ≤ ((2 * Q : ℕ) : ℝ) :=
     le_trans (by norm_num) hbase
-  have hAne : A ≠ 0 := by omega
+  have hpow1 : (1 : ℝ) ≤ (((2 * Q : ℕ) : ℝ) ^ A) :=
+    one_le_pow₀ hb1
   have hX :
-      (2 : ℝ) ≤ (((2 * Q : ℕ) : ℝ) ^ A) :=
-    hbase.trans (le_self_pow hb1 hAne)
+      (2 : ℝ) ≤ (((2 * Q : ℕ) : ℝ) ^ A) := by
+    have hA1 : 1 ≤ A := by omega
+    exact hbase.trans (pow_le_pow_right' hb1 hA1)
   have habs := natAbs_cast_real_eq_abs_intCast ell
   have hcoeff :=
     norm_averagedPacketCoeffFormula_le_logarithmic
