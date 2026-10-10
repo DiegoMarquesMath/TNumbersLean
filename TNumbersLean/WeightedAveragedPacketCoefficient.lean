@@ -10,8 +10,7 @@ theorem natAbs_cast_real_eq_abs_intCast (ell : ℤ) :
   have hz : (ell.natAbs : ℤ) = |ell| := Int.natCast_natAbs ell
   have hr := congrArg (fun z : ℤ => (z : ℝ)) hz
   convert hr using 1
-  · norm_cast
-  · rw [Int.cast_abs]
+  norm_cast
 
 /-- Weighted form of the averaged-packet coefficient estimate, before
 specializing s and X to the manuscript scales. -/
@@ -47,7 +46,7 @@ theorem weighted_averagedPacketCoeffFormula_le
   have habs := natAbs_cast_real_eq_abs_intCast ell
   have hcoeff :=
     norm_averagedPacketCoeffFormula_le_logarithmic
-      H hQ θ₀ hell
+      (A := A) H hQ θ₀ hell
   rw [habs] at hcoeff
   have helem :=
     weighted_packet_elementary
