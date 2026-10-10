@@ -16,7 +16,7 @@ theorem weighted_packet_elementary
   have hX0 : 0 < X := lt_of_lt_of_le (by norm_num) hX
   have hlogX : 1 ≤ Real.log (2 + X) := by
     rw [Real.le_log_iff_exp_le (by linarith)]
-    exact Real.exp_one_lt_three.le.trans (by linarith)
+    exact le_trans Real.exp_one_lt_three.le (by linarith)
   by_cases hyX : y ≤ X
   · have h1y : 0 ≤ 1 + y := by linarith
     have hbase : 1 + y ≤ 2 * X := by linarith
@@ -36,23 +36,29 @@ theorem weighted_packet_elementary
     have hydiv : 0 ≤ y / X := div_nonneg hy hX0.le
     have hden : 1 ≤ (1 + y / X) ^ 2 := by
       nlinarith [sq_nonneg (y / X)]
+    have hlogy0 : 0 ≤ Real.log (2 + y) :=
+      Real.log_nonneg (by linarith)
     have hnum_nonneg : 0 ≤ (1 + y) ^ s * Real.log (2 + y) := by
-      exact mul_nonneg (Real.rpow_nonneg h1y s)
-        (Real.log_nonneg (by linarith))
+      exact mul_nonneg (Real.rpow_nonneg h1y s) hlogy0
     calc
       (1 + y) ^ s * Real.log (2 + y) /
           (1 + y / X) ^ 2
           ≤ (1 + y) ^ s * Real.log (2 + y) := by
             exact div_le_self hnum_nonneg hden
       _ ≤ (2 * X) ^ s * Real.log (2 + X) := by
-            gcongr
+            exact mul_le_mul hrpow hlog hlogy0
+              (Real.rpow_nonneg h1y s)
       _ = (2 : ℝ) ^ s * X ^ s * Real.log (2 + X) := by rw [hsplit]
-      _ ≤ 4 * X ^ s * Real.log (2 + X) := by
+      _ ≤ 2 * X ^ s * Real.log (2 + X) := by
             have hXs : 0 ≤ X ^ s := Real.rpow_nonneg hX0.le s
             have hlognonneg : 0 ≤ Real.log (2 + X) := by linarith
             exact mul_le_mul_of_nonneg_right
               (mul_le_mul_of_nonneg_right h2s hXs)
               hlognonneg
+      _ ≤ 4 * X ^ s * Real.log (2 + X) := by
+            have hprod : 0 ≤ X ^ s * Real.log (2 + X) :=
+              mul_nonneg (Real.rpow_nonneg hX0.le s) (by linarith)
+            nlinarith
   · have hyX' : X < y := lt_of_not_ge hyX
     let v : ℝ := y / X
     have hv : 1 ≤ v := by
@@ -101,6 +107,23 @@ theorem weighted_packet_elementary
         v ^ 2 ≤ (1 + v) ^ 2 := by nlinarith
     have hvpowpos : 0 < v ^ 2 := by positivity
     rw [hy_eq, mul_div_cancel_left₀ _ hX0.ne']
+    have hrpow' :
+        (1 + X * v) ^ s ≤ (2 * X * v) ^ s := by
+      simpa [hy_eq] using hrpow
+    have hlogleft0 : 0 ≤ Real.log (2 + X * v) :=
+      Real.log_nonneg (by nlinarith [hX, hv])
+    have hlogsum0 :
+        0 ≤ Real.log (2 + X) + Real.log v :=
+      add_nonneg (by linarith) (Real.log_nonneg hv)
+    have hlogsum :
+        Real.log (2 + X) + Real.log v ≤
+          2 * Real.log (2 + X) * v := by
+      calc
+        Real.log (2 + X) + Real.log v
+            ≤ Real.log (2 + X) + Real.log (2 + X) * v :=
+          add_le_add_left hlogv_bound _
+        _ ≤ 2 * Real.log (2 + X) * v := by
+          nlinarith [hlogX0, hv]
     have hnum :
         (1 + X * v) ^ s * Real.log (2 + X * v) ≤
           4 * X ^ s * Real.log (2 + X) * v ^ 2 := by
@@ -108,24 +131,21 @@ theorem weighted_packet_elementary
         (1 + X * v) ^ s * Real.log (2 + X * v)
             ≤ (2 * X * v) ^ s *
                 (Real.log (2 + X) + Real.log v) := by
-              exact mul_le_mul hrpow hlogprod
-                (Real.log_nonneg (by positivity))
-                (Real.rpow_nonneg hbase0 s)
+              exact mul_le_mul hrpow' hlogprod hlogleft0
+                (Real.rpow_nonneg (by positivity) s)
         _ = (2 : ℝ) ^ s * X ^ s * v ^ s *
               (Real.log (2 + X) + Real.log v) := by rw [hsplit]
-        _ ≤ 4 * X ^ s * Real.log (2 + X) * v ^ 2 := by
-              have hXs : 0 ≤ X ^ s := Real.rpow_nonneg hX0.le s
-              have hvs0 : 0 ≤ v ^ s := Real.rpow_nonneg hv0.le s
-              have hlogv0 : 0 ≤ Real.log v := Real.log_nonneg hv
-              have hlogX0 : 0 ≤ Real.log (2 + X) := by linarith
-              have hv_bound : v ^ s ≤ v := hvs.trans hsqrt
-              have hlogv_bound :
-                  Real.log v ≤ Real.log (2 + X) * v := by
-                calc
-                  Real.log v ≤ v := hlogv
-                  _ ≤ Real.log (2 + X) * v := by
-                    exact le_mul_of_one_le_left (by positivity) hlogX
-              nlinarith
+        _ ≤ 2 * X ^ s * v ^ s *
+              (Real.log (2 + X) + Real.log v) := by
+              gcongr
+        _ ≤ 2 * X ^ s * v *
+              (Real.log (2 + X) + Real.log v) := by
+              gcongr
+        _ ≤ 2 * X ^ s * v *
+              (2 * Real.log (2 + X) * v) := by
+              gcongr
+        _ = 4 * X ^ s * Real.log (2 + X) * v ^ 2 := by
+              ring
     calc
       (1 + X * v) ^ s * Real.log (2 + X * v) /
           (1 + v) ^ 2
@@ -133,7 +153,7 @@ theorem weighted_packet_elementary
               v ^ 2 := by
             exact div_le_div_of_nonneg_left
               (mul_nonneg (Real.rpow_nonneg (by positivity) s)
-                (Real.log_nonneg (by positivity)))
+                hlogleft0)
               hvpowpos hden
       _ ≤ (4 * X ^ s * Real.log (2 + X) * v ^ 2) / v ^ 2 := by
             exact div_le_div_of_nonneg_right hnum hvpowpos.le
