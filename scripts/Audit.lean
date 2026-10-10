@@ -464,3 +464,7 @@ import TNumbersLean
 #print axioms TNumbersLean.packetShiftedKernel_nonneg
 #print axioms TNumbersLean.summable_packetShiftedKernel
 #print axioms TNumbersLean.tsum_packetShiftedKernel_le
+
+-- Weighted convolution factorization.
+#print axioms TNumbersLean.one_add_abs_le_mul_one_add_abs
+#print axioms TNumbersLean.weighted_convolution_factor_le
