@@ -16,7 +16,8 @@ theorem weighted_packet_elementary
   have hX0 : 0 < X := lt_of_lt_of_le (by norm_num) hX
   have hlogX : 1 ≤ Real.log (2 + X) := by
     rw [Real.le_log_iff_exp_le (by linarith)]
-    have hexp : Real.exp 1 ≤ 3 := le_of_lt Real.exp_one_lt_three
+    have hexp : Real.exp 1 ≤ 3 :=
+      le_of_lt (Real.exp_one_lt_d9.trans (by norm_num))
     exact hexp.trans (by linarith)
   by_cases hyX : y ≤ X
   · have h1y : 0 ≤ 1 + y := by linarith
@@ -119,6 +120,7 @@ theorem weighted_packet_elementary
     have hlogleft0 : 0 ≤ Real.log (2 + X * v) :=
       Real.log_nonneg (by nlinarith [hX, hv])
     have hlogX0 : 0 ≤ Real.log (2 + X) := by linarith
+    have hv_bound : v ^ s ≤ v := hvs.trans hsqrt
     have hlogv_bound :
         Real.log v ≤ Real.log (2 + X) * v := by
       calc
@@ -159,12 +161,13 @@ theorem weighted_packet_elementary
               gcongr
         _ ≤ 2 * X ^ s * v *
               (Real.log (2 + X) + Real.log v) := by
-              gcongr
-              exact hv_bound
+              have hcoef : 0 ≤ 2 * X ^ s := by positivity
+              exact mul_le_mul_of_nonneg_right
+                (mul_le_mul_of_nonneg_left hv_bound hcoef) hlogsum0
         _ ≤ 2 * X ^ s * v *
               (2 * Real.log (2 + X) * v) := by
-              gcongr
-              exact hlogsum
+              have hcoef : 0 ≤ 2 * X ^ s * v := by positivity
+              exact mul_le_mul_of_nonneg_left hlogsum hcoef
         _ = 4 * X ^ s * Real.log (2 + X) * v ^ 2 := by
               ring
     calc
