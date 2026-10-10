@@ -40,6 +40,7 @@ import TNumbersLean.WeightedPacketElementary
 import TNumbersLean.WeightedAveragedPacketCoefficient
 import TNumbersLean.PacketConvolutionKernel
 import TNumbersLean.PacketConvolutionWeight
+import TNumbersLean.PacketConvolutionBound
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
