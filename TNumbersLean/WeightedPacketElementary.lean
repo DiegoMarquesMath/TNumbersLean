@@ -112,9 +112,16 @@ theorem weighted_packet_elementary
       simpa [hy_eq] using hrpow
     have hlogleft0 : 0 ≤ Real.log (2 + X * v) :=
       Real.log_nonneg (by nlinarith [hX, hv])
+    have hlogX0 : 0 ≤ Real.log (2 + X) := by linarith
+    have hlogv_bound :
+        Real.log v ≤ Real.log (2 + X) * v := by
+      calc
+        Real.log v ≤ v := hlogv
+        _ ≤ Real.log (2 + X) * v := by
+          exact le_mul_of_one_le_left (by positivity) hlogX
     have hlogsum0 :
         0 ≤ Real.log (2 + X) + Real.log v :=
-      add_nonneg (by linarith) (Real.log_nonneg hv)
+      add_nonneg hlogX0 (Real.log_nonneg hv)
     have hlogsum :
         Real.log (2 + X) + Real.log v ≤
           2 * Real.log (2 + X) * v := by
