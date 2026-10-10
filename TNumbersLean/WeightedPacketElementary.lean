@@ -1,5 +1,6 @@
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
+import Mathlib.Analysis.Complex.ExponentialBounds
 
 namespace TNumbersLean
 
@@ -14,32 +15,27 @@ theorem weighted_packet_elementary
       4 * X ^ s * Real.log (2 + X) := by
   have hX0 : 0 < X := lt_of_lt_of_le (by norm_num) hX
   have hlogX : 1 ≤ Real.log (2 + X) := by
-    have he : Real.exp 1 ≤ 2 + X := by
-      have he4 : Real.exp 1 < 4 := Real.exp_one_lt_d9
-      linarith
-    rw [← Real.exp_le_exp]
-    simpa using he
+    rw [Real.le_log_iff_exp_le (by linarith)]
+    exact Real.exp_one_lt_three.le.trans (by linarith)
   by_cases hyX : y ≤ X
   · have h1y : 0 ≤ 1 + y := by linarith
     have hbase : 1 + y ≤ 2 * X := by linarith
     have hrpow :
         (1 + y) ^ s ≤ (2 * X) ^ s :=
       Real.rpow_le_rpow h1y hbase hs0
-    have hsplit : (2 * X) ^ s = 2 ^ s * X ^ s := by
+    have hsplit : (2 * X) ^ s = (2 : ℝ) ^ s * X ^ s := by
       rw [Real.mul_rpow (by positivity) hX0.le]
-    have h2s : 2 ^ s ≤ 2 := by
+    have h2s : (2 : ℝ) ^ s ≤ 2 := by
       calc
-        2 ^ s ≤ 2 ^ (1 / 2 : ℝ) :=
-          Real.rpow_le_rpow_of_exponent_le (by norm_num) hs
-        _ ≤ 2 := by
-          rw [← Real.sqrt_eq_rpow]
-          nlinarith [Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 2)]
+        (2 : ℝ) ^ s ≤ (2 : ℝ) ^ (1 : ℝ) :=
+          Real.rpow_le_rpow_of_exponent_le (by norm_num) (hs.trans (by norm_num))
+        _ = 2 := by simp
     have hlog :
         Real.log (2 + y) ≤ Real.log (2 + X) := by
       exact Real.log_le_log (by linarith) (by linarith)
+    have hydiv : 0 ≤ y / X := div_nonneg hy hX0.le
     have hden : 1 ≤ (1 + y / X) ^ 2 := by
-      have : 1 ≤ 1 + y / X := by positivity
-      nlinarith
+      nlinarith [sq_nonneg (y / X)]
     have hnum_nonneg : 0 ≤ (1 + y) ^ s * Real.log (2 + y) := by
       exact mul_nonneg (Real.rpow_nonneg h1y s)
         (Real.log_nonneg (by linarith))
@@ -49,18 +45,19 @@ theorem weighted_packet_elementary
           ≤ (1 + y) ^ s * Real.log (2 + y) := by
             exact div_le_self hnum_nonneg hden
       _ ≤ (2 * X) ^ s * Real.log (2 + X) := by
-            exact mul_le_mul hrpow hlog
-              (Real.log_nonneg (by linarith)) (Real.rpow_nonneg h1y s)
-      _ = 2 ^ s * X ^ s * Real.log (2 + X) := by rw [hsplit]
+            gcongr
+      _ = (2 : ℝ) ^ s * X ^ s * Real.log (2 + X) := by rw [hsplit]
       _ ≤ 4 * X ^ s * Real.log (2 + X) := by
             have hXs : 0 ≤ X ^ s := Real.rpow_nonneg hX0.le s
             have hlognonneg : 0 ≤ Real.log (2 + X) := by linarith
-            nlinarith
+            exact mul_le_mul_of_nonneg_right
+              (mul_le_mul_of_nonneg_right h2s hXs)
+              hlognonneg
   · have hyX' : X < y := lt_of_not_ge hyX
     let v : ℝ := y / X
     have hv : 1 ≤ v := by
       dsimp [v]
-      exact (le_div_iff₀ hX0).2 hyX'.le
+      exact (le_div_iff₀ hX0).2 (by simpa using hyX'.le)
     have hv0 : 0 < v := lt_of_lt_of_le zero_lt_one hv
     have hy_eq : y = X * v := by
       dsimp [v]
@@ -74,16 +71,14 @@ theorem weighted_packet_elementary
         (1 + y) ^ s ≤ (2 * X * v) ^ s :=
       Real.rpow_le_rpow hbase0 hbase hs0
     have hsplit :
-        (2 * X * v) ^ s = 2 ^ s * X ^ s * v ^ s := by
+        (2 * X * v) ^ s = (2 : ℝ) ^ s * X ^ s * v ^ s := by
       rw [Real.mul_rpow (mul_nonneg (by norm_num) hX0.le) hv0.le,
         Real.mul_rpow (by norm_num) hX0.le]
-    have h2s : 2 ^ s ≤ 2 := by
+    have h2s : (2 : ℝ) ^ s ≤ 2 := by
       calc
-        2 ^ s ≤ 2 ^ (1 / 2 : ℝ) :=
-          Real.rpow_le_rpow_of_exponent_le (by norm_num) hs
-        _ ≤ 2 := by
-          rw [← Real.sqrt_eq_rpow]
-          nlinarith [Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 2)]
+        (2 : ℝ) ^ s ≤ (2 : ℝ) ^ (1 : ℝ) :=
+          Real.rpow_le_rpow_of_exponent_le (by norm_num) (hs.trans (by norm_num))
+        _ = 2 := by simp
     have hvs : v ^ s ≤ v ^ (1 / 2 : ℝ) :=
       Real.rpow_le_rpow_of_exponent_le hv hs
     have hlogprod :
@@ -116,7 +111,7 @@ theorem weighted_packet_elementary
               exact mul_le_mul hrpow hlogprod
                 (Real.log_nonneg (by positivity))
                 (Real.rpow_nonneg hbase0 s)
-        _ = 2 ^ s * X ^ s * v ^ s *
+        _ = (2 : ℝ) ^ s * X ^ s * v ^ s *
               (Real.log (2 + X) + Real.log v) := by rw [hsplit]
         _ ≤ 4 * X ^ s * Real.log (2 + X) * v ^ 2 := by
               have hXs : 0 ≤ X ^ s := Real.rpow_nonneg hX0.le s
