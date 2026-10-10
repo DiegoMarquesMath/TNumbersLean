@@ -459,3 +459,8 @@ import TNumbersLean
 #print axioms TNumbersLean.abs_sub_round_real
 #print axioms TNumbersLean.one_add_abs_int_le_two_mul_one_add_abs_shift
 #print axioms TNumbersLean.shifted_power_kernel_le_base
+
+#print axioms TNumbersLean.packetShiftedKernel
+#print axioms TNumbersLean.packetShiftedKernel_nonneg
+#print axioms TNumbersLean.summable_packetShiftedKernel
+#print axioms TNumbersLean.tsum_packetShiftedKernel_le
