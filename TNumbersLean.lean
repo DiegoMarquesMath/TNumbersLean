@@ -38,6 +38,7 @@ import TNumbersLean.PacketArithmeticEnvelope
 import TNumbersLean.AveragedPacketCoefficientBound
 import TNumbersLean.WeightedPacketElementary
 import TNumbersLean.WeightedAveragedPacketCoefficient
+import TNumbersLean.PacketConvolutionKernel
 import TNumbersLean.ConcretePropositionThreeTwo
 import TNumbersLean.PerfectExtraction
 import TNumbersLean.NormalityFromFourier
