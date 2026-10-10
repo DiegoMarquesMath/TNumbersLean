@@ -54,75 +54,80 @@ theorem packetConvolutionConstant_nonneg :
 
 /-- Every real number is within one half of its nearest integer. -/
 theorem abs_sub_round_real (t : ℝ) :
-    |t - (Int.round t : ℝ)| ≤ (1 / 2 : ℝ) := by
-  exact Int.abs_sub_round t
+    |t - (round t : ℝ)| ≤ (1 / 2 : ℝ) := by
+  exact abs_sub_round t
 
 /-- Distance comparison after recentering the integer lattice at the nearest
 integer to `t`. -/
 theorem one_add_abs_int_le_two_mul_one_add_abs_shift
     (t : ℝ) (j : ℤ) :
     1 + |(j : ℝ)| ≤
-      2 * (1 + |t - ((Int.round t + j : ℤ) : ℝ)|) := by
+      2 * (1 + |t - ((round t + j : ℤ) : ℝ)|) := by
   have hr := abs_sub_round_real t
   have htriangle :
       |(j : ℝ)| ≤
-        |t - ((Int.round t + j : ℤ) : ℝ)| +
-          |t - (Int.round t : ℝ)| := by
+        |t - ((round t + j : ℤ) : ℝ)| +
+          |t - (round t : ℝ)| := by
     have hid :
         (j : ℝ) =
-          (t - (Int.round t : ℝ)) -
-            (t - ((Int.round t + j : ℤ) : ℝ)) := by
+          (t - (round t : ℝ)) -
+            (t - ((round t + j : ℤ) : ℝ)) := by
       push_cast
       ring
     rw [hid]
     exact abs_sub _ _
-  nlinarith [abs_nonneg (t - ((Int.round t + j : ℤ) : ℝ))]
+  nlinarith [abs_nonneg (t - ((round t + j : ℤ) : ℝ))]
 
 /-- Uniform comparison of shifted power kernels with the fixed 3/2 lattice
 kernel. -/
 theorem shifted_power_kernel_le_base
     {s t : ℝ} (hs0 : 0 ≤ s) (hs : s ≤ (1 / 2 : ℝ))
     (j : ℤ) :
-    (1 + |t - ((Int.round t + j : ℤ) : ℝ)|) ^ (-(2 - s)) ≤
+    (1 + |t - ((round t + j : ℤ) : ℝ)|) ^ (-(2 - s)) ≤
       4 * packetBaseKernel j := by
   have hp : (3 / 2 : ℝ) ≤ 2 - s := by linarith
   have hdist :
       (1 + |(j : ℝ)|) / 2 ≤
-        1 + |t - ((Int.round t + j : ℤ) : ℝ)| := by
+        1 + |t - ((round t + j : ℤ) : ℝ)| := by
     have h := one_add_abs_int_le_two_mul_one_add_abs_shift t j
     linarith
   have hleft : 0 < (1 + |(j : ℝ)|) / 2 := by positivity
   have hneg : -(2 - s) ≤ 0 := by linarith
   have hbasecomp :
-      (1 + |t - ((Int.round t + j : ℤ) : ℝ)|) ^ (-(2 - s)) ≤
+      (1 + |t - ((round t + j : ℤ) : ℝ)|) ^ (-(2 - s)) ≤
         ((1 + |(j : ℝ)|) / 2) ^ (-(2 - s)) :=
     Real.rpow_le_rpow_of_nonpos hleft hdist hneg
-  have hpowexp :
-      ((1 + |(j : ℝ)|) / 2) ^ (-(2 - s)) ≤
-        ((1 + |(j : ℝ)|) / 2) ^ (-(3 / 2 : ℝ)) := by
-    apply Real.rpow_le_rpow_of_exponent_le
-    · positivity
-    · linarith
-  have hsplit :
-      ((1 + |(j : ℝ)|) / 2) ^ (-(3 / 2 : ℝ)) =
-        (2 : ℝ) ^ (3 / 2 : ℝ) * packetBaseKernel j := by
-    unfold packetBaseKernel
-    rw [div_rpow (by positivity) (by norm_num)]
-    rw [Real.rpow_neg (by positivity), Real.rpow_neg (by norm_num)]
-    field_simp
-    rw [← Real.rpow_neg (by norm_num)]
-  have htwo : (2 : ℝ) ^ (3 / 2 : ℝ) ≤ 4 := by
+  let B : ℝ := 1 + |(j : ℝ)|
+  have hB : 1 ≤ B := by
+    dsimp [B]
+    linarith [abs_nonneg (j : ℝ)]
+  have hexp : -(2 - s) ≤ -(3 / 2 : ℝ) := by linarith
+  have hBpow :
+      B ^ (-(2 - s)) ≤ B ^ (-(3 / 2 : ℝ)) :=
+    Real.rpow_le_rpow_of_exponent_le hB hexp
+  have htwoexp : 2 - s ≤ (2 : ℝ) := by linarith
+  have htwo : (2 : ℝ) ^ (2 - s) ≤ 4 := by
     calc
-      (2 : ℝ) ^ (3 / 2 : ℝ) ≤ (2 : ℝ) ^ (2 : ℝ) :=
-        Real.rpow_le_rpow_of_exponent_le (by norm_num) (by norm_num)
+      (2 : ℝ) ^ (2 - s) ≤ (2 : ℝ) ^ (2 : ℝ) :=
+        Real.rpow_le_rpow_of_exponent_le (by norm_num) htwoexp
       _ = 4 := by norm_num
+  have hsplit :
+      (B / 2) ^ (-(2 - s)) =
+        (2 : ℝ) ^ (2 - s) * B ^ (-(2 - s)) := by
+    rw [Real.div_rpow (by positivity) (by norm_num)]
+    rw [Real.rpow_neg (by positivity), Real.rpow_neg (by norm_num)]
+    simp [div_eq_mul_inv, mul_comm]
   calc
-    (1 + |t - ((Int.round t + j : ℤ) : ℝ)|) ^ (-(2 - s))
+    (1 + |t - ((round t + j : ℤ) : ℝ)|) ^ (-(2 - s))
         ≤ ((1 + |(j : ℝ)|) / 2) ^ (-(2 - s)) := hbasecomp
-    _ ≤ ((1 + |(j : ℝ)|) / 2) ^ (-(3 / 2 : ℝ)) := hpowexp
-    _ = (2 : ℝ) ^ (3 / 2 : ℝ) * packetBaseKernel j := hsplit
-    _ ≤ 4 * packetBaseKernel j :=
-      mul_le_mul_of_nonneg_right htwo (packetBaseKernel_nonneg j)
+    _ = (2 : ℝ) ^ (2 - s) * B ^ (-(2 - s)) := by
+          simpa [B] using hsplit
+    _ ≤ 4 * B ^ (-(2 - s)) :=
+      mul_le_mul_of_nonneg_right htwo (Real.rpow_nonneg (by positivity) _)
+    _ ≤ 4 * B ^ (-(3 / 2 : ℝ)) :=
+      mul_le_mul_of_nonneg_left hBpow (by norm_num)
+    _ = 4 * packetBaseKernel j := by
+      rfl
 
 /-- Shifted power kernel appearing after the standard weighted convolution
 inequality. -/
@@ -141,15 +146,15 @@ theorem summable_packetShiftedKernel
     Summable (packetShiftedKernel s t) := by
   have hcenter :
       Summable (fun j : ℤ =>
-        packetShiftedKernel s t (Int.round t + j)) := by
+        packetShiftedKernel s t (round t + j)) := by
     refine Summable.of_nonneg_of_le
-      (fun j => packetShiftedKernel_nonneg s t (Int.round t + j))
+      (fun j => packetShiftedKernel_nonneg s t (round t + j))
       (fun j => ?_)
       (summable_packetBaseKernel.mul_left 4)
     simpa [packetShiftedKernel] using
       shifted_power_kernel_le_base hs0 hs t j
   have hreindex :=
-    (Equiv.addRight (Int.round t)).summable_iff
+    (Equiv.addRight (round t)).summable_iff
   apply hreindex.mp
   simpa [packetShiftedKernel, add_comm] using hcenter
 
@@ -161,16 +166,16 @@ theorem tsum_packetShiftedKernel_le
       packetConvolutionConstant := by
   have hcenter :
       Summable (fun j : ℤ =>
-        packetShiftedKernel s t (Int.round t + j)) :=
+        packetShiftedKernel s t (round t + j)) :=
     Summable.of_nonneg_of_le
-      (fun j => packetShiftedKernel_nonneg s t (Int.round t + j))
+      (fun j => packetShiftedKernel_nonneg s t (round t + j))
       (fun j => by
         simpa [packetShiftedKernel] using
           shifted_power_kernel_le_base hs0 hs t j)
       (summable_packetBaseKernel.mul_left 4)
   have hbound :
       (∑' j : ℤ,
-        packetShiftedKernel s t (Int.round t + j)) ≤
+        packetShiftedKernel s t (round t + j)) ≤
         packetConvolutionConstant := by
     have h :=
       hcenter.tsum_le_tsum
@@ -180,7 +185,7 @@ theorem tsum_packetShiftedKernel_le
         (summable_packetBaseKernel.mul_left 4)
     simpa [packetConvolutionConstant, tsum_mul_left] using h
   have hreindex :=
-    (Equiv.addRight (Int.round t)).tsum_eq
+    (Equiv.addRight (round t)).tsum_eq
       (f := packetShiftedKernel s t)
   rw [← hreindex]
   simpa [add_comm] using hbound
