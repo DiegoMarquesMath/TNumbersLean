@@ -445,3 +445,7 @@ import TNumbersLean
 
 -- Weighted elementary estimate for packet Fourier coefficients.
 #print axioms TNumbersLean.weighted_packet_elementary
+
+-- Weighted averaged-packet coefficient bound.
+#print axioms TNumbersLean.natAbs_cast_real_eq_abs_intCast
+#print axioms TNumbersLean.weighted_averagedPacketCoeffFormula_le
