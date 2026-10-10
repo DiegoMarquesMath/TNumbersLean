@@ -16,7 +16,8 @@ theorem weighted_packet_elementary
   have hX0 : 0 < X := lt_of_lt_of_le (by norm_num) hX
   have hlogX : 1 ≤ Real.log (2 + X) := by
     rw [Real.le_log_iff_exp_le (by linarith)]
-    exact le_trans Real.exp_one_lt_three.le (by linarith)
+    have hexp : Real.exp 1 ≤ 3 := le_of_lt Real.exp_one_lt_three
+    exact hexp.trans (by linarith)
   by_cases hyX : y ≤ X
   · have h1y : 0 ≤ 1 + y := by linarith
     have hbase : 1 + y ≤ 2 * X := by linarith
@@ -45,9 +46,11 @@ theorem weighted_packet_elementary
           (1 + y / X) ^ 2
           ≤ (1 + y) ^ s * Real.log (2 + y) := by
             exact div_le_self hnum_nonneg hden
+      _ ≤ (2 * X) ^ s * Real.log (2 + y) := by
+            exact mul_le_mul_of_nonneg_right hrpow hlogy0
       _ ≤ (2 * X) ^ s * Real.log (2 + X) := by
-            exact mul_le_mul hrpow hlog hlogy0
-              (Real.rpow_nonneg h1y s)
+            exact mul_le_mul_of_nonneg_left hlog
+              (Real.rpow_nonneg (by positivity) s)
       _ = (2 : ℝ) ^ s * X ^ s * Real.log (2 + X) := by rw [hsplit]
       _ ≤ 2 * X ^ s * Real.log (2 + X) := by
             have hXs : 0 ≤ X ^ s := Real.rpow_nonneg hX0.le s
@@ -110,6 +113,9 @@ theorem weighted_packet_elementary
     have hrpow' :
         (1 + X * v) ^ s ≤ (2 * X * v) ^ s := by
       simpa [hy_eq] using hrpow
+    have hlogprod' :
+        Real.log (2 + X * v) ≤ Real.log (2 + X) + Real.log v := by
+      simpa [hy_eq] using hlogprod
     have hlogleft0 : 0 ≤ Real.log (2 + X * v) :=
       Real.log_nonneg (by nlinarith [hX, hv])
     have hlogX0 : 0 ≤ Real.log (2 + X) := by linarith
@@ -138,8 +144,14 @@ theorem weighted_packet_elementary
         (1 + X * v) ^ s * Real.log (2 + X * v)
             ≤ (2 * X * v) ^ s *
                 (Real.log (2 + X) + Real.log v) := by
-              exact mul_le_mul hrpow' hlogprod hlogleft0
-                (Real.rpow_nonneg (by positivity) s)
+              calc
+                (1 + X * v) ^ s * Real.log (2 + X * v)
+                    ≤ (2 * X * v) ^ s * Real.log (2 + X * v) :=
+                  mul_le_mul_of_nonneg_right hrpow' hlogleft0
+                _ ≤ (2 * X * v) ^ s *
+                    (Real.log (2 + X) + Real.log v) :=
+                  mul_le_mul_of_nonneg_left hlogprod'
+                    (Real.rpow_nonneg (by positivity) s)
         _ = (2 : ℝ) ^ s * X ^ s * v ^ s *
               (Real.log (2 + X) + Real.log v) := by rw [hsplit]
         _ ≤ 2 * X ^ s * v ^ s *
@@ -148,9 +160,11 @@ theorem weighted_packet_elementary
         _ ≤ 2 * X ^ s * v *
               (Real.log (2 + X) + Real.log v) := by
               gcongr
+              exact hv_bound
         _ ≤ 2 * X ^ s * v *
               (2 * Real.log (2 + X) * v) := by
               gcongr
+              exact hlogsum
         _ = 4 * X ^ s * Real.log (2 + X) * v ^ 2 := by
               ring
     calc
