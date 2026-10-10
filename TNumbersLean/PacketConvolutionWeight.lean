@@ -13,7 +13,7 @@ theorem one_add_abs_le_mul_one_add_abs
     have hid :
         t = (ell : ℝ) + (t - (ell : ℝ)) := by ring
     calc
-      |t| = |(ell : ℝ) + (t - (ell : ℝ))| := by rw [hid]
+      |t| = |(ell : ℝ) + (t - (ell : ℝ))| := congrArg abs hid
       _ ≤ |(ell : ℝ)| + |t - (ell : ℝ)| :=
         abs_add_le (ell : ℝ) (t - (ell : ℝ))
   nlinarith [abs_nonneg (ell : ℝ), abs_nonneg (t - (ell : ℝ))]
