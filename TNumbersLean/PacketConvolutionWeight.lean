@@ -12,8 +12,10 @@ theorem one_add_abs_le_mul_one_add_abs
       |t| ≤ |(ell : ℝ)| + |t - (ell : ℝ)| := by
     have hid :
         t = (ell : ℝ) + (t - (ell : ℝ)) := by ring
-    rw [hid]
-    exact abs_add_le (ell : ℝ) (t - (ell : ℝ))
+    calc
+      |t| = |(ell : ℝ) + (t - (ell : ℝ))| := by rw [hid]
+      _ ≤ |(ell : ℝ)| + |t - (ell : ℝ)| :=
+        abs_add_le (ell : ℝ) (t - (ell : ℝ))
   nlinarith [abs_nonneg (ell : ℝ), abs_nonneg (t - (ell : ℝ))]
 
 /-- Weighted factorization used termwise in the Fourier-series convolution.
