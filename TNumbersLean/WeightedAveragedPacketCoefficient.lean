@@ -7,8 +7,9 @@ namespace TNumbersLean
 /-- Integer absolute value and natAbs agree after casting to the reals. -/
 theorem natAbs_cast_real_eq_abs_intCast (ell : ℤ) :
     (ell.natAbs : ℝ) = |(ell : ℝ)| := by
-  have h := congrArg (fun z : ℤ => (z : ℝ)) (Int.natCast_natAbs ell)
-  simpa using h
+  have hz : (ell.natAbs : ℤ) = |ell| := Int.natCast_natAbs ell
+  have hr := congrArg (fun z : ℤ => (z : ℝ)) hz
+  simpa [Int.cast_abs] using hr
 
 /-- Weighted form of the averaged-packet coefficient estimate, before
 specializing s and X to the manuscript scales. -/
@@ -27,12 +28,18 @@ theorem weighted_averagedPacketCoeffFormula_le
     exact_mod_cast (show 2 ≤ 2 * Q by omega)
   have hb1 : (1 : ℝ) ≤ ((2 * Q : ℕ) : ℝ) :=
     le_trans (by norm_num) hbase
-  have hpow1 : (1 : ℝ) ≤ (((2 * Q : ℕ) : ℝ) ^ A) :=
+  have hpow : (1 : ℝ) ≤ (((2 * Q : ℕ) : ℝ) ^ (A - 1)) :=
     one_le_pow₀ hb1
+  have hAeq : A = (A - 1) + 1 := by omega
   have hX :
       (2 : ℝ) ≤ (((2 * Q : ℕ) : ℝ) ^ A) := by
-    have hA1 : 1 ≤ A := by omega
-    exact hbase.trans (pow_le_pow_right' hb1 hA1)
+    calc
+      (2 : ℝ) ≤ ((2 * Q : ℕ) : ℝ) := hbase
+      _ ≤ (((2 * Q : ℕ) : ℝ) ^ (A - 1)) *
+            ((2 * Q : ℕ) : ℝ) := by
+          nlinarith
+      _ = (((2 * Q : ℕ) : ℝ) ^ A) := by
+          rw [hAeq, pow_succ]
   have habs := natAbs_cast_real_eq_abs_intCast ell
   have hcoeff :=
     norm_averagedPacketCoeffFormula_le_logarithmic
