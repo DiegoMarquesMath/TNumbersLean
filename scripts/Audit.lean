@@ -449,3 +449,13 @@ import TNumbersLean
 -- Weighted averaged-packet coefficient bound.
 #print axioms TNumbersLean.natAbs_cast_real_eq_abs_intCast
 #print axioms TNumbersLean.weighted_averagedPacketCoeffFormula_le
+
+-- Uniform lattice convolution kernel.
+#print axioms TNumbersLean.packetBaseKernel
+#print axioms TNumbersLean.packetBaseKernel_nonneg
+#print axioms TNumbersLean.summable_packetBaseKernel
+#print axioms TNumbersLean.packetConvolutionConstant
+#print axioms TNumbersLean.packetConvolutionConstant_nonneg
+#print axioms TNumbersLean.abs_sub_round_real
+#print axioms TNumbersLean.one_add_abs_int_le_two_mul_one_add_abs_shift
+#print axioms TNumbersLean.shifted_power_kernel_le_base
