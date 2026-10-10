@@ -124,4 +124,65 @@ theorem shifted_power_kernel_le_base
     _ ≤ 4 * packetBaseKernel j :=
       mul_le_mul_of_nonneg_right htwo (packetBaseKernel_nonneg j)
 
+/-- Shifted power kernel appearing after the standard weighted convolution
+inequality. -/
+noncomputable def packetShiftedKernel (s t : ℝ) (ell : ℤ) : ℝ :=
+  (1 + |t - (ell : ℝ)|) ^ (-(2 - s))
+
+theorem packetShiftedKernel_nonneg (s t : ℝ) (ell : ℤ) :
+    0 ≤ packetShiftedKernel s t ell := by
+  exact Real.rpow_nonneg (by positivity) _
+
+/-- For every admissible weight exponent, the shifted lattice kernel is
+summable uniformly in the real shift. -/
+theorem summable_packetShiftedKernel
+    {s : ℝ} (hs0 : 0 ≤ s) (hs : s ≤ (1 / 2 : ℝ))
+    (t : ℝ) :
+    Summable (packetShiftedKernel s t) := by
+  have hcenter :
+      Summable (fun j : ℤ =>
+        packetShiftedKernel s t (Int.round t + j)) := by
+    refine Summable.of_nonneg_of_le
+      (fun j => packetShiftedKernel_nonneg s t (Int.round t + j))
+      (fun j => ?_)
+      (summable_packetBaseKernel.mul_left 4)
+    simpa [packetShiftedKernel] using
+      shifted_power_kernel_le_base hs0 hs t j
+  have hreindex :=
+    (Equiv.addRight (Int.round t)).summable_iff
+  apply hreindex.mp
+  simpa [packetShiftedKernel, add_comm] using hcenter
+
+/-- Uniform bound for the full shifted lattice sum. -/
+theorem tsum_packetShiftedKernel_le
+    {s : ℝ} (hs0 : 0 ≤ s) (hs : s ≤ (1 / 2 : ℝ))
+    (t : ℝ) :
+    (∑' ell : ℤ, packetShiftedKernel s t ell) ≤
+      packetConvolutionConstant := by
+  have hcenter :
+      Summable (fun j : ℤ =>
+        packetShiftedKernel s t (Int.round t + j)) :=
+    Summable.of_nonneg_of_le
+      (fun j => packetShiftedKernel_nonneg s t (Int.round t + j))
+      (fun j => by
+        simpa [packetShiftedKernel] using
+          shifted_power_kernel_le_base hs0 hs t j)
+      (summable_packetBaseKernel.mul_left 4)
+  have hbound :
+      (∑' j : ℤ,
+        packetShiftedKernel s t (Int.round t + j)) ≤
+        packetConvolutionConstant := by
+    have h :=
+      hcenter.tsum_le_tsum
+        (fun j => by
+          simpa [packetShiftedKernel] using
+            shifted_power_kernel_le_base hs0 hs t j)
+        (summable_packetBaseKernel.mul_left 4)
+    simpa [packetConvolutionConstant, tsum_mul_left] using h
+  have hreindex :=
+    (Equiv.addRight (Int.round t)).tsum_eq
+      (f := packetShiftedKernel s t)
+  rw [← hreindex]
+  simpa [add_comm] using hbound
+
 end TNumbersLean
