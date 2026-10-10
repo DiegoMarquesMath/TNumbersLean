@@ -442,3 +442,6 @@ import TNumbersLean
 #print axioms TNumbersLean.averagedPacketFourierConstant
 #print axioms TNumbersLean.averagedPacketFourierConstant_nonneg
 #print axioms TNumbersLean.norm_averagedPacketCoeffFormula_le_logarithmic
+
+-- Weighted elementary estimate for packet Fourier coefficients.
+#print axioms TNumbersLean.weighted_packet_elementary
