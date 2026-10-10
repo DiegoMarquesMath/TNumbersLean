@@ -13,7 +13,7 @@ theorem one_add_abs_le_mul_one_add_abs
     have hid :
         t = (ell : ℝ) + (t - (ell : ℝ)) := by ring
     rw [hid]
-    exact abs_add _ _
+    exact abs_add_le _ _
   nlinarith [abs_nonneg (ell : ℝ), abs_nonneg (t - (ell : ℝ))]
 
 /-- Weighted factorization used termwise in the Fourier-series convolution.
@@ -50,7 +50,7 @@ theorem weighted_convolution_factor_le
           (B ^ (-s) * C ^ (-2 : ℝ)) =
         C ^ (-(2 - s)) := by
     rw [mul_mul_mul_comm]
-    rw [← Real.rpow_add hB.le, ← Real.rpow_add hC.le]
+    rw [← Real.rpow_add hB, ← Real.rpow_add hC]
     simp only [add_neg_cancel, Real.rpow_zero, one_mul]
     congr 1
     ring
