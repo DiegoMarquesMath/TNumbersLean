@@ -75,7 +75,10 @@ theorem one_add_abs_int_le_two_mul_one_add_abs_shift
       push_cast
       ring
     rw [hid]
-    exact abs_sub _ _
+    have htri :=
+      abs_add (t - (round t : ℝ))
+        (-(t - ((round t + j : ℤ) : ℝ)))
+    simpa [sub_eq_add_neg, abs_neg, add_comm] using htri
   nlinarith [abs_nonneg (t - ((round t + j : ℤ) : ℝ))]
 
 /-- Uniform comparison of shifted power kernels with the fixed 3/2 lattice
@@ -152,11 +155,13 @@ theorem summable_packetShiftedKernel
       (fun j => ?_)
       (summable_packetBaseKernel.mul_left 4)
     simpa [packetShiftedKernel] using
-      shifted_power_kernel_le_base hs0 hs t j
-  have hreindex :=
-    (Equiv.addRight (round t)).summable_iff
-  apply hreindex.mp
-  simpa [packetShiftedKernel, add_comm] using hcenter
+      shifted_power_kernel_le_base (t := t) hs0 hs j
+  have hcenter' :
+      Summable (fun j : ℤ =>
+        packetShiftedKernel s t
+          (Equiv.addRight (round t) j)) := by
+    simpa [Equiv.coe_addRight, add_comm] using hcenter
+  exact (Equiv.addRight (round t)).summable_iff.mp hcenter'
 
 /-- Uniform bound for the full shifted lattice sum. -/
 theorem tsum_packetShiftedKernel_le
@@ -171,7 +176,7 @@ theorem tsum_packetShiftedKernel_le
       (fun j => packetShiftedKernel_nonneg s t (round t + j))
       (fun j => by
         simpa [packetShiftedKernel] using
-          shifted_power_kernel_le_base hs0 hs t j)
+          shifted_power_kernel_le_base (t := t) hs0 hs j)
       (summable_packetBaseKernel.mul_left 4)
   have hbound :
       (∑' j : ℤ,
@@ -181,13 +186,22 @@ theorem tsum_packetShiftedKernel_le
       hcenter.tsum_le_tsum
         (fun j => by
           simpa [packetShiftedKernel] using
-            shifted_power_kernel_le_base hs0 hs t j)
+            shifted_power_kernel_le_base (t := t) hs0 hs j)
         (summable_packetBaseKernel.mul_left 4)
     simpa [packetConvolutionConstant, tsum_mul_left] using h
   have hreindex :=
     (Equiv.addRight (round t)).tsum_eq
       (f := packetShiftedKernel s t)
-  rw [← hreindex]
-  simpa [add_comm] using hbound
+  calc
+    (∑' ell : ℤ, packetShiftedKernel s t ell)
+        = ∑' j : ℤ,
+            packetShiftedKernel s t
+              (Equiv.addRight (round t) j) := hreindex.symm
+    _ = ∑' j : ℤ,
+          packetShiftedKernel s t (round t + j) := by
+          apply tsum_congr
+          intro j
+          simp [Equiv.coe_addRight, add_comm]
+    _ ≤ packetConvolutionConstant := hbound
 
 end TNumbersLean
