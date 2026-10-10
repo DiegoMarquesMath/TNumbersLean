@@ -35,7 +35,8 @@ theorem norm_le_of_weightedPacketCoeffBound
       ‖G ell‖ ≤ B / (1 + |(ell : ℝ)|) ^ s := by
     apply (le_div_iff₀ hw).2
     simpa [mul_comm] using h
-  simpa [Real.rpow_neg (by positivity), div_eq_mul_inv] using hdiv
+  rw [Real.rpow_neg (by positivity)]
+  simpa [div_eq_mul_inv] using hdiv
 
 /-- Termwise weighted bound by the universal shifted kernel. -/
 theorem weighted_norm_packetConvolutionTerm_le
@@ -123,7 +124,7 @@ theorem weighted_norm_tsum_packetConvolutionTerm_le
       B * D * packetConvolutionConstant := by
   have hsum := summable_packetConvolutionTerm hs0 hs hG hF t
   have hnormsum :=
-    norm_tsum_le_tsum_norm hsum
+    norm_tsum_le_tsum_norm hsum.norm
   have htweight : 0 ≤ (1 + |t|) ^ s :=
     Real.rpow_nonneg (by positivity) s
   have hweightedSummable :
